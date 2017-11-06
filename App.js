@@ -1,33 +1,24 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
   View,
-  StackNavigator
 } from 'react-native';
 
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
-import MapView from 'react-native-maps';
 
-class TitleText extends React.Component {
-  render() {
-    return (
-      <Text style={{ fontSize: 48, color: 'white' }}>
-        {this.props.label}
-      </Text>
-    )
-  }
-}
+
+import Map from './components/Map'
+import TitleText from './components/TitleText'
+import ScanScreen from './components/QRCodeScanner'
 
 export default class App extends Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+
   viewStyle() {
     return {
       flex: 1,
@@ -47,17 +38,11 @@ export default class App extends Component {
         <View style={this.viewStyle()}>
           <TitleText label="Left" />
         </View>
+
+        <Map styles={styles} />
+
         <View style={styles.container}>
-          <MapView style={styles.map}
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }} />
-        </View>
-        <View style={this.viewStyle()}>
-          <TitleText label="Right" />
+          <ScanScreen />
         </View>
       </Swiper>
 
@@ -68,8 +53,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   map: {
@@ -79,23 +62,12 @@ const styles = StyleSheet.create({
     right: 5,
     bottom: 0,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
+  button: {
+    width: 50,
+    height: 50,
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
   view: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-  },
-  text: {
-    color: 'green'
   }
 });
