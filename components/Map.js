@@ -42,7 +42,7 @@ export default class Map extends Component {
                 });
             },
             (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { timeout: 20000, maximumAge: 1000 },
         );
     }
 
