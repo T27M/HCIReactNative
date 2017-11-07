@@ -11,7 +11,6 @@ import {
 
 import MapView from 'react-native-maps';
 
-
 export default class Map extends Component {
     constructor(props) {
         super(props);
@@ -53,7 +52,7 @@ export default class Map extends Component {
                 longitude: -122.4324,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-            },
+            }
         };
     }
 

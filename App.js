@@ -9,7 +9,7 @@ import {
 import Swiper from 'react-native-swiper'
 import randomcolor from 'randomcolor'
 
-
+import Details from './components/Details'
 import Map from './components/Map'
 import TitleText from './components/TitleText'
 import ScanScreen from './components/QRCodeScanner'
@@ -33,10 +33,10 @@ export default class App extends Component {
       <Swiper
         loop={false}
         showsPagination={true}
-        index={1}
+        index={0}
         showsButtons={true}>
         <View style={this.viewStyle()}>
-          <TitleText label="Left" />
+          <Details />
         </View>
 
         <Map styles={styles} />
