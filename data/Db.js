@@ -1,6 +1,7 @@
 const users = require('./users.json');
-const locations = require('./leaderboard.json');
-const leaderboard = require('./locations.json');
+const locations = require('./locations.json');
+const leaderboard = require('./leaderboard.json');
+const points = require('./points.json');
 
 export default Db =  {
     getUsers: function() {

@@ -1,18 +1,27 @@
 [
-    {
-        "name": "leaderboard",
-        "label" : 123
-    },
-    {
-        "name": "test",
-        "label" : 123
-    },
-    {
-        "name": "test",
-        "label" : 123
-    },
-    {
-        "name": "test",
-        "label" : 123
-    }
+				{
+					"userID": 1,
+					"username": "Tom",
+					"score": 40
+				},
+				{
+					"userID": 2,
+					"username": "Josh",
+					"score": 100
+				},
+				{
+					"userID": 3,
+					"username": "Saarim",
+					"score": 65
+				},
+				{
+					"userID": 4,
+					"username": "Tom",
+					"score": 10
+				},
+				{
+					"userID": 5,
+					"username": "Rachael",
+					"score": 80
+				}
 ]
