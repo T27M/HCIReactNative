@@ -1,18 +1,27 @@
 [
     {
-        "name": "users",
-        "label" : 123
+        "id": 1,
+        "username": "Tom",
+        "score": 40
     },
     {
-        "name": "test",
-        "label" : 123
+        "id": 2,
+        "username": "Josh",
+        "score": 100
     },
     {
-        "name": "test",
-        "label" : 123
+        "id": 3,
+        "username": "Saarim",
+        "score": 65
     },
     {
-        "name": "test",
-        "label" : 123
+        "id": 4,
+        "username": "Tom",
+        "score": 10
+    },
+    {
+        "id": 5,
+        "username": "Rachael",
+        "score": 80
     }
 ]
