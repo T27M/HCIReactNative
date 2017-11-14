@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
+import Db from '../data/Db';
+
+const markers = Db.getMarkers();
 
 export default class Map extends Component {
     constructor(props) {
@@ -20,149 +23,14 @@ export default class Map extends Component {
         this.state = {
             region: this.getInitialState().region,
             error: null,
-            markers: [
-            {
-                title: 'Library',
-                coordinates: {
-                    latitude: 54.010098,
-                    longitude:  -2.786120
-                },
-            },
-            {
-                title: 'LearningZone',
-                coordinates: {
-                  latitude: 54.010465,
-                  longitude: -2.785908
-                }, 
-            },
-            {
-                title: 'LancasterSquare',
-                coordinates: {
-                  latitude: 54.013365,
-                  longitude: -2.784715
-                }, 
-            },
-            {
-            title: 'Bowland',
-                coordinates: {
-                  latitude: 54.010846,
-                  longitude: -2.785290
-                },  
-                
-            }, 
-            {
-            title: 'TheBase',
-                coordinates: {
-                  latitude: 54.010176,
-                  longitude: -2.786319
-                }, 
-            },          
-            {
-            title: 'GeorgeFox',
-                coordinates: {
-                  latitude: 54.007423,
-                  longitude: -2.784683
-                },  
-            },
-            {
-            title: 'InfoLab21',
-                coordinates: {
-                  latitude: 54.005500,
-                  longitude: -2.784699
-                },  
-            },  
-            {
-            title: 'Trevor',
-                coordinates: {
-                  latitude: 54.009352,
-                  longitude: -2.785209
-                },  
-            },
-            {
-            title: 'Cartmel',
-                coordinates: {
-                  latitude: 54.003883,
-                  longitude: -2.788959
-                },  
-            },
-            {
-            title: 'LUSU',
-                coordinates: {
-                  latitude: 54.010579,
-                  longitude: -2.786148
-                },  
-            },
-            {
-            title: 'NuffieldTheatre',
-                coordinates: {
-                  latitude: 54.012453,
-                  longitude: -2.785088
-                },  
-            },
-            {
-            title: 'BowlandNorth',
-                coordinates: {
-                  latitude: 54.011252,
-                  longitude: -2.785479
-                },  
-            },
-            {
-            title: 'Fylde',
-                coordinates: {
-                  latitude: 54.008762,
-                  longitude: -2.785094
-                },  
-            },
-            {
-            title: 'Furness',
-                coordinates: {
-                  latitude: 54.009514,
-                  longitude: -2.785403
-                },  
-            },
-            {
-            title: 'County',
-                coordinates: {
-                  latitude: 54.012970,
-                  longitude: -2.784693
-                },  
-            },
-            {
-            title: 'Grizedale',
-                coordinates: {
-                  latitude: 54.006973,
-                  longitude: -2.785495
-                },  
-            },
-            {
-            title: 'Lonsdale',
-                coordinates: {
-                  latitude: 54.004917,
-                  longitude: -2.789560
-                },  
-            },
-            {
-            title: 'Pendle',
-                coordinates: {
-                  latitude: 54.006662,
-                  longitude: -2.784817
-                },  
-            },
-            {
-            title: 'Grad',
-                coordinates: {
-                  latitude: 54.004483,
-                  longitude: -2.787523
-                },  
-            },
-            {
-            title: 'PendleBar',
-                coordinates: {
-                  latitude: 54.006234,
-                  longitude: -2.785126
-                },  
-            }   
-        ]
+            markers:
+                markers.map(marker => ({
+                    title: marker.title,
+                    coordinates: {
+                        latitude: marker.coordinates.latitude,
+                        longitude: marker.coordinates.longitude
+                    }
+                }))
         };
     }
 
