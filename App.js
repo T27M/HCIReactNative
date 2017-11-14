@@ -33,7 +33,7 @@ export default class App extends Component {
       <Swiper
         loop={false}
         showsPagination={true}
-        index={0}
+        index={1}
         showsButtons={true}>
 
         <View>
