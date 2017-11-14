@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-
+import NavButtons from './NavButtons';
 import MapView from 'react-native-maps';
 
 export default class Map extends Component {
@@ -221,6 +221,12 @@ export default class Map extends Component {
                     />
                 ))}
                 </MapView>
+                {/*
+                  <NavButtons
+                    showBack={false}
+                    showBurger={true}
+                  />
+                */}
                 <TouchableOpacity onPress={this.getPosition}>
                     <Image
                         style={this.props.styles.button}

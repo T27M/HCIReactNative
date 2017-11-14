@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import NavButtons from './NavButtons';
 
 import {
   View,
@@ -17,13 +18,16 @@ export default class ScanScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.onScannerRead  = this.onScannerRead.bind(this);
+    this.onModalClose   = this.onModalClose.bind(this);
+
     this.state = {
         locationData: null
     };
   }
 
   get locationData() {
-      return this.state.locationData
+    return this.state.locationData
   }
 
   set locationData(location) {
@@ -34,7 +38,17 @@ export default class ScanScreen extends Component {
   }
 
   onScannerRead(e) {
-    this.locationData = e.data;
+    let jsonData = false;
+
+    try {
+      jsonData = JSON.parse(e.data);
+    } catch (e) {
+
+    }
+
+    if (jsonData.id !== undefined) {
+      this.locationData = jsonData.id;
+    }
 
     console.log(this.locationData);
 
@@ -56,6 +70,12 @@ export default class ScanScreen extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
+
+        <NavButtons
+          showBack={false}
+          showBurger={true}
+        />
+
         <QRCodeScanner
           ref={"QRScanner"}
           topContent={ScanScreen.getTopContent()}
@@ -68,7 +88,7 @@ export default class ScanScreen extends Component {
             position={"bottom"}
             onClosed={() => {this.onModalClose()}}
         >
-          <Text style={styles.text}>{this.locationData}</Text>
+          <Text style={styles.text}>{(this.locationData !== null ? "You found a location" : "Invalid QR code")}</Text>
 
           <Button onPress={() => console.log("Read More Pressed")} style={styles.btn}>Read More</Button>
           <Button onPress={() => console.log("Hear More Pressed")}  style={styles.btn}>Hear More</Button>
@@ -82,36 +102,36 @@ export default class ScanScreen extends Component {
 
 
 const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1
-    },
-    centerText: {
-        flex: 1,
-        fontSize: 18,
-        padding: 32,
-        color: '#777',
-    },
-    modal: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 300
-    },
-    btn: {
-        margin: 10,
-        backgroundColor: "#3B5998",
-        color: "white",
-        padding: 10
-    },
-    btnModal: {
-        position: "absolute",
-        top: 0,
-        right: 0,
-        width: 50,
-        height: 50,
-        backgroundColor: "transparent"
-    },
-    text: {
-        color: "black",
-        fontSize: 22
-    }
+  wrapper: {
+    flex: 1
+  },
+  centerText: {
+    flex: 1,
+    fontSize: 18,
+    padding: 32,
+    color: '#777',
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 300
+  },
+  btn: {
+    margin: 10,
+    backgroundColor: "#3B5998",
+    color: "white",
+    padding: 10
+  },
+  btnModal: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 50,
+    height: 50,
+    backgroundColor: "transparent"
+  },
+  text: {
+    color: "black",
+    fontSize: 22
+  }
 });
