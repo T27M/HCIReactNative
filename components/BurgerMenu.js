@@ -9,6 +9,7 @@ import {
 
 import Button           from 'react-native-button';
 import NavButtons       from './NavButtons';
+import AddLocation      from './AddLocation';
 
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
@@ -31,7 +32,7 @@ export default class BurgerMenu extends Component {
   }
 
   onAchievementsClicked(e) {
-    console.log("Achievements Clicked");
+    this.props.navigation.navigate(AddLocation.NAV_NAME);
   }
 
   onAccountSettingsClicked(e) {
