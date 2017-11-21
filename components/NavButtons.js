@@ -6,35 +6,52 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  View
+  View,
+  Text
 } from 'react-native';
 
 export default class NavButtons extends Component {
-
   constructor(props) {
     super(props);
+
+    this.onBurgerClicked  = this.onBurgerClicked.bind(this);
+    this.onBackClicked    = this.onBackClicked.bind(this);
+  }
+
+  onBurgerClicked(e) {
+    console.log("Burger Menu Clicked");
+  }
+
+  onBackClicked(e) {
+    this.props.navigation.goBack(null);
   }
 
   render() {
     let viewContents = [];
 
     if (this.props.showBurger || this.props.showBurger === undefined) {
-      viewContents["burgerMenu"] = (
-        <TouchableOpacity onPress={() => {}}>
+      viewContents.push(
+        <TouchableOpacity
+          key={"burger"}
+          onPress={this.onBurgerClicked}
+        >
           <Image
             style={styles.button}
-            source={require('../img/gps_locate.png')}
+            source={require('../img/burger.png')}
           />
         </TouchableOpacity>
       );
     }
 
     if (this.props.showBack || this.props.showBack === undefined) {
-      viewContents["backButton"] = (
-        <TouchableOpacity onPress={() => {}}>
+      viewContents.push(
+        <TouchableOpacity
+          key={"back"}
+          onPress={this.onBackClicked}
+        >
           <Image
             style={styles.button}
-            source={require('../img/gps_locate.png')}
+            source={require('../img/back.png')}
           />
         </TouchableOpacity>
       );

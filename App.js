@@ -11,11 +11,17 @@ import randomcolor from 'randomcolor'
 
 import TableView from './components/Table'
 import Map from './components/Map'
-import TitleText from './components/TitleText'
 import ScanScreen from './components/QRCodeScanner'
 import { PermissionsAndroid } from 'react-native';
 
-export default class App extends Component {
+import { StackNavigator, } from 'react-navigation';
+
+import ReadMoreView from './components/ReadMoreView';
+import HearMoreView from './components/HearMoreView';
+
+class App extends Component {
+  static NAV_NAME = "Index";
+
   constructor(props, context) {
     super(props, context); 
   }
@@ -70,12 +76,33 @@ export default class App extends Component {
         <Map styles={styles} />
 
         <View style={styles.container}>
-          <ScanScreen />
+          <ScanScreen
+            navigation={this.props.navigation}
+          />
         </View>
       </Swiper>
     )
   }
 }
+
+const Navigator = StackNavigator(
+  {
+    [App.NAV_NAME]: {
+      screen: App,
+    },
+    [ReadMoreView.NAV_NAME]: {
+      screen: ReadMoreView,
+    },
+    [HearMoreView.NAV_NAME]: {
+      screen: HearMoreView,
+    },
+  },
+  {
+    headerMode: 'none'
+  }
+);
+
+export default () => <Navigator />;
 
 const styles = StyleSheet.create({
   container: {
