@@ -14,7 +14,7 @@ import {
 
 import Modal            from 'react-native-modalbox';
 import QRCodeScanner    from 'react-native-qrcode-scanner';
-import Button           from 'react-native-button'
+import Button           from 'react-native-button';
 
 export default class ScanScreen extends Component {
 
