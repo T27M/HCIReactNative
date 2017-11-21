@@ -99,21 +99,26 @@ export default class Map extends Component {
                     }
                 })}
                 </MapView>
-                {/*
-                  <NavButtons
-                    showBack={false}
-                    showBurger={true}
-                  />
-                */}
-                <TouchableOpacity onPress={this.getPosition}>
-                    <Image
-                        style={this.props.styles.button}
-                        source={require('../img/gps_locate.png')}
-                    />
-                </TouchableOpacity>
-                <Text>Latitude: {this.state.region.latitude}</Text>
-                <Text>Longitude: {this.state.region.longitude}</Text>
-                {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
+
+                <NavButtons
+                  navigation={this.props.navigation}
+                  showBack={false}
+                  showBurger={true}
+                />
+
+                <View
+                  style={this.props.styles.LatLongView}
+                >
+                  <TouchableOpacity onPress={this.getPosition}>
+                      <Image
+                          style={this.props.styles.button}
+                          source={require('../img/gps_locate.png')}
+                      />
+                  </TouchableOpacity>
+                  <Text>Latitude: {this.state.region.latitude}</Text>
+                  <Text>Longitude: {this.state.region.longitude}</Text>
+                  {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
+                </View>
             </View>
         );
     }
