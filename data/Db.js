@@ -85,6 +85,23 @@ export default Db = {
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
+  
+  
+  updateLeaderBoard: fuction(id,s){
+		switch (Id) {
+            case 1: leaderboard[0].score=s;
+                    break;
+            case 2: leaderboard[1].score=s;
+                    break;
+            case 3: leaderboard[2].score=s;
+                    break;
+            case 4: leaderboard[3].score=s;
+                    break;
+			case 5: leaderboard[4].score=s;
+                    break;
+            default: break;
+        }
+	},
 
   // ------------- extra functions --------------------
 
