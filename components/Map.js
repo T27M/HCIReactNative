@@ -12,7 +12,7 @@ import NavButtons from './NavButtons';
 import MapView from 'react-native-maps';
 import Db from '../data/Db';
 
-const markers = Db.getMarkers();
+const markers = Db.getLocations();
 
 export default class Map extends Component {
     constructor(props) {
@@ -25,11 +25,12 @@ export default class Map extends Component {
             error: null,
             markers:
                 markers.map(marker => ({
-                    title: marker.title,
+                    title: marker.location,
                     coordinates: {
-                        latitude: marker.coordinates.latitude,
-                        longitude: marker.coordinates.longitude
-                    }
+                        latitude: marker.lat,
+                        longitude: marker.long
+                    },
+                    type: marker.type
                 }))
         };
     }
@@ -82,12 +83,21 @@ export default class Map extends Component {
                     showsMyLocationButton={true}
                     showsCompass={true}
                 >
-                {this.state.markers.map(marker => (
-                    <MapView.Marker key={marker.title}
-                      coordinate={marker.coordinates}
-                      title={marker.title}
-                    />
-                ))}
+                {this.state.markers.map(marker => {
+                    if(marker.type === 0) {
+                        return <MapView.Marker key={marker.title}
+                          coordinate={marker.coordinates}
+                          title={marker.title}
+                          image={require('../img/qrmarker.png')}
+                        />
+                    } else {
+                        return <MapView.Marker key={marker.title}
+                          coordinate={marker.coordinates}
+                          title={marker.title}
+                          pinColor='purple'
+                        />
+                    }
+                })}
                 </MapView>
                 {/*
                   <NavButtons

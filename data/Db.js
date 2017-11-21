@@ -2,7 +2,6 @@ const users       = require('./users.json');
 const locations   = require('./locations.json');
 const leaderboard = require('./leaderboard.json');
 const points      = require('./points.json');
-const markers     = require('./markers.json');
 
 export default Db = {
 
@@ -17,10 +16,6 @@ export default Db = {
   },
   getLeaderboard: function() {
     return leaderboard;
-  },
-  // making the assumption that any request for markers would return a subset of the locations table nearby a certain lat long
-  getMarkers: function(lat, long) {
-    return markers;
   },
   getPoints: function() {
     return points;
