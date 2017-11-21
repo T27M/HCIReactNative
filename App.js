@@ -13,10 +13,39 @@ import TableView from './components/Table'
 import Map from './components/Map'
 import TitleText from './components/TitleText'
 import ScanScreen from './components/QRCodeScanner'
+import WebGL from './components/WebGL'
+
+import { PermissionsAndroid } from 'react-native';
 
 export default class App extends Component {
   constructor(props, context) {
-    super(props, context);
+    super(props, context); 
+  }
+
+  async componentWillMount()
+  {
+    await this.requestCameraPermission();
+  }
+
+  async requestCameraPermission() {
+    console.log("Called")
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          'title': 'Cool Photo App Camera Permission',
+          'message': 'Cool Photo App needs access to your camera ' +
+                     'so you can take awesome pictures.'
+        }
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the camera")
+      } else {
+        console.log("Camera permission denied")
+      }
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   viewStyle() {
