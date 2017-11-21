@@ -10,11 +10,34 @@ import {
 import Button           from 'react-native-button';
 import NavButtons       from './NavButtons';
 
+import AddLocation      from './AddLocation';
+
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
 
   constructor(props) {
     super(props);
+
+    this.onFAQClicked                 = this.onFAQClicked.bind(this);
+    this.onNewLocationsClicked        = this.onNewLocationsClicked.bind(this);
+    this.onAccountSettingsClicked     = this.onAccountSettingsClicked.bind(this);
+    this.onTermsAndConditionsClicked  = this.onTermsAndConditionsClicked.bind(this);
+  }
+
+  onFAQClicked(e) {
+    console.log("FAQ clicked");
+  }
+
+  onNewLocationsClicked(e) {
+    this.props.navigation.navigate(AddLocation.NAV_NAME);
+  }
+
+  onAccountSettingsClicked(e) {
+    console.log("Acc Settings Clicked");
+  }
+
+  onTermsAndConditionsClicked(e) {
+    console.log("T&Cs Clicked");
   }
 
   render() {
@@ -27,10 +50,10 @@ export default class BurgerMenu extends Component {
         />
 
         <View style={styles.buttonWrapper}>
-          <Button onPress={() => { console.log("FAQ Clicked")           }} style={styles.btn}>FAQs</Button>
-          <Button onPress={() => { console.log("New Loc Clicked")       }} style={styles.btn}>Add a new location</Button>
-          <Button onPress={() => { console.log("Acc Settings Clicked")  }} style={styles.btn}>Account Settings</Button>
-          <Button onPress={() => { console.log("T&Cs Clicked")          }} style={styles.btn}>Terms and Conditions</Button>
+          <Button onPress={this.onFAQClicked}               style={styles.btn}>FAQs</Button>
+          <Button onPress={this.onNewLocationsClicked}      style={styles.btn}>Add a new location</Button>
+          <Button onPress={this.onAccountSettingsClicked}   style={styles.btn}>Account Settings</Button>
+          <Button onPress={this.onFAQClicked}               style={styles.btn}>Terms and Conditions</Button>
         </View>
       </View>
     );
