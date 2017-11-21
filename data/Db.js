@@ -27,12 +27,12 @@ export default Db = {
     let results = users.filter((record) => {
       return record.id === id
     });
-
+ 
     return (results.length === 1) ? results[0] : null;
   },
   getLocation: function(id) {
     let results = locations.filter((record) => {
-      return record.title === id
+      return record.id === id
     });
 
     return (results.length === 1) ? results[0] : null;

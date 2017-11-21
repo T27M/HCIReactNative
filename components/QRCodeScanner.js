@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react';
 
-import NavButtons from './NavButtons';
+import Db           from '../data/Db';
+import NavButtons   from './NavButtons';
 import ReadMoreView from './ReadMoreView';
 import HearMoreView from './HearMoreView';
 
@@ -49,15 +50,23 @@ export default class ScanScreen extends Component {
     try {
       jsonData = JSON.parse(e.data);
     } catch (e) {
-
+        // do nothing...
     }
 
-    if (jsonData.id !== undefined) {
-      this.locationData = jsonData.id;
+    if (jsonData && jsonData.id !== undefined) {
+      let location = Db.getLocation(jsonData.id);
+
+      if (location !== null) {
+          this.locationData = location;
+
+          // TODO get user ID
+          let userId = 3;
+
+          // update user score
+          Db.addPointsToUser(userId, this.locationData.difficulty);
+      }
     }
-
-    console.log(this.locationData);
-
+    
     this.refs.locationDetails.open()
   }
 
