@@ -10,8 +10,6 @@ import {
 import Button           from 'react-native-button';
 import NavButtons       from './NavButtons';
 
-import AddLocation      from './AddLocation';
-
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
 
@@ -29,7 +27,11 @@ export default class BurgerMenu extends Component {
   }
 
   onNewLocationsClicked(e) {
-    this.props.navigation.navigate(AddLocation.NAV_NAME);
+    console.log("Add New Location Clicked");
+  }
+
+  onAchievementsClicked(e) {
+    console.log("Achievements Clicked");
   }
 
   onAccountSettingsClicked(e) {
@@ -52,6 +54,7 @@ export default class BurgerMenu extends Component {
         <View style={styles.buttonWrapper}>
           <Button onPress={this.onFAQClicked}               style={styles.btn}>FAQs</Button>
           <Button onPress={this.onNewLocationsClicked}      style={styles.btn}>Add a new location</Button>
+          <Button onPress={this.onAchievementsClicked}      style={styles.btn}>Achievements</Button>
           <Button onPress={this.onAccountSettingsClicked}   style={styles.btn}>Account Settings</Button>
           <Button onPress={this.onFAQClicked}               style={styles.btn}>Terms and Conditions</Button>
         </View>
