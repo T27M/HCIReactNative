@@ -3,7 +3,6 @@ package com.demo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import fr.greweb.rnwebgl.RNWebGLPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -26,7 +25,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNWebGLPackage(),
             new RCTCameraPackage(),
             new MapsPackage()
       );

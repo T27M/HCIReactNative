@@ -13,8 +13,6 @@ import TableView from './components/Table'
 import Map from './components/Map'
 import TitleText from './components/TitleText'
 import ScanScreen from './components/QRCodeScanner'
-import WebGL from './components/WebGL'
-
 import { PermissionsAndroid } from 'react-native';
 
 export default class App extends Component {
