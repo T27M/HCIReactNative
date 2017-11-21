@@ -1,7 +1,10 @@
 'use strict';
 
 import React, { Component } from 'react';
+
 import NavButtons from './NavButtons';
+import ReadMoreView from './ReadMoreView';
+import HearMoreView from './HearMoreView';
 
 import {
   View,
@@ -18,8 +21,11 @@ export default class ScanScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.onScannerRead  = this.onScannerRead.bind(this);
-    this.onModalClose   = this.onModalClose.bind(this);
+    this.onScannerRead      = this.onScannerRead.bind(this);
+    this.onModalClose       = this.onModalClose.bind(this);
+    this.onReadMoreClicked  = this.onReadMoreClicked.bind(this);
+    this.onHearMoreClicked  = this.onHearMoreClicked.bind(this);
+    this.onSeeMoreClicked   = this.onSeeMoreClicked.bind(this);
 
     this.state = {
         locationData: null
@@ -61,6 +67,27 @@ export default class ScanScreen extends Component {
     this.refs.QRScanner.reactivate()
   }
 
+
+  onReadMoreClicked(e) {
+    this.refs.locationDetails.close();
+
+    this.props.navigation.navigate(ReadMoreView.NAV_NAME);
+  }
+
+  onHearMoreClicked(e) {
+    this.refs.locationDetails.close();
+
+    this.props.navigation.navigate(HearMoreView.NAV_NAME);
+  }
+
+  onSeeMoreClicked(e) {
+    console.log("See more clicked");
+
+    // this.refs.locationDetails.close();
+    //
+    // this.props.navigation.navigate("SeeMore");
+  }
+
   static getTopContent() {
     return (
       <Text style={styles.centerText}>Please scan a QR code</Text>
@@ -72,6 +99,7 @@ export default class ScanScreen extends Component {
       <View style={styles.wrapper}>
 
         <NavButtons
+          navigation={this.props.navigation}
           showBack={false}
           showBurger={true}
         />
@@ -90,9 +118,9 @@ export default class ScanScreen extends Component {
         >
           <Text style={styles.text}>{(this.locationData !== null ? "You found a location" : "Invalid QR code")}</Text>
 
-          <Button onPress={() => console.log("Read More Pressed")} style={styles.btn}>Read More</Button>
-          <Button onPress={() => console.log("Hear More Pressed")}  style={styles.btn}>Hear More</Button>
-          <Button onPress={() => console.log("See More Pressed")}  style={styles.btn}>See More</Button>
+          <Button onPress={this.onReadMoreClicked} style={styles.btn}>Read More</Button>
+          <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
+          <Button onPress={this.onSeeMoreClicked } style={styles.btn}>See More</Button>
         </Modal>
 
       </View>
