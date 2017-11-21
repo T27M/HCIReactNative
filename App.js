@@ -18,12 +18,13 @@ import { StackNavigator, } from 'react-navigation';
 
 import ReadMoreView from './components/ReadMoreView';
 import HearMoreView from './components/HearMoreView';
+import BurgerMenu from "./components/BurgerMenu";
 
 class App extends Component {
   static NAV_NAME = "Index";
 
   constructor(props, context) {
-    super(props, context); 
+    super(props, context);
   }
 
   async componentWillMount()
@@ -73,7 +74,10 @@ class App extends Component {
           <TableView />
         </View>
 
-        <Map styles={styles} />
+        <Map
+          navigation={this.props.navigation}
+          styles={styles}
+        />
 
         <View style={styles.container}>
           <ScanScreen
@@ -96,6 +100,9 @@ const Navigator = StackNavigator(
     [HearMoreView.NAV_NAME]: {
       screen: HearMoreView,
     },
+    [BurgerMenu.NAV_NAME]: {
+      screen: BurgerMenu
+    }
   },
   {
     headerMode: 'none'
@@ -120,6 +127,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     margin: 10,
+  },
+  LatLongView: {
+    top: 50,
   },
   view: {
     flex: 1,

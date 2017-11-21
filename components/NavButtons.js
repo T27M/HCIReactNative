@@ -10,6 +10,8 @@ import {
   Text
 } from 'react-native';
 
+import BurgerMenu from './BurgerMenu';
+
 export default class NavButtons extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,7 @@ export default class NavButtons extends Component {
   }
 
   onBurgerClicked(e) {
-    console.log("Burger Menu Clicked");
+    this.props.navigation.navigate(BurgerMenu.NAV_NAME);
   }
 
   onBackClicked(e) {
