@@ -16,9 +16,13 @@ import { PermissionsAndroid } from 'react-native';
 
 import { StackNavigator, } from 'react-navigation';
 
-import ReadMoreView from './components/ReadMoreView';
-import HearMoreView from './components/HearMoreView';
-import BurgerMenu from "./components/BurgerMenu";
+import ReadMoreView             from './components/ReadMoreView';
+import HearMoreView             from './components/HearMoreView';
+import BurgerMenu               from "./components/BurgerMenu";
+import FAQsView                 from './components/FAQsView';
+import AccountSettingsView      from './components/AccountSettingsView';
+import AchievementsView         from './components/AchievementsView';
+import TermsAndConditionsView   from './components/TermsAndConditionsView';
 
 class App extends Component {
   static NAV_NAME = "Index";
@@ -110,8 +114,20 @@ const Navigator = StackNavigator(
       screen: HearMoreView,
     },
     [BurgerMenu.NAV_NAME]: {
-      screen: BurgerMenu
-    }
+      screen: BurgerMenu,
+    },
+    [FAQsView.NAV_NAME]: {
+      screen: FAQsView,
+    },
+    [AccountSettingsView.NAV_NAME]: {
+      screen: AccountSettingsView,
+    },
+    [AchievementsView.NAV_NAME]: {
+      screen: AchievementsView,
+    },
+    [TermsAndConditionsView.NAV_NAME]: {
+      screen: TermsAndConditionsView,
+    },
   },
   {
     headerMode: 'none'

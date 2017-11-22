@@ -2,15 +2,15 @@
 
 import React, { Component } from 'react';
 import NavButtons from './NavButtons';
+import styles     from '../styles/info_page.js';
 
 import {
-  TouchableOpacity,
   StyleSheet,
+  TouchableOpacity,
   View,
   Text,
   Image,
   ScrollView,
-  Dimensions,
 } from 'react-native';
 
 import Sound from 'react-native-sound';
@@ -141,7 +141,7 @@ export default class HearMoreView extends Component {
           showBurger={true}
         />
 
-        <View style={styles.content}>
+        <View style={styles.wrapper}>
           <View style={styles.titleView}>
             <Text style={styles.title}>{this.locationData.location}</Text>
 
@@ -158,13 +158,13 @@ export default class HearMoreView extends Component {
             />
           </View>
 
-          <View style={styles.audioPlayerView}>
-            <View style={styles.audioPlayerBtns}>
+          <View style={localStyles.audioPlayerView}>
+            <View style={localStyles.audioPlayerBtns}>
               <TouchableOpacity
                 onPress={this.rewindSound}
               >
                 <Image
-                  style={styles.smallerButton}
+                  style={localStyles.smallerButton}
                   source={require('../img/rewind_btn.png')}
                 />
               </TouchableOpacity>
@@ -172,7 +172,7 @@ export default class HearMoreView extends Component {
                 onPress={this.playSound}
               >
                 <Image
-                  style={styles.button}
+                  style={localStyles.button}
                   source={require('../img/play_btn.png')}
                 />
               </TouchableOpacity>
@@ -180,7 +180,7 @@ export default class HearMoreView extends Component {
                 onPress={this.fastforwardSound}
               >
                 <Image
-                  style={styles.smallerButton}
+                  style={localStyles.smallerButton}
                   source={require('../img/fastforward_btn.png')}
                 />
               </TouchableOpacity>
@@ -193,35 +193,7 @@ export default class HearMoreView extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
-  titleView: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: Dimensions.get('window').height * 0.25, // can't use '25%' properly with ScrollView
-  },
-  title: {
-    fontSize: 24,
-  },
-  icon: {
-    width: 50,
-    height: 50,
-    margin: 10,
-  },
-  imageView: {
-    width: '100%',
-    height: 200,
-    padding: 10,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
+const localStyles = StyleSheet.create({
   audioPlayerView: {
     justifyContent: 'center',
     alignItems: 'center',

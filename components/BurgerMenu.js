@@ -7,8 +7,13 @@ import {
   View,
 } from 'react-native';
 
-import Button           from 'react-native-button';
-import NavButtons       from './NavButtons';
+import Button                   from 'react-native-button';
+
+import NavButtons               from './NavButtons';
+import FAQsView                 from './FAQsView';
+import AccountSettingsView      from './AccountSettingsView';
+import AchievementsView         from './AchievementsView';
+import TermsAndConditionsView   from './TermsAndConditionsView';
 
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
@@ -18,12 +23,13 @@ export default class BurgerMenu extends Component {
 
     this.onFAQClicked                 = this.onFAQClicked.bind(this);
     this.onNewLocationsClicked        = this.onNewLocationsClicked.bind(this);
+    this.onAchievementsClicked        = this.onAchievementsClicked.bind(this);
     this.onAccountSettingsClicked     = this.onAccountSettingsClicked.bind(this);
     this.onTermsAndConditionsClicked  = this.onTermsAndConditionsClicked.bind(this);
   }
 
   onFAQClicked(e) {
-    console.log("FAQ clicked");
+    this.props.navigation.navigate(FAQsView.NAV_NAME);
   }
 
   onNewLocationsClicked(e) {
@@ -31,15 +37,15 @@ export default class BurgerMenu extends Component {
   }
 
   onAchievementsClicked(e) {
-    console.log("Achievements Clicked");
+    this.props.navigation.navigate(AchievementsView.NAV_NAME);
   }
 
   onAccountSettingsClicked(e) {
-    console.log("Acc Settings Clicked");
+    this.props.navigation.navigate(AccountSettingsView.NAV_NAME);
   }
 
   onTermsAndConditionsClicked(e) {
-    console.log("T&Cs Clicked");
+    this.props.navigation.navigate(TermsAndConditionsView.NAV_NAME);
   }
 
   render() {
@@ -52,11 +58,11 @@ export default class BurgerMenu extends Component {
         />
 
         <View style={styles.buttonWrapper}>
-          <Button onPress={this.onFAQClicked}               style={styles.btn}>FAQs</Button>
-          <Button onPress={this.onNewLocationsClicked}      style={styles.btn}>Add a new location</Button>
-          <Button onPress={this.onAchievementsClicked}      style={styles.btn}>Achievements</Button>
-          <Button onPress={this.onAccountSettingsClicked}   style={styles.btn}>Account Settings</Button>
-          <Button onPress={this.onFAQClicked}               style={styles.btn}>Terms and Conditions</Button>
+          <Button onPress={this.onFAQClicked}                 style={styles.btn}>FAQs</Button>
+          <Button onPress={this.onNewLocationsClicked}        style={styles.btn}>Add a new location</Button>
+          <Button onPress={this.onAchievementsClicked}        style={styles.btn}>Achievements</Button>
+          <Button onPress={this.onAccountSettingsClicked}     style={styles.btn}>Account Settings</Button>
+          <Button onPress={this.onTermsAndConditionsClicked}  style={styles.btn}>Terms and Conditions</Button>
         </View>
       </View>
     );
