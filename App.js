@@ -25,6 +25,8 @@ class App extends Component {
 
   constructor(props, context) {
     super(props, context);
+    this.test = 6;
+    this.onIndexChanged = this.onIndexChanged.bind(this);
   }
 
   async componentWillMount()
@@ -62,13 +64,18 @@ class App extends Component {
     }
   }
 
+  onIndexChanged(index) {
+    this.ScanScreen.onFocus(index == 2); // notify ScanScreen so that it can enable scanning
+  }
+
   render() {
     return (
       <Swiper
         loop={false}
         showsPagination={true}
         index={1}
-        showsButtons={true}>
+        showsButtons={true}
+        onIndexChanged={this.onIndexChanged}>
 
         <View>
           <TableView />
@@ -80,7 +87,9 @@ class App extends Component {
         />
 
         <View style={styles.container}>
+
           <ScanScreen
+            ref={(n) => {this.ScanScreen = n}}
             navigation={this.props.navigation}
           />
         </View>
