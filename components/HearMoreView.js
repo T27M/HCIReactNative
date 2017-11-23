@@ -15,6 +15,7 @@ import {
 
 import Sound from 'react-native-sound';
 import * as Progress from 'react-native-progress';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 export default class HearMoreView extends Component {
   static NAV_NAME = "HearMore";
@@ -33,22 +34,46 @@ export default class HearMoreView extends Component {
     Sound.setCategory('Playback');
 
     console.log("Loading MP3 - " + this.locationData.audio);
-    this.sound = new Sound(this.locationData.audio, Sound.MAIN_BUNDLE, (error) => {
-      console.log("Loaded MP3" );
+    RNFetchBlob.config({
+      fileCache: true,
+    })
+    .fetch('GET', this.locationData.audio, {})
+    .then((res) => {
+      this.sound = new Sound(res.path(), '', (error) => {
+        if (error) {
+          console.error("Failed to load MP3");
+        } else {
+          console.log("Loaded MP3");
+
+          this.showAudio = true;
+        }
+      });
     });
 
     this.state = {
-      progress: 0
+      progress: 0,
+      showAudio: false
     };
   }
 
   get progress() {
-    return this.state.progress
+    return this.state.progress;
   }
 
   set progress(progress) {
     this.setState((state) => {
       state.progress = progress;
+      return state;
+    });
+  }
+
+  get showAudio() {
+    return this.state.showAudio;
+  }
+
+  set showAudio(showAudio) {
+    this.setState((state) => {
+      state.showAudio = showAudio;
       return state;
     });
   }
@@ -72,6 +97,7 @@ export default class HearMoreView extends Component {
   rewindSound() {
     if (this.sound.isLoaded()) {
       this.sound.getCurrentTime((seconds) => {
+        console.log(seconds);
         if (seconds > this.rewindSpeed) {
           this.sound.setCurrentTime(seconds - this.rewindSpeed);
         } else {
@@ -158,8 +184,10 @@ export default class HearMoreView extends Component {
             />
           </View>
 
-          <View style={localStyles.audioPlayerView}>
-            <View style={localStyles.audioPlayerBtns}>
+          <View style={this.showAudio ? localStyles.audioPlayerView : localStyles.hidden}>
+            <View
+              style={localStyles.audioPlayerBtns}
+            >
               <TouchableOpacity
                 onPress={this.rewindSound}
               >
@@ -185,7 +213,14 @@ export default class HearMoreView extends Component {
                 />
               </TouchableOpacity>
             </View>
+
             <Progress.Bar progress={this.progress} width={200} />
+          </View>
+
+          <View
+            style={this.showAudio ? localStyles.hidden : localStyles.loadingView}
+          >
+            <Text>Please wait...</Text>
           </View>
         </View>
       </View>
@@ -218,4 +253,15 @@ const localStyles = StyleSheet.create({
     height: 40,
     margin: 10,
   },
+  hidden: {
+    display: 'none'
+  },
+  loadingView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  loadingText: {
+    textAlign: 'center',
+  }
 });

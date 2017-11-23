@@ -53,6 +53,7 @@ export default class ScanScreen extends Component {
   }
 
   onScannerRead(e) {
+    console.log(e.data);
     let jsonData = false;
 
     try {
@@ -139,7 +140,6 @@ export default class ScanScreen extends Component {
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
           <Button onPress={this.onSeeMoreClicked } style={styles.btn}>See More</Button>
         </Modal>
-
       </View>
     );
   }
