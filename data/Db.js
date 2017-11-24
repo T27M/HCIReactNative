@@ -1,7 +1,9 @@
-const users       = require('./users.json');
-const locations   = require('./locations.json');
-const leaderboard = require('./leaderboard.json');
-const points      = require('./points.json');
+const users             = require('./users.json');
+const locations         = require('./locations.json');
+const leaderboard       = require('./leaderboard.json');
+const points            = require('./points.json');
+const achievements      = require('./achievements.json');
+const userAchievements  = require('./user_achievements.json');
 
 export default Db = {
 
@@ -20,6 +22,12 @@ export default Db = {
   getPoints: function() {
     return points;
   },
+  getAchievements: function() {
+    return achievements;
+  },
+  getUserAchievements: function() {
+    return userAchievements;
+  },
 
   // ------------- get specific record --------------------
 
@@ -27,7 +35,7 @@ export default Db = {
     let results = users.filter((record) => {
       return record.id === id
     });
- 
+
     return (results.length === 1) ? results[0] : null;
   },
   getLocation: function(id) {
@@ -54,6 +62,20 @@ export default Db = {
   getPoint: function(difficulty) {
     let results = points.filter((record) => {
       return record.difficulty === difficulty
+    });
+
+    return (results.length === 1) ? results[0] : null;
+  },
+  getAchievement: function(id) {
+    let results = achievements.filter((record) => {
+      return record.id === id
+    });
+
+    return (results.length === 1) ? results[0] : null;
+  },
+  getUserAchievement: function(userid, achievementId) {
+    let results = userAchievements.filter((record) => {
+      return record.user_id === userid && record.achievement_id === achievementId
     });
 
     return (results.length === 1) ? results[0] : null;
