@@ -1,8 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import NavButtons from './NavButtons';
-import styles     from '../styles/info_page';
+import NavButtons       from './NavButtons';
+import infoStyles       from '../styles/info_page';
+import accordionStyles  from '../styles/accordion';
 
 import {
   View,
@@ -33,23 +34,23 @@ export default class FAQsView extends Component {
   // renders individual Q and A
   renderFAQ(row) {
     let header = ({isOpen}) => (
-      <View style={localStyles.AccordionHeader}>
-        <Text>
+      <View style={accordionStyles.AccordionHeader}>
+        <Text style={accordionStyles.AccordionHeaderText}>
           {(isOpen ? "- " : "+ ") + row.item.question}
         </Text>
       </View>
     );
 
     let content = (
-      <View style={localStyles.AccordionContent}>
-        <Text style={localStyles.AccordionContentText}>
+      <View style={accordionStyles.AccordionContent}>
+        <Text style={accordionStyles.AccordionContentText}>
           {row.item.answer}
         </Text>
       </View>
     );
 
     return (
-      <View style={styles.wrapper}>
+      <View style={infoStyles.wrapper}>
         <Accordion
           header={header}
           content={content}
@@ -60,24 +61,24 @@ export default class FAQsView extends Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.scrollWrapper}>
+      <ScrollView contentContainerStyle={infoStyles.scrollWrapper}>
         <NavButtons
           navigation={this.props.navigation}
           showBack={true}
           showBurger={false}
         />
 
-        <View style={styles.wrapper}>
-          <View style={styles.titleView}>
-            <Text style={styles.title}>FAQs</Text>
+        <View style={infoStyles.wrapper}>
+          <View style={infoStyles.titleView}>
+            <Text style={infoStyles.title}>FAQs</Text>
 
             <Image
-                style={styles.icon}
+                style={infoStyles.icon}
                 source={require('../img/faq_icon.png')}
             />
           </View>
 
-          <View style={styles.contentView}>
+          <View style={infoStyles.contentView}>
             <FlatList
               data={FAQs}
               renderItem={this.renderFAQ}
@@ -88,26 +89,3 @@ export default class FAQsView extends Component {
     );
   }
 }
-
-const localStyles = StyleSheet.create({
-  AccordionHeader: {
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingLeft: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#a9a9a9',
-    backgroundColor: '#f9f9f9',
-  },
-  AccordionContent: {
-    flex: 1,
-    backgroundColor: '#31364D'
-  },
-  AccordionContentText: {
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
-    paddingLeft: 15,
-    color: '#fff',
-  }
-});
