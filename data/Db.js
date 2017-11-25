@@ -3,7 +3,6 @@ const locations         = require('./locations.json');
 const leaderboard       = require('./leaderboard.json');
 const points            = require('./points.json');
 const achievements      = require('./achievements.json');
-const userAchievements  = require('./user_achievements.json');
 
 export default Db = {
 
@@ -24,9 +23,6 @@ export default Db = {
   },
   getAchievements: function() {
     return achievements;
-  },
-  getUserAchievements: function() {
-    return userAchievements;
   },
 
   // ------------- get specific record --------------------
@@ -73,14 +69,6 @@ export default Db = {
 
     return (results.length === 1) ? results[0] : null;
   },
-  getUserAchievement: function(userid, achievementId) {
-    let results = userAchievements.filter((record) => {
-      return record.user_id === userid && record.achievement_id === achievementId
-    });
-
-    return (results.length === 1) ? results[0] : null;
-  },
-
   // ------------- set specific records --------------------
 
   setUser: function(id, user) {

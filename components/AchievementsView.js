@@ -37,10 +37,6 @@ export default class AchievementsView extends Component {
 
     achievements.forEach((el, i) => {
       el.key = el.id;     // FlatList requires each item to have a key
-
-      let userAchievement = Db.getUserAchievement(userId, el.id);
-
-      el.done = userAchievement !== null;
     });
 
     return achievements;
@@ -51,12 +47,12 @@ export default class AchievementsView extends Component {
     let header = ({isOpen}) => (
       <View style={accordionStyles.AccordionHeader}>
         <Text style={accordionStyles.AccordionHeaderText}>
-          {(isOpen ? "- " : "+ ") + row.item.name}
+          {(isOpen ? "- " : "+ ") + row.item.title}
         </Text>
 
         <Image
           style={localStyles.tick}
-          source={row.item.done ? completeImg : incompleteImg}
+          source={row.item.achieved ? completeImg : incompleteImg}
         />
       </View>
     );
