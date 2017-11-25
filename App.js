@@ -16,14 +16,21 @@ import { PermissionsAndroid } from 'react-native';
 
 import { StackNavigator, } from 'react-navigation';
 
-import ReadMoreView from './components/ReadMoreView';
-import HearMoreView from './components/HearMoreView';
+import ReadMoreView             from './components/ReadMoreView';
+import HearMoreView             from './components/HearMoreView';
+import BurgerMenu               from "./components/BurgerMenu";
+import FAQsView                 from './components/FAQsView';
+import AccountSettingsView      from './components/AccountSettingsView';
+import AchievementsView         from './components/AchievementsView';
+import TermsAndConditionsView   from './components/TermsAndConditionsView';
 
 class App extends Component {
   static NAV_NAME = "Index";
 
   constructor(props, context) {
-    super(props, context); 
+    super(props, context);
+    this.test = 6;
+    this.onIndexChanged = this.onIndexChanged.bind(this);
   }
 
   async componentWillMount()
@@ -61,22 +68,32 @@ class App extends Component {
     }
   }
 
+  onIndexChanged(index) {
+    this.ScanScreen.onFocus(index == 2); // notify ScanScreen so that it can enable scanning
+  }
+
   render() {
     return (
       <Swiper
         loop={false}
         showsPagination={true}
         index={1}
-        showsButtons={true}>
+        showsButtons={true}
+        onIndexChanged={this.onIndexChanged}>
 
         <View>
           <TableView />
         </View>
 
-        <Map styles={styles} />
+        <Map
+          navigation={this.props.navigation}
+          styles={styles}
+        />
 
         <View style={styles.container}>
+
           <ScanScreen
+            ref={(n) => {this.ScanScreen = n}}
             navigation={this.props.navigation}
           />
         </View>
@@ -95,6 +112,21 @@ const Navigator = StackNavigator(
     },
     [HearMoreView.NAV_NAME]: {
       screen: HearMoreView,
+    },
+    [BurgerMenu.NAV_NAME]: {
+      screen: BurgerMenu,
+    },
+    [FAQsView.NAV_NAME]: {
+      screen: FAQsView,
+    },
+    [AccountSettingsView.NAV_NAME]: {
+      screen: AccountSettingsView,
+    },
+    [AchievementsView.NAV_NAME]: {
+      screen: AchievementsView,
+    },
+    [TermsAndConditionsView.NAV_NAME]: {
+      screen: TermsAndConditionsView,
     },
   },
   {
@@ -120,6 +152,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     margin: 10,
+  },
+  LatLongView: {
+    top: 50,
   },
   view: {
     flex: 1,
