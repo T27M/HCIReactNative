@@ -18,8 +18,9 @@ import { StackNavigator, } from 'react-navigation';
 
 import ReadMoreView from './components/ReadMoreView';
 import HearMoreView from './components/HearMoreView';
-import BurgerMenu from "./components/BurgerMenu";
+import BurgerMenu from './components/BurgerMenu';
 import AddLocation  from './components/AddLocation';
+import TakeImage from './components/TakeImage';
 
 class App extends Component {
   static NAV_NAME = "Index";
@@ -106,6 +107,9 @@ const Navigator = StackNavigator(
     },
     [AddLocation.NAV_NAME]: {
       screen: AddLocation,
+    },
+    [TakeImage.NAV_NAME]: {
+      screen: TakeImage,
     }
   },
   {

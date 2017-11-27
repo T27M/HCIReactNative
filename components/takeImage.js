@@ -3,46 +3,50 @@ import { View, Text, StyleSheet, Dimensions} from 'react-native';
 import { FormLabel, FormInput, Button, Divider } from 'react-native-elements';
 import Camera from 'react-native-camera';
 
-export default class TakeImage extends React.Component
+export default class TakeImage extends Component
 {   
-    constructor(props)
-    {
-      super(props);
-      this.state = {
-        renderCamera: true
-      }
+  static NAV_NAME = "TakeImage";
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      renderCamera: true
     }
+  }
 
-    takePicture()
-    {
-      this.camera.capture()
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
+  takePicture()
+  {
+    this.camera.capture()
+    .then((data) => console.log(data))
+    .catch(err => console.error(err));
+  }
+
+  renderCam()
+  {
+    this.setState({renderCamera: !this.state.renderCamera})
+  }
+
+  render() {
+    const renderCamera = this.state.renderCamera;
+
+    let view = null;
+    if (renderCamera) {
+      return ( 
+        <Camera 
+          ref={(cam) => {this.camera = cam;}}
+          style={styles.preview}
+          aspect={Camera.constants.Aspect.fill}>
+
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>
+          [CAPTURE]
+          </Text>
+
+        </Camera>
+      );
     }
-
-    renderCam()
-    {
-      this.setState({renderCamera: !this.state.renderCamera})
-    }
-
-    render() {
-        const renderCamera = this.state.renderCamera;
-
-        let view = null;
-        if (renderCamera) {
-          view = <Camera ref={(cam) => {
-                             this.camera = cam;
-                           }}
-                           style={styles.preview}
-                           aspect={Camera.constants.Aspect.fill}>
-                           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
-                </Camera > ;
-        }
-
-        return (
-          {view}
-        )
+  }
 }
+
 
 const styles = StyleSheet.create({
 preview: {

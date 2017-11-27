@@ -28,11 +28,11 @@ export default class BurgerMenu extends Component {
   }
 
   onNewLocationsClicked(e) {
-    console.log("Add New Location Clicked");
+    this.props.navigation.navigate(AddLocation.NAV_NAME);
   }
 
   onAchievementsClicked(e) {
-    this.props.navigation.navigate(AddLocation.NAV_NAME);
+    console.log("Achievements Clicked");
   }
 
   onAccountSettingsClicked(e) {
