@@ -4,7 +4,7 @@ import { FormLabel, FormInput, Button, Divider } from 'react-native-elements';
 import Camera from 'react-native-camera';
 
 export default class TakeImage extends React.Component
-{
+{   
     constructor(props)
     {
       super(props);
