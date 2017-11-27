@@ -1,14 +1,19 @@
+const Active_user       = require('./Active_user.json');
 const users             = require('./users.json');
 const locations         = require('./locations.json');
 const leaderboard       = require('./leaderboard.json');
 const points            = require('./points.json');
 const achievements      = require('./achievements.json');
+const userAchievements  = require('./user_achievements.json');
 
 export default Db = {
 
   // ------------- get all --------------------
 
   // Users
+  getActiveUser: function() {
+    return Active_user;
+  },
   getUsers: function() {
     return users;
   },
@@ -24,9 +29,25 @@ export default Db = {
   getAchievements: function() {
     return achievements;
   },
+  getUserAchievements: function() {
+    return userAchievements;
+  },
 
   // ------------- get specific record --------------------
+  getLdrBrd: function(id) {
+    let results = leaderboard.filter((record) => {
+      return record.userID === id
+    });
 
+    return (results.length === 1) ? results[0] : null;
+  },
+  getActvUser: function(id) {
+    let results = Active_user.filter((record) => {
+      return record.id === id
+    });
+
+    return (results.length === 1) ? results[0] : null;
+  },
   getUser: function(id) {
     let results = users.filter((record) => {
       return record.id === id
@@ -69,7 +90,28 @@ export default Db = {
 
     return (results.length === 1) ? results[0] : null;
   },
+  getUserAchievement: function(userid, achievementId) {
+    let results = userAchievements.filter((record) => {
+      return record.user_id === userid && record.achievement_id === achievementId
+    });
+
+    return (results.length === 1) ? results[0] : null;
+  },
+
   // ------------- set specific records --------------------
+  
+  setActiveUser(id){
+	let newUser = this.getUser(id);
+	let oldUser =this.getActiveUser;
+	
+		for(var key in oldUser) {
+			oldUser.id=newUser.id;
+			oldUser.username=newUser.username;
+			oldUser.score=newUser.score;
+		}
+		
+	
+  }
 
   setUser: function(id, user) {
     let record = this.getUser(id);
@@ -79,9 +121,19 @@ export default Db = {
         record[key] = user[key];
       }
     }
+	
+	setLdrBrd: function(id, LDB) {
+    let record = this.getLdrBrd(id);
+
+    for (let key in LDB) {
+      if (LDB.hasOwnProperty(key) && record.hasOwnProperty(key)) {
+        record[key] = LDB[key];
+      }
+    }
 
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing User " + id + " to: " + JSON.stringify(record));
+    console.log("Editing Leaderboard " + id + " to: " + JSON.stringify(record));
+	console.log("Leaderboard is now: "+ LDB[key])//check statement
   },
   setLocation: function(id, location) {
     let record = this.getLocation(id);
@@ -95,23 +147,6 @@ export default Db = {
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
-  
-  
-  updateLeaderBoard: fuction(id,s){
-		switch (Id) {
-            case 1: leaderboard[0].score=s;
-                    break;
-            case 2: leaderboard[1].score=s;
-                    break;
-            case 3: leaderboard[2].score=s;
-                    break;
-            case 4: leaderboard[3].score=s;
-                    break;
-			case 5: leaderboard[4].score=s;
-                    break;
-            default: break;
-        }
-	},
 
   // ------------- extra functions --------------------
 
@@ -120,12 +155,15 @@ export default Db = {
   addPointsToUser: function(userId, difficulty) {
     let user = this.getUser(userId);
     let point = this.getPoint(difficulty);
-
+	let LdrBrd=this.getLdrBrd(userId);
+	
     if (user !== null && point !== null) {
       user.score += point.points;
-
+	  console.log("Leaderboard score is: "LdrBrd.score);//check statements
+	  LdrBrd.score+=point.points;
+	  console.log("Leaderboard score should be: "LdrBrd.score);//check statements
       this.setUser(userId, user);
-
+	  this.setLdrBrd(userID,LdrBrd);
       return true;
     }
 
