@@ -27,7 +27,7 @@ export default class ScanScreen extends Component {
     this.onReadMoreClicked  = this.onReadMoreClicked.bind(this);
     this.onHearMoreClicked  = this.onHearMoreClicked.bind(this);
     this.onSeeMoreClicked   = this.onSeeMoreClicked.bind(this);
-
+	this.onInputChanged     = this.onInputChanged.bind(this);
     this.state = {
         locationData: null
     };
@@ -55,7 +55,6 @@ export default class ScanScreen extends Component {
   onScannerRead(e) {
     console.log(e.data);
     let jsonData = false;
-
     try {
       jsonData = JSON.parse(e.data);
     } catch (e) {
@@ -69,7 +68,8 @@ export default class ScanScreen extends Component {
           this.locationData = location;
 
           // TODO get user ID
-          let userId = 3;
+		  let au =Db.getActiveUser();//get the active user
+          let userId = au.id;//active users user id
 
           // update user score
           Db.addPointsToUser(userId, this.locationData.difficulty);
@@ -106,6 +106,10 @@ export default class ScanScreen extends Component {
     // this.props.navigation.navigate("SeeMore");
   }
 
+  onInputChanged(changedText){
+		let auID=Number.parseInt(changedText, 10);
+		Db. setActiveUser(auID);
+  }
   static getTopContent() {
     return (
       <Text style={styles.centerText}>Please scan a QR code</Text>
@@ -135,11 +139,16 @@ export default class ScanScreen extends Component {
             onClosed={() => {this.onModalClose()}}
         >
           <Text style={styles.text}>{(this.locationData !== null ? "You found " + this.locationData.location + "!" : "Invalid QR code")}</Text>
-
+		  <Text style={styles.h2} bold>Tell user id to update score to</Text>
+		  <TextInput 
+             style = {styles.inputBox}
+             onChangeText={(changedText) => this.props.onInputChanged(changedText)} />
           <Button onPress={this.onReadMoreClicked} style={styles.btn}>Read More</Button>
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
           <Button onPress={this.onSeeMoreClicked } style={styles.btn}>See More</Button>
         </Modal>
+		
+		
       </View>
     );
   }
