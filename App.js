@@ -14,7 +14,7 @@ import Map from './components/Map'
 import ScanScreen from './components/QRCodeScanner'
 import { PermissionsAndroid } from 'react-native';
 
-import { StackNavigator, } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 
 import ReadMoreView from './components/ReadMoreView';
 import HearMoreView from './components/HearMoreView';

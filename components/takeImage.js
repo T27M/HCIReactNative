@@ -9,15 +9,25 @@ export default class TakeImage extends Component
   constructor(props)
   {
     super(props);
+
+    this.sendData = this.sendData.bind(this);
+
     this.state = {
-      renderCamera: true
+      renderCamera: true,
+      data: null
     }
+  }
+
+  sendData = (camData) => {
+    console.log(this.props);
+    this.props.cameraCallback(camData);
   }
 
   takePicture()
   {
     this.camera.capture()
     .then((data) => console.log(data))
+    .then((data) => this.sendData(data))
     .catch(err => console.error(err));
   }
 
@@ -38,7 +48,7 @@ export default class TakeImage extends Component
           aspect={Camera.constants.Aspect.fill}>
 
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>
-          [CAPTURE]
+          [Take Picture!]
           </Text>
 
         </Camera>
