@@ -1,7 +1,16 @@
+<<<<<<< Updated upstream
 [
     {
         "id": 3,
         "username": "Saarim",
         "score": 65
     }
+=======
+[
+    {
+        "id": 3,
+        "username": "Saarim",
+        "score": 65
+    }
+>>>>>>> Stashed changes
 ]
