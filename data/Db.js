@@ -26,7 +26,7 @@ export default Db = {
   },
   getLeaderboard: function() {
     let results = leaderboard.filter((record) => {
-      return record.userID === id
+      return record
     });
 
     return (results.length === 1) ? results[0] : null;
