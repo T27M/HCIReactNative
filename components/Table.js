@@ -12,21 +12,25 @@ import Db from '../data/Db';
 
 import Leaderboard from 'react-native-leaderboard';
 
-const leaderboard = Db.getLeaderboard();
+const users = Db.getUsers();
 const tableHead = ['User ID', 'Username', 'Score'];
 
 export default class TableView extends Component {
   constructor(props)
   {
     super(props);
+
+    leaderboardData = [];
+
+    for (let i = 0; i < users.length; i++) {
+      leaderboardData.push({
+        userName: users[i].username,
+        highScore: users[i].score
+      });
+    }
+
     this.state = {
-        data: [
-          {userName:leaderboard[0].username, highScore:leaderboard[0].score},
-          {userName:leaderboard[1].username, highScore:leaderboard[1].score},
-          {userName:leaderboard[2].username, highScore:leaderboard[2].score},
-          {userName:leaderboard[3].username, highScore:leaderboard[3].score},
-          {userName:leaderboard[4].username, highScore:leaderboard[3].score}
-        ]
+        data: leaderboardData
     }
   }
 

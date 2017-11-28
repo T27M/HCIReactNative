@@ -1,0 +1,308 @@
+[
+	{
+		"id": 1,
+		"title": "Your first location",
+		"description": "Get XPloring!",
+		"feedback": "You've found your first location! ",
+		"achieved": true,
+		"clue": "Scan one of our QR codes",
+		"difficulty": 1
+	},
+	{
+		"id": 2,
+		"title": "Spot the library tree",
+		"description": "When in the library, see if you can spot our tree ",
+		"feedback": "You've found our library tree!",
+		"achieved": false,
+		"clue": "Try the ground floor",
+		"difficulty": 1
+	},
+	{
+		"id": 3,
+		"title": "Pop in for a drink in Trevor",
+		"description": "See if you can find Trevor, Furness College Bar",
+		"feedback": "You've found Trevor! Stop for a drink, you've earned it",
+		"achieved": false,
+		"clue": "Try just off Alex Square",
+		"difficulty": 1
+	},
+	{
+		"id": 4,
+		"title": "Your first audio",
+		"description": "All our locations have extra info about them. Give it a listen when you next find a location.",
+		"feedback": "You've achieved 'Your first audio'!",
+		"achieved": true,
+		"clue": "Try 'hear more'",
+		"difficulty": 1
+	},
+	{
+		"id": 5,
+		"title": "First words",
+		"description": "All our locations have extra info written about them. They're well worth a read!",
+		"feedback": "You've achieved 'First words'!",
+		"achieved": true,
+		"clue": "Try 'read more'",
+		"difficulty": 1
+	},
+	{
+		"id": 6,
+		"title": "Hello Future",
+		"description": "See if you can find The Base, the base of your future career! It's where our careers service is based",
+		"feedback": "You've achieved 'Hello Future'!",
+		"achieved": false,
+		"clue": "Not far from the library",
+		"difficulty": 1
+	},
+	{
+		"id": 7,
+		"title": "In the Zone",
+		"description": "You'll be in the zone (the learning one) if you unlock this achievement",
+		"feedback": "You're In the Zone!",
+		"achieved": true,
+		"clue": "Not a million miles from the library",
+		"difficulty": 1
+	},
+	{
+		"id": 8,
+		"title": "Your first taste of AR",
+		"description": "There's a lot more to see about each of our locations...give it a try!",
+		"feedback": "You've unlocked AR functionality!",
+		"achieved": false,
+		"clue": "Try 'see more' next time you're at a location",
+		"difficulty": 1
+	},
+	{
+		"id": 9,
+		"title": "Discover 5 locations",
+		"description": "Discover 5 locations on campus",
+		"feedback": "You've found 5 locations!",
+		"achieved": false,
+		"clue": "You can discover a location by scanning its QR code",
+		"difficulty": 2
+	},
+	{
+		"id": 10,
+		"title": "Find The Bonington Step",
+		"description": "One of our former chancellors has his own seating area named after him! See if you can find it",
+		"feedback": "You've found The Bonington Step",
+		"achieved": true,
+		"clue": "Try near Fylde Bar",
+		"difficulty": 2
+	},
+	{
+		"id": 11,
+		"title": "Read more about 5 locations",
+		"description": "You can find out much more about campus by tapping 'read more'. See how quick you can find out about 5",
+		"feedback": "You've read more about 5 locations!",
+		"achieved": false,
+		"clue": "Tapping 'read more' is the way to go",
+		"difficulty": 2
+	},
+	{
+		"id": 12,
+		"title": "Bowland Pie",
+		"description": "Bowland is known for its famous pies. Once you've found Bowland Bar, why not stop for one?",
+		"feedback": "You've unlocked 'Bowland Pie'!",
+		"achieved": true,
+		"clue": "Just off Alex Sq to the north",
+		"difficulty": 2
+	},
+	{
+		"id": 13,
+		"title": "Discover 10 locations",
+		"description": "Who will be first to discover 10 locations?",
+		"feedback": "You've unlocked 10 locations!",
+		"achieved": true,
+		"clue": "Scan the QR code to unlock a location and discover more about it",
+		"difficulty": 2
+	},
+	{
+		"id": 14,
+		"title": "Go crazy for AR",
+		"description": "See 5 different locations in AR to unlock this",
+		"feedback": "You've unlocked 'Go crazy for AR'",
+		"achieved": false,
+		"clue": "Tapping 'see more' allows you to view AR",
+		"difficulty": 2
+	},
+	{
+		"id": 15,
+		"title": "Find LUSU",
+		"description": "Find your students union building",
+		"feedback": "You've found LUSU!",
+		"achieved": true,
+		"clue": "Not far from the Learning Zone",
+		"difficulty": 2
+	},
+	{
+		"id": 16,
+		"title": "Find Fylde Bar",
+		"description": "Find Fylde Bar. It's a great stop off for lunch",
+		"feedback": "You've found Fylde Bar!",
+		"achieved": false,
+		"clue": "If you find Furness Bar, you're on your way to unlocking this achievement",
+		"difficulty": 2
+	},
+	{
+		"id": 17,
+		"title": "Find George Fox",
+		"description": "We don't have too many foxes on campus. But we do have a George Fox. Find his building",
+		"feedback": "You've found George Fox!",
+		"achieved": false,
+		"clue": "Make your way towards South Campus",
+		"difficulty": 2
+	},
+	{
+		"id": 18,
+		"title": "Find your way in work",
+		"description": "A lot of seminars happen round by Bowland. See if you can find the rooms. ",
+		"feedback": "You've found Bowland Seminar Rooms",
+		"achieved": false,
+		"clue": "Make your way towards North Campus",
+		"difficulty": 2
+	},
+	{
+		"id": 19,
+		"title": "Find our campus ducks",
+		"description": "Our ducks go quackers for students. They can't wait to meet you! See if you can find their habitat ",
+		"feedback": "You've found our ducks!",
+		"achieved": true,
+		"clue": "Make your way towards the top of North Campus",
+		"difficulty": 3
+	},
+	{
+		"id": 20,
+		"title": "Go even crazier for AR",
+		"description": "10 ARs sound much better than 5, don't you think? ",
+		"feedback": "You've unlocked 10 AR experiences!",
+		"achieved": false,
+		"clue": "Tapping 'see more' just 5 times seems not enough",
+		"difficulty": 3
+	},
+	{
+		"id": 21,
+		"title": "Chillin' in County",
+		"description": "County is a great place to chill. See if you can find it",
+		"feedback": "You've unlocked 'Chillin' in County'!",
+		"achieved": true,
+		"clue": "The ducks will help you achieve this one!",
+		"difficulty": 3
+	},
+	{
+		"id": 22,
+		"title": "South Campus Safari",
+		"description": "Many of our colleges are on South Campus. Try and find them all!",
+		"feedback": "You've achieved 'South Campus safari'!",
+		"achieved": true,
+		"clue": "Start down at Cartmel and work your way up",
+		"difficulty": 3
+	},
+	{
+		"id": 23,
+		"title": "North Campus Explorer",
+		"description": "Many of our colleges are on North Campus. Try and find them all!",
+		"feedback": "You've achieved 'North Campus explorer'!",
+		"achieved": false,
+		"clue": "Start up at County and work your way down",
+		"difficulty": 3
+	},
+	{
+		"id": 24,
+		"title": "Bowland Mad",
+		"description": "Bowland is a big college. See if you can find all its QR codes",
+		"feedback": "You've achieved 'Bowland Mad'!",
+		"achieved": false,
+		"clue": "Bowland Mad sounds a lot like Bowland Main, or Bowland Seminar Rooms. Well, almost.",
+		"difficulty": 3
+	},
+	{
+		"id": 25,
+		"title": "Cool Computing",
+		"description": "Our computing department is based in InfoLab. It's well worth the walk",
+		"feedback": "You've achieved 'Cool Computing'!",
+		"achieved": false,
+		"clue": "Make your way past Grizedale and you can't miss it. In computing, we like Green and Orange. ",
+		"difficulty": 3
+	},
+  {
+		"id": 26,
+		"title": "Hogroastin'",
+		"description": "You'll be talk of the boar farm if you unlock this achievement. See if you can find the College that is roastin' the mosting",
+		"feedback": "You've achieved 'Hogroastin'!",
+		"achieved": false,
+		"clue": "Not far from our old friend George. ",
+		"difficulty": 3
+	},
+	{
+		"id": 27,
+		"title": "Bookworm",
+		"description": "You can't say you know everything about a place until you've read everything about it",
+		"feedback": "You've achieved 'Bookworm'!",
+		"achieved": false,
+		"clue": "Read more about all our locations ",
+		"difficulty": 3
+	},
+	{
+		"id": 28,
+		"title": "Party animal",
+		"description": "Lonsdale is known as the party college. You won't be able to miss their bar",
+		"feedback": "You've achieved 'Party animal'!",
+		"achieved": false,
+		"clue": "Lonsdale is towards the far south ",
+		"difficulty": 3
+	},
+	{
+		"id": 29,
+		"title": "Become a campus know-it-all",
+		"description": "Discover all our locations",
+		"feedback": "You've achieved 'Campus know-it-all'!",
+		"achieved": false,
+		"clue": "To unlock this requires commitment, specifically, commitment to scanning all our QR codes. Who will be first? ",
+		"difficulty": 4
+	},
+	{
+		"id": 30,
+		"title": "Hear-it-all",
+		"description": "Hear more about 5 locations",
+		"feedback": "You've achieved 'Hear-it-all'!",
+		"achieved": false,
+		"clue": "Tapping 'hear more' gives you an audio file. Just do that 5 times! ",
+		"difficulty": 4
+	},
+	{
+		"id": 31,
+		"title": "Clever College",
+		"description": "Grad college is reserved for, well, grads. Go and meet the clever among us!",
+		"feedback": "You've achieved 'Clever college'!",
+		"achieved": false,
+		"clue": "Not far from Cartmel, on Alex Park",
+		"difficulty": 4
+	},
+	{
+		"id": 32,
+		"title": "End of the line",
+		"description": "By no means the end of the game, just the southern most college. Try and find it!",
+		"feedback": "You've achieved 'End of the line'!",
+		"achieved": false,
+		"clue": "Keep on truckin, by which we mean, keep on going south.",
+		"difficulty": 4
+	},
+	{
+		"id": 33,
+		"title": "College champion",
+		"description": "To be a true college champion, visit all 9 colleges on campus!",
+		"feedback": "You've achieved 'College Champion'!",
+		"achieved": false,
+		"clue": "Each college has its own QR code. Start at the top of campus and work your way down to the bottom.",
+		"difficulty": 4
+	},
+	{
+		"id": 34,
+		"title": "Theatrics",
+		"description": "We have our own theatre on campus. See if you can get a front row seat. ",
+		"feedback": "You've achieved 'Theatrics'!",
+		"achieved": false,
+		"clue": "The far north of campus is a good shout, not far from the ducks",
+		"difficulty": 4
+	},
+]

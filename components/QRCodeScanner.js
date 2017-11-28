@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react';
 
-import NavButtons from './NavButtons';
+import Db           from '../data/Db';
+import NavButtons   from './NavButtons';
 import ReadMoreView from './ReadMoreView';
 import HearMoreView from './HearMoreView';
 
@@ -43,20 +44,37 @@ export default class ScanScreen extends Component {
     });
   }
 
+  componentDidMount() {
+    this.onFocus(false);  // start deactivated as swiper defaults on map
+  }
+
+  onFocus(focussed) {
+    this.refs.QRScanner._setScanning(!focussed); // call _setScanning(false) to reactivate | _setScanning(true) to deactivate. See https://github.com/moaazsidat/react-native-qrcode-scanner/blob/master/index.js
+  }
+
   onScannerRead(e) {
+    console.log(e.data);
     let jsonData = false;
 
     try {
       jsonData = JSON.parse(e.data);
     } catch (e) {
-
+        // do nothing...
     }
 
-    if (jsonData.id !== undefined) {
-      this.locationData = jsonData.id;
-    }
+    if (jsonData && jsonData.id !== undefined) {
+      let location = Db.getLocation(jsonData.id);
 
-    console.log(this.locationData);
+      if (location !== null) {
+          this.locationData = location;
+
+          // TODO get user ID
+          let userId = 3;
+
+          // update user score
+          Db.addPointsToUser(userId, this.locationData.difficulty);
+      }
+    }
 
     this.refs.locationDetails.open()
   }
@@ -64,20 +82,20 @@ export default class ScanScreen extends Component {
   onModalClose(e) {
     this.locationData = null;
 
-    this.refs.QRScanner.reactivate()
+    this.refs.QRScanner.reactivate();
   }
 
 
   onReadMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    this.props.navigation.navigate(ReadMoreView.NAV_NAME);
+    this.props.navigation.navigate(ReadMoreView.NAV_NAME, {locationData: this.locationData});
   }
 
   onHearMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    this.props.navigation.navigate(HearMoreView.NAV_NAME);
+    this.props.navigation.navigate(HearMoreView.NAV_NAME, {locationData: this.locationData});
   }
 
   onSeeMoreClicked(e) {
@@ -116,13 +134,12 @@ export default class ScanScreen extends Component {
             position={"bottom"}
             onClosed={() => {this.onModalClose()}}
         >
-          <Text style={styles.text}>{(this.locationData !== null ? "You found a location" : "Invalid QR code")}</Text>
+          <Text style={styles.text}>{(this.locationData !== null ? "You found " + this.locationData.location + "!" : "Invalid QR code")}</Text>
 
           <Button onPress={this.onReadMoreClicked} style={styles.btn}>Read More</Button>
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
           <Button onPress={this.onSeeMoreClicked } style={styles.btn}>See More</Button>
         </Modal>
-
       </View>
     );
   }
