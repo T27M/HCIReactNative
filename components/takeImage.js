@@ -54,9 +54,10 @@ export default class TakeImage extends Component
             <Text style={styles.capture} onPress={this.takePicture.bind(this)}>
             [Take Picture!]
             </Text>
+
           </Camera>) ||
         (!renderCamera &&
-            <Image style={{width: 250, height: 250}} source={{uri: this.state.data}} />)
+            <Image style={{flex: 1}} source={{uri: this.state.data}} />)
       );
   }
 }
