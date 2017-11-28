@@ -15,7 +15,7 @@ export default Db = {
     let results = Active_user.filter((record) => {
       return record
     });
-	console.log(JSON.stringify(results));
+	//console.log(JSON.stringify(results));
     return (results.length === 1) ? results[0] : null;
   },
   getUsers: function() {
@@ -140,8 +140,8 @@ export default Db = {
     }
 
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing Leaderboard " + id + " to: " + JSON.stringify(record));
-	console.log("Leaderboard is now: "+ LDB[key])//check statement
+  //  console.log("Editing Leaderboard " + id + " to: " + JSON.stringify(record));
+//	console.log("Leaderboard is now: "+ LDB[key])//check statement
   },
   setLocation: function(id, location) {
     let record = this.getLocation(id);
@@ -153,7 +153,7 @@ export default Db = {
     }
 
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing Location " + id + " to: " + JSON.stringify(record));
+ //   console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
   // ------------- extra functions --------------------
@@ -167,9 +167,9 @@ export default Db = {
 	
     if (user !== null && point !== null) {
       user.score += point.points;
-	  console.log("Leaderboard score is: "LdrBrd.score);//check statements
+	//  console.log("Leaderboard score is: "LdrBrd.score);//check statements
 	  LdrBrd.score+=point.points;
-	  console.log("Leaderboard score should be: "LdrBrd.score);//check statements
+	//  console.log("Leaderboard score should be: "LdrBrd.score);//check statements
       this.setUser(userId, user);
 	  this.setLdrBrd(userID,LdrBrd);
       return true;
