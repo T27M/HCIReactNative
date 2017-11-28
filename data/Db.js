@@ -12,7 +12,11 @@ export default Db = {
 
   // Users
   getActiveUser: function() {
-    return Active_user;
+    let results = Active_user.filter((record) => {
+      return record
+    });
+	console.log(JSON.stringify(results));
+    return (results.length === 1) ? results[0] : null;
   },
   getUsers: function() {
     return users;
@@ -21,7 +25,11 @@ export default Db = {
     return locations;
   },
   getLeaderboard: function() {
-    return leaderboard;
+    let results = leaderboard.filter((record) => {
+      return record.userID === id
+    });
+
+    return (results.length === 1) ? results[0] : null;
   },
   getPoints: function() {
     return points;
