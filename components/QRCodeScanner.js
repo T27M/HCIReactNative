@@ -108,7 +108,7 @@ export default class ScanScreen extends Component {
 
   onInputChanged(changedText){
 		let auID=Number.parseInt(changedText, 10);
-		Db. setActiveUser(auID);
+		Db.setActiveUser(auID);
   }
   static getTopContent() {
     return (
