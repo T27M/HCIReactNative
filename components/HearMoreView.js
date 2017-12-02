@@ -97,8 +97,10 @@ export default class HearMoreView extends Component {
 
   // handle unmounting of component properly
   componentWillUnmount() {
-    clearInterval(this.intervalId);
-    this.sound.release();
+    if (this.soundFileExists()) {
+      clearInterval(this.intervalId);
+      this.sound.release();
+    }
   }
 
   // rewind by this.rewindSpeed seconds
