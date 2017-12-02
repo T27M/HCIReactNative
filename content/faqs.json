@@ -1,22 +1,116 @@
 [
   {
-    "question": "How do I scan a QR code?",
-    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae auctor lectus. Curabitur eget tortor at eros convallis feugiat. Vestibulum scelerisque pulvinar turpis a ullamcorper. Praesent cursus elementum fringilla. Aliquam dictum vulputate interdum. Aliquam venenatis, purus quis efficitur euismod, ex arcu faucibus augue, nec maximus risus velit quis ligula. Etiam cursus lacinia justo, nec porttitor nunc. Quisque non volutpat tellus, sit amet accumsan libero. Proin pretium, ipsum vel luctus condimentum, quam risus ultrices dolor, in accumsan quam velit sed lectus. Pellentesque ac velit eu nunc ullamcorper facilisis. Donec sit amet enim efficitur, ornare purus quis, finibus lorem. "
+    "question": "What is XPlore?",
+    "answer": "XPlore is a location based smartphone application that aims to assist you in discovering your new\
+      surroundings. Whilst primarily encouraging exploration and educating you on your new\
+      surroundings, its important to have a bit of fun! XPlore is also there in a game based setting, using an\
+      achievement system. In addition to finding new locations, there may also be occasional challenges\
+      that will be worth more points. The application also features opportunities for users to submit their\
+      own new location, encouraging crowdsourcing and opportunities for you to get a students\
+      perspective on the campus that may otherwise be lacking in your application process thus far. "
   },
   {
-    "question": "Where do you source the information?",
-    "answer": "Sed ac lacinia diam. Duis nibh orci, pharetra id lorem quis, faucibus ultricies lorem. Suspendisse hendrerit neque et risus vehicula vestibulum. Vestibulum tristique ac tellus at rutrum. Integer fringilla massa neque, in pellentesque lectus facilisis lacinia. Mauris eget mi tellus. Integer viverra maximus elit non pellentesque. "
+    "question": "How do I find a location?",
+    "answer": "Locations are scattered all around the area, and it is up to you to find them. Each location is\
+      identified by a Quick Response (QR) code at the location itself. If you open ‘camera view’ and point\
+      your smartphone towards the QR code, you will ‘find’ that location. You can then choose to either\
+      read more, hear more or see more about that location. See if you can unlock all our locations, and\
+      know your new environment inside out! "
   },
   {
-    "question": "How can I add a new location?",
-    "answer": "Maecenas tempus, lorem id maximus lacinia, augue orci ultricies tellus, egestas finibus ligula orci vitae tortor. Duis mi est, vestibulum at risus non, commodo ornare velit. In varius convallis nibh, eu egestas nisl hendrerit et. In sagittis facilisis velit eu lobortis. Proin sem ligula, tempor quis risus nec, semper ornare ligula. Proin auctor sit amet sem id hendrerit. Cras aliquet, lectus at luctus auctor, arcu metus tristique urna, eget pretium ante libero pharetra quam. Curabitur erat mauris, scelerisque et ullamcorper ut, euismod sed libero. Nam vel leo lectus. Quisque accumsan justo eget sollicitudin tristique. Duis enim justo, ornare vitae gravida non, semper et justo. Duis arcu sem, viverra vitae ultricies ut, finibus quis nisi. Vestibulum suscipit accumsan tortor, ac gravida elit varius et. Maecenas vel tincidunt diam. Suspendisse scelerisque eget odio a tincidunt. "
+    "question": "What is camera mode?",
+    "answer": "You will need to have camera mode open in order to find locations. Camera mode, as the name\
+      suggests, uses your smartphone camera to identify and read QR codes for each location. Once you\
+      have found a location, you need no longer use it, unless you are off to find another location that is! "
   },
   {
-    "question": "How do I reset my account?",
-    "answer": "Phasellus porttitor, ligula id aliquam rutrum, justo diam eleifend erat, convallis rhoncus est est a dui. Etiam vel luctus dui. Donec sit amet lobortis ligula. Quisque feugiat quis nisi at rhoncus. Donec cursus condimentum dui vel consectetur. Aenean quis elit quis massa tincidunt malesuada. Nulla molestie ultrices purus, id egestas neque rhoncus iaculis. Nunc ut magna a odio condimentum rhoncus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse egestas non est non bibendum. Morbi sodales sapien ac feugiat tempor. Curabitur et mollis nisi, sed blandit ipsum. Integer in arcu vitae mauris finibus venenatis. "
+    "question": "What is map view?",
+    "answer": "Map view is the first screen you will see when logging in. It shows you a realtime map of your\
+      location in relation to your surroundings, as well as showing where the nearest QR code (and\
+      therefore, interesting location) is. The crowdsourced content is denoted by a drawing pin, and the\
+      core locations are denoted by the map pointer. "
   },
   {
-    "question": "How do you use my personal data?",
-    "answer": "Sed varius tortor lacus, porttitor iaculis augue egestas quis. Ut vulputate, neque non rhoncus dignissim, nunc enim rutrum tellus, a egestas tortor quam ac nibh. Nulla facilisi. Donec tempus mi quis urna tempus vestibulum. Integer sagittis varius ligula, quis sodales eros accumsan ac. Morbi dictum pretium odio, et pharetra dui elementum quis. Cras quis lacus fringilla, dignissim nisl et, placerat enim. Duis gravida quis urna et volutpat. Cras congue elit a velit pharetra porttitor. Vivamus tempor consequat urna a scelerisque. Sed libero sapien, iaculis non lacus et, condimentum ullamcorper enim. Fusce aliquet ante eget nisi consequat luctus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus maximus scelerisque neque in venenatis. Nunc mattis diam ut quam sodales pellentesque. "
+    "question": "What happens when I tap read more?",
+    "answer": "Once you have found a location, tapping ‘read more’ will bring up some information on that\
+      particular location as well as an image. The idea here is to give you information on what happens at\
+      that location, and how it may be useful to you, so you don’t have to go inside that location or\
+      building. The information is summarised, so you can discover lots of new places in a short amount of\
+      time! "
   },
+  {
+    "question": "What happens when I tap hear more?",
+    "answer": "Once you have found a location, tapping ‘hear more’ will provide you with a short audio clip giving\
+      more information about that particular location. It will not necessarily be the same information as\
+      ‘read more’! "
+  },
+  {
+    "question": "What happens when I tap see more?",
+    "answer": "This is where it gets exciting. Tapping ‘see more’ at an individual location will allow you to view our\
+      Augmented Reality (AR) functionality! This could be a gallery of images or a short video that will\
+      appear to jump out of your smartphone, and will give the app an extra edge! The AR component will\
+      attempt to give you extra ‘insider’ details on that location and environment, that wouldn’t be\
+      present otherwise. "
+  },
+  {
+    "question": "How can I add my own location? ",
+    "answer": "We want to build a community of users, and part of that is making sure that new people to the area\
+      find out what that place is really like. We have added some core locations into the application to get\
+      you started, but be sure to submit your own to us if you find something we may have missed. You\
+      can do this via the menu, and then ‘add your own location’. You will be required to submit a\
+      photograph of the location, its name and a short writeup on what you know about it or have found\
+      there. The best locations will be added to the application on a monthly basis, and we will be sure to\
+      let you know if yours has been added! "
+  },
+  {
+    "question": "What is the achievement system?",
+    "answer": "XPLore is as much about having fun as it is about learning. Who says you can’t do both at the same\
+      time? Our achievement system is separate to the main app functionality, but is really fun!\
+      Occasionally we may suggest challenges or achievements for you to complete, such as finding a\
+      particular location the quickest or discovering a place you may not have been to before. Unlocking\
+      the achievements will give you extra points that could be invaluable when it comes to the\
+      leaderboard. You can view the achievements that you have achieved (green tick) and those still\
+      outstanding (grey tick) on the ‘achievements’ screen. "
+  },
+  {
+    "question": "What is the leaderboard for?",
+    "answer": "The leaderboard is primarily there for you to keep track of your individual score in relation to other\
+      users, and if you are playing in a group, who is performing the best (and who needs to pull their\
+      socks up). You can view it by the overall points collected or number of achievements collected. "
+  },
+  {
+    "question": "Where do you source the information about each location?",
+    "answer": "The majority of our images and text based content is from the tourism or main information page of\
+      the website, of your respective location, and has been verified by our moderators for accuracy and\
+      appropriateness. The majority of our videos are either from these websites or YouTube, and again\
+      have been verified. Any content submitted by our users (crowdsourced) goes through the same\
+      process of verification before being made public for everyone else to see. We routinely review\
+      content to ensure accuracy and relevance. Please contact us at\
+      contact@example.com for more information on this. "
+  },
+  {
+    "question": "What is the difference between having an account and not having one?",
+    "answer": "XPlore works best when you have an account with us (it takes less than 2 minutes to set one up).\
+      Having an account allows us to learn more about your habits and suggest relevant locations to you\
+      to discover, such as your local shop, college or department. It also allows you to submit your own\
+      location to us for moderation, take full advantage of the gamification portion of the app, use AR, and\
+      collect points. You are welcome to use our application as a guest user, but you will only be able to\
+      view core locations.  "
+  },
+  {
+    "question": "What do you do with my personal data?",
+    "answer": "The application collects personal (name, username, email and password) and location based data\
+      while in use. This data is only stored for in-app benefits as described above, and we promise to not\
+      pass on any details to third parties without your explicit permission. You can request any data we\
+      may collect, at any time, by contacting us. "
+  },
+  {
+    "question": "How do I view my account details?",
+    "answer": "You can view your account details by navigating to the menu, and tapping ‘account details’. "
+  },
+  {
+    "question": "How do I reset my account details?",
+    "answer": "Once you are viewing your account details, there is a button which allows you to reset and amend\
+      your details. Be warned though, resetting your account will erase all your progress so far! "
+  }
 ]

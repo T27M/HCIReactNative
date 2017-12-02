@@ -17,9 +17,9 @@ import Accordion from '@ercpereda/react-native-accordion';
 
 const FAQs = require('../content/faqs.json');
 
-// FlatList requires each item to have a key
 FAQs.forEach((el, i) => {
-  el.key = i;
+  el.key = i;                                   // FlatList requires each item to have a key
+  el.answer = el.answer.replace(/\s+/g, ' ');   // https://stackoverflow.com/questions/6163169/replace-multiple-whitespaces-with-single-whitespace-in-javascript-string
 });
 
 export default class FAQsView extends Component {
