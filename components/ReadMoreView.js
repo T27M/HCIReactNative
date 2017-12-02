@@ -23,6 +23,18 @@ export default class ReadMoreView extends Component {
   }
 
   render() {
+    let banner = undefined;
+    if (this.locationData.media && this.locationData.media.img && this.locationData.media.img.length !== 0) {
+      banner = (
+        <View style={styles.imageView}>
+          <Image
+              style={styles.image}
+              source={{uri: this.locationData.media.img[0]}}
+          />
+        </View>
+      );
+    };
+
     return (
       <ScrollView contentContainerStyle={styles.scrollWrapper}>
         <NavButtons
@@ -41,12 +53,7 @@ export default class ReadMoreView extends Component {
             />
           </View>
 
-          <View style={styles.imageView}>
-            <Image
-                style={styles.image}
-                source={{uri: this.locationData.img}}
-            />
-          </View>
+          {banner}
 
           <View style={styles.contentView}>
             <Text style={styles.content}>

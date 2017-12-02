@@ -33,27 +33,35 @@ export default class HearMoreView extends Component {
     // Enable playback in silence mode
     Sound.setCategory('Playback');
 
-    console.log("Loading MP3 - " + this.locationData.audio);
-    RNFetchBlob.config({
-      fileCache: true,
-    })
-    .fetch('GET', this.locationData.audio, {})
-    .then((res) => {
-      this.sound = new Sound(res.path(), '', (error) => {
-        if (error) {
-          console.error("Failed to load MP3");
-        } else {
-          console.log("Loaded MP3");
+    if (this.soundFileExists()) {
+      console.log("Loading MP3 - " + this.locationData.media.sound);
+      RNFetchBlob.config({
+        fileCache: true,
+      })
+      .fetch('GET', this.locationData.media.sound, {})
+      .then((res) => {
+        this.sound = new Sound(res.path(), '', (error) => {
+          if (error) {
+            console.error("Failed to load MP3");
+          } else {
+            console.log("Loaded MP3");
 
-          this.showAudio = true;
-        }
+            this.showAudio = true;
+          }
+        });
       });
-    });
+    } else {
+      console.log("Could not find sound file in location data");
+    }
 
     this.state = {
       progress: 0,
       showAudio: false
     };
+  }
+
+  soundFileExists() {
+    return this.locationData.media && this.locationData.media.sound !== undefined && this.locationData.media.sound !== "";
   }
 
   get progress() {
@@ -97,7 +105,6 @@ export default class HearMoreView extends Component {
   rewindSound() {
     if (this.sound.isLoaded()) {
       this.sound.getCurrentTime((seconds) => {
-        console.log(seconds);
         if (seconds > this.rewindSpeed) {
           this.sound.setCurrentTime(seconds - this.rewindSpeed);
         } else {
@@ -159,6 +166,19 @@ export default class HearMoreView extends Component {
   }
 
   render() {
+    let banner = undefined;
+    if (this.locationData.media && this.locationData.media.img && this.locationData.media.img.length !== 0) {
+      banner = (
+        <View style={styles.imageView}>
+          <Image
+              style={styles.image}
+              source={{uri: this.locationData.media.img[0]}}
+          />
+        </View>
+      );
+    };
+
+
     return (
       <View style={styles.wrapper}>
         <NavButtons
@@ -177,12 +197,7 @@ export default class HearMoreView extends Component {
             />
           </View>
 
-          <View style={styles.imageView}>
-            <Image
-                style={styles.image}
-                source={{uri: this.locationData.img}}
-            />
-          </View>
+          {banner}
 
           <View style={this.showAudio ? localStyles.audioPlayerView : localStyles.hidden}>
             <View
@@ -220,7 +235,9 @@ export default class HearMoreView extends Component {
           <View
             style={this.showAudio ? localStyles.hidden : localStyles.loadingView}
           >
-            <Text>Please wait...</Text>
+            <Text>
+              {this.soundFileExists() ? 'Please wait...' : 'Sorry no sound file is available for this location'}
+            </Text>
           </View>
         </View>
       </View>
