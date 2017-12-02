@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import NavButtons       from './NavButtons';
 import infoStyles       from '../styles/info_page';
 import accordionStyles  from '../styles/accordion';
+import Db               from '../data/Db';
 
 import {
   View,
@@ -15,12 +16,8 @@ import {
 } from 'react-native';
 import Accordion from '@ercpereda/react-native-accordion';
 
-const achievements = require('../data/achievements.json');
-
-// FlatList requires each item to have a key
-achievements.forEach((el, i) => {
-  el.key = i;
-});
+const completeImg   = require('../img/achievement_done.png');
+const incompleteImg = require('../img/achievement.png');
 
 export default class AchievementsView extends Component {
   static NAV_NAME = "Achievements";
@@ -28,7 +25,21 @@ export default class AchievementsView extends Component {
   constructor(props) {
     super(props);
 
-    this.renderAchievement = this.renderAchievement.bind(this);
+    this.renderAchievement  = this.renderAchievement.bind(this);
+    this.getAchievementData = this.getAchievementData.bind(this);
+  }
+
+  getAchievementData() {
+    let achievements = Db.getAchievements();
+
+    // TODO get user id
+    let userId = 3;
+
+    achievements.forEach((el, i) => {
+      el.key = el.id;     // FlatList requires each item to have a key
+    });
+
+    return achievements;
   }
 
   // renders individual Q and A
@@ -36,12 +47,12 @@ export default class AchievementsView extends Component {
     let header = ({isOpen}) => (
       <View style={accordionStyles.AccordionHeader}>
         <Text style={accordionStyles.AccordionHeaderText}>
-          {(isOpen ? "- " : "+ ") + row.item.name}
+          {(isOpen ? "- " : "+ ") + row.item.title}
         </Text>
 
         <Image
           style={localStyles.tick}
-          source={require('../img/achievement_done.png')}
+          source={row.item.achieved ? completeImg : incompleteImg}
         />
       </View>
     );
@@ -85,7 +96,7 @@ export default class AchievementsView extends Component {
 
           <View style={infoStyles.contentView}>
             <FlatList
-              data={achievements}
+              data={this.getAchievementData()}
               renderItem={this.renderAchievement}
             />
           </View>
