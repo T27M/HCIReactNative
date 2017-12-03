@@ -1,17 +1,3 @@
-<<<<<<< Updated upstream
-export default Db = {
-  get achievements() {
-    return require('./achievements.json');
-  },
-  get users() {
-    return require('./users.json');
-  },
-  get points() {
-    return require('./points.json');
-  },
-  get locations() {
-    return require('./locations.json');
-=======
 import React, { Component } from 'react';
 import {
   AsyncStorage
@@ -39,65 +25,38 @@ export default Db = {
         AsyncStorage.setItem(dbInitKey, "true");
       }
     }).done();
->>>>>>> Stashed changes
   },
 
   // ------------- get all --------------------
 
   // Users
-<<<<<<< Updated upstream
-  getUsers: function() {
-    return this.users;
-  },
-  getLocations: function() {
-    return this.locations;
-=======
   getUsers: function () {
     return users;
   },
   getLocations: function () {
     return locations;
->>>>>>> Stashed changes
   },
   // getLeaderboard: function() {
   //   return leaderboard;
   // },
-<<<<<<< Updated upstream
-  getPoints: function() {
-    return this.points;
-  },
-  getAchievements: function() {
-    return this.achievements;
-=======
   getPoints: function () {
     return points;
   },
   getAchievements: function () {
     return achievements;
->>>>>>> Stashed changes
   },
 
   // ------------- get specific record --------------------
 
-<<<<<<< Updated upstream
-  getUser: function(id) {
-    let results = this.users.filter((record) => {
-=======
   getUser: function (id) {
     let results = users.filter((record) => {
->>>>>>> Stashed changes
       return record.id === id
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-<<<<<<< Updated upstream
-  getLocation: function(id) {
-    let results = this.locations.filter((record) => {
-=======
   getLocation: function (id) {
     let results = locations.filter((record) => {
->>>>>>> Stashed changes
       return record.id === id
     });
 
@@ -110,37 +69,22 @@ export default Db = {
   //
   //   return (results.length > rank - 1) ? results[rank] : null;
   // },
-<<<<<<< Updated upstream
-  getMarker: function(title) {
-    let results = this.markers.filter((record) => {
-=======
   getMarker: function (title) {
     let results = markers.filter((record) => {
->>>>>>> Stashed changes
       return record.title === title
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-<<<<<<< Updated upstream
-  getPoint: function(difficulty) {
-    let results = this.points.filter((record) => {
-=======
   getPoint: function (difficulty) {
     let results = points.filter((record) => {
->>>>>>> Stashed changes
       return record.difficulty === difficulty
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-<<<<<<< Updated upstream
-  getAchievement: function(id) {
-    let results = this.achievements.filter((record) => {
-=======
   getAchievement: function (id) {
     let results = achievements.filter((record) => {
->>>>>>> Stashed changes
       return record.id === id
     });
 
