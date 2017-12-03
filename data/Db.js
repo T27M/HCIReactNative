@@ -1,41 +1,47 @@
-const users             = require('./users.json');
-const locations         = require('./locations.json');
-// const leaderboard       = require('./leaderboard.json');
-const points            = require('./points.json');
-const achievements      = require('./achievements.json');
-
 export default Db = {
+  get achievements() {
+    return require('./achievements.json');
+  },
+  get users() {
+    return require('./users.json');
+  },
+  get points() {
+    return require('./points.json');
+  },
+  get locations() {
+    return require('./locations.json');
+  },
 
   // ------------- get all --------------------
 
   // Users
   getUsers: function() {
-    return users;
+    return this.users;
   },
   getLocations: function() {
-    return locations;
+    return this.locations;
   },
   // getLeaderboard: function() {
   //   return leaderboard;
   // },
   getPoints: function() {
-    return points;
+    return this.points;
   },
   getAchievements: function() {
-    return achievements;
+    return this.achievements;
   },
 
   // ------------- get specific record --------------------
 
   getUser: function(id) {
-    let results = users.filter((record) => {
+    let results = this.users.filter((record) => {
       return record.id === id
     });
 
     return (results.length === 1) ? results[0] : null;
   },
   getLocation: function(id) {
-    let results = locations.filter((record) => {
+    let results = this.locations.filter((record) => {
       return record.id === id
     });
 
@@ -49,21 +55,21 @@ export default Db = {
   //   return (results.length > rank - 1) ? results[rank] : null;
   // },
   getMarker: function(title) {
-    let results = markers.filter((record) => {
+    let results = this.markers.filter((record) => {
       return record.title === title
     });
 
     return (results.length === 1) ? results[0] : null;
   },
   getPoint: function(difficulty) {
-    let results = points.filter((record) => {
+    let results = this.points.filter((record) => {
       return record.difficulty === difficulty
     });
 
     return (results.length === 1) ? results[0] : null;
   },
   getAchievement: function(id) {
-    let results = achievements.filter((record) => {
+    let results = this.achievements.filter((record) => {
       return record.id === id
     });
 
