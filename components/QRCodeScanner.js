@@ -70,7 +70,7 @@ export default class ScanScreen extends Component {
           this.locationData = location;
 
           // TODO get user ID
-          let userId = 3;
+          let userId = 6;
 
           // update user score
           Db.addPointsToUser(userId, this.locationData.difficulty);

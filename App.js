@@ -16,6 +16,7 @@ import { PermissionsAndroid } from 'react-native';
 
 import { StackNavigator, } from 'react-navigation';
 
+import Db                       from './data/Db';
 import ReadMoreView             from './components/ReadMoreView';
 import HearMoreView             from './components/HearMoreView';
 import BurgerMenu               from "./components/BurgerMenu";
@@ -35,6 +36,7 @@ class App extends Component {
 
   async componentWillMount()
   {
+    await Db.initDb();
     await this.requestCameraPermission();
   }
 

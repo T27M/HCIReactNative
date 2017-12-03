@@ -25,7 +25,7 @@ export default class AccountSettingsView extends Component {
     this.resetAccount   = this.resetAccount.bind(this);
 
     // TODO get current user
-    let userId = 3;
+    let userId = 6;
 
     this.user = Db.getUser(userId);
 
