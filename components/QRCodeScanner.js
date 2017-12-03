@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { Linking } from 'react-native';
 
 import Db           from '../data/Db';
 import NavButtons   from './NavButtons';
@@ -98,12 +99,10 @@ export default class ScanScreen extends Component {
     this.props.navigation.navigate(HearMoreView.NAV_NAME, {locationData: this.locationData});
   }
 
-  onSeeMoreClicked(e) {
-    console.log("See more clicked");
-
-    // this.refs.locationDetails.close();
-    //
-    // this.props.navigation.navigate("SeeMore");
+  onSeeMoreClicked(e) {    
+    this.refs.locationDetails.close();
+    
+    Linking.openURL('https://hcireactar.herokuapp.com/' + this.locationData.id)
   }
 
   static getTopContent() {

@@ -1,5 +1,6 @@
 {
-  "name": "Demo",
+  "name": "XPlore",
+  "displayName": "XPlore",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -23,6 +24,7 @@
     "react-native-sound": "^0.10.4",
     "react-native-swiper": "^1.5.13",
     "react-native-table-component": "^1.1.2",
+    "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.19",
     "three": "^0.88.0",
     "three.ar.js": "^0.1.5"

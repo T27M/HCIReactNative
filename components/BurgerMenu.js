@@ -69,7 +69,6 @@ export default class BurgerMenu extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
