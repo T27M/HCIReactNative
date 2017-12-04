@@ -9,11 +9,15 @@ const points = require('./points.json');
 const achievements = require('./achievements.json');
 
 const dbInitKey = "init";
+const userKey = 'users';
+const achievementKey = 'achievements';
+
+const dbKeys = [dbInitKey, userKey, achievementKey];
 
 async function populateDatabase() {
   await AsyncStorage.multiSet([
-    ['users', JSON.stringify(users)],
-    ['achievements', JSON.stringify(achievements)],
+    [userKey, JSON.stringify(users)],
+    [achievementKey, JSON.stringify(achievements)],
     [dbInitKey, '1']
   ]).then(() => {
     console.log("Populate DB");
@@ -29,8 +33,8 @@ export default Db = {
     }).done();
   },
   resetDb: async function () {
-    await AsyncStorage.multiRemove([dbInitKey, 'users', 'achievements']).then(() => {
-      console.log("Reset DB");
+    return await AsyncStorage.multiRemove(dbKeys).then(() => {
+      console.log("Database reset");
     });
   },
 
@@ -94,6 +98,21 @@ export default Db = {
   },
   // ------------- set specific records --------------------
 
+  resetAchievements: async function () {
+    // reset achievements
+    await this.getAchievements().then(async (value) => {
+      let _achievements = JSON.parse(value);
+
+      achievements.forEach((el) => {
+        el.achieved = false
+      });
+
+      await AsyncStorage.setItem(achievementKey, JSON.stringify(_achievements)).then(() => {
+        console.log("Achievements reset");
+      });
+    });
+  },
+
   setAchievement: function (id, achievement) {
     let record = this.getAchievement(id);
 
@@ -107,7 +126,7 @@ export default Db = {
     console.log("Editing achievement " + id + " to: " + JSON.stringify(record));
   },
   setUser: async function (id, user) {
-    await AsyncStorage.getItem('users').then(async (value) => {
+    await this.getUsers().then(async (value) => {
       let _users = JSON.parse(value);
 
       for (let key in users[id - 1]) {
@@ -117,7 +136,7 @@ export default Db = {
         }
       }
 
-      await AsyncStorage.setItem('users', JSON.stringify(_users)).then(() => {
+      await AsyncStorage.setItem(userKey, JSON.stringify(_users)).then(() => {
         console.log("Users updated");
       });
     });

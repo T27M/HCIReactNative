@@ -12,7 +12,8 @@ import {
   Text,
   Image,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  ToastAndroid
 } from 'react-native';
 
 export default class AccountSettingsView extends Component {
@@ -37,21 +38,17 @@ export default class AccountSettingsView extends Component {
   }
 
   async changeUsername() {
-    await Db.setUser(this.state.user_id, { username : this.state.username });
+    await Db.setUser(this.state.user_id, { username : this.state.username }).then(() => {
+      ToastAndroid.show('Username updated.', ToastAndroid.SHORT);
+    });
   }
 
-  resetAccount() {
-    // reset score
-    Db.setUser(this.user.id, {
-      score: 0
-    });
+  async resetAccount() {
 
-    // reset achievements
-    let achievements = Db.getAchievements();
-    achievements.forEach((el) => {
-      Db.setAchievement(el.id, {
-        achieved: false
-      });
+    await Db.setUser(this.state.user_id, { score: 0 });
+
+    await Db.resetAchievements().then(() => {
+      ToastAndroid.show('Account reset.', ToastAndroid.SHORT);
     });
   }
 

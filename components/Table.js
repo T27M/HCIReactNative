@@ -18,12 +18,25 @@ export default class TableView extends Component {
   constructor(props) {
     super(props);
 
+    this.onFocus = this.onFocus.bind(this);
+
     this.state = {
       data: []
     }
   }
 
   async componentWillMount() {
+    await this.onFocus();
+  }
+
+  async onFocus(hasFocus) {
+
+    if (!hasFocus) {
+      return;
+    }
+
+    console.log("Has focus");
+
     await Db.getUsers().then((value) => {
 
       users = JSON.parse(value);
