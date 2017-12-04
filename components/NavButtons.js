@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import BurgerMenu from './BurgerMenu';
+import TakeImage from './TakeImage'
 
 export default class NavButtons extends Component {
   constructor(props) {
@@ -18,6 +19,12 @@ export default class NavButtons extends Component {
 
     this.onBurgerClicked  = this.onBurgerClicked.bind(this);
     this.onBackClicked    = this.onBackClicked.bind(this);
+    this.onDeclineClicked = this.onDeclineClicked.bind(this);
+  }
+
+  onDeclineClicked(e) {
+    this.props.navigation.goBack(null);
+    this.props.navigation.navigate(TakeImage.NAV_NAME);
   }
 
   onBurgerClicked(e) {
@@ -95,7 +102,6 @@ export default class NavButtons extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
@@ -106,4 +112,12 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 10,
   },
+  accept: {
+    width: 50,
+    height: 50,
+  },
+  decline: {
+    width: 50,
+    height: 50,
+  }
 });

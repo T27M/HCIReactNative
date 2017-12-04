@@ -1,19 +1,20 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
+import { Linking }        from 'react-native';
 
-import Db from '../data/Db';
-import NavButtons from './NavButtons';
-import ReadMoreView from './ReadMoreView';
-import HearMoreView from './HearMoreView';
+import Db                 from '../data/Db';
+import NavButtons         from './NavButtons';
+import ReadMoreView       from './ReadMoreView';
+import HearMoreView       from './HearMoreView';
 import AchievementManager from '../data/AchievementManager';
-import AchievementPopup from './AchievementPopup';
+import AchievementPopup   from './AchievementPopup';
 
 import {
   View,
   Text,
   StyleSheet,
+  ToastAndroid
 } from 'react-native';
 
 import Modal from 'react-native-modalbox';
@@ -85,6 +86,10 @@ export default class ScanScreen extends Component {
     this.setState({ locationData: null });
 
     this.refs.QRScanner.reactivate();
+
+    return (
+      <AchievementPopup />
+    )
   }
 
   onReadMoreClicked(e) {
@@ -119,6 +124,8 @@ export default class ScanScreen extends Component {
           navigation={this.props.navigation}
           showBack={false}
           showBurger={true}
+          showAccept={false}
+          showDecline={false}
         />
 
         <QRCodeScanner
