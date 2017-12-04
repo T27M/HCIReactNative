@@ -3,19 +3,12 @@
 import React, { Component } from 'react';
 import { Linking }        from 'react-native';
 
-<<<<<<< Updated upstream
-import Db from '../data/Db';
-import NavButtons from './NavButtons';
-import ReadMoreView from './ReadMoreView';
-import HearMoreView from './HearMoreView';
-=======
 import Db                 from '../data/Db';
 import NavButtons         from './NavButtons';
 import ReadMoreView       from './ReadMoreView';
 import HearMoreView       from './HearMoreView';
 import AchievementManager from '../data/AchievementManager';
 import AchievementPopup   from './AchievementPopup';
->>>>>>> Stashed changes
 
 import {
   View,
