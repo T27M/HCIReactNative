@@ -17,31 +17,38 @@ export default class AchievementPopup extends Component {
   constructor(props) {
     super(props);
 
+    if (this.props.onClose === undefined) {
+      this.props.onClose = () => {/* do nothing */};
+    }
   }
 
-  onModalClose(e) {
+  open() {
+    this.refs.modal.open();
+  }
 
+  close() {
+    this.refs.modal.close();
   }
 
   render() {
     return (
       <Modal
-        ref={"locationDetails"}
-        style={[styles.wrapper]}
-        position={"bottom"}
-        onClosed={() => {this.onModalClose()}}
+        ref={"modal"}
+        style={[localStyles.wrapper]}
+        position={"center"}
+        onClose={this.props.onClose}
       >
-        <View style={infoStyles.imageView}>
+        <View style={localStyles.imageView}>
           <Image
             style={infoStyles.image}
-            source={{uri: "../img/Congratulations.png"}}
+            source={require('../img/congratulations.png')}
           />
         </View>
 
-        <Text>
+        <Text style={infoStyles.content}>
           Congratulations you just got an achievement!
           {"\n\n"}
-          <Text>Find the Library Tree</Text>
+          <Text style={localStyles.bold}>Find the Library Tree</Text>
         </Text>
       </Modal>
     );
@@ -53,6 +60,17 @@ const localStyles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 300
+    height: 350,
+    width: 300
+  },
+  imageView: {
+    top: 0,
+    width: 150,
+    height: 150,
+    margin: 0,
+    marginBottom: 20
+  },
+  bold: {
+    fontWeight: 'bold'
   }
 });

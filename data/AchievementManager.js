@@ -26,13 +26,17 @@ export default class AchievementManager {
     return achieved;
   }
 
-  static markUserAchievedAchievement(userId, achievementId) {
+  static markUserAchievedAchievement(userId, achievement) {
     let userAchievement = {
       user_id: userId,
-      achievement_id: achievementId
+      achievement_id: achievement.id
     };
 
     Db.addUserAchievement(userAchievement);
+
+    Db.addPointsToUser(userId, achievement.difficulty).then(() => {
+      ToastAndroid.show('Points added...', ToastAndroid.SHORT);
+    });
   }
 
   static checkForAchievement(eventType, achievementType) {
@@ -45,9 +49,8 @@ export default class AchievementManager {
                                           ? locations.length
                                           : achievement.count_required;
 
-
       let log               = Logger.getlog(eventType);
-      let locations = [];
+      let locations         = [];
 
       if (achievement.type === achievementType && !AchievementManager.hasUserAchievedAchievement(userId, achievement.id)) {
         log.forEach((event) => {
@@ -64,7 +67,7 @@ export default class AchievementManager {
         });
 
         if (locations.length >= required_loc) {
-          AchievementManager.markUserAchievedAchievement(userId, achievement.id)
+          AchievementManager.markUserAchievedAchievement(userId, achievement)
           achievedAchievements.push(achievement.id);
         }
       }

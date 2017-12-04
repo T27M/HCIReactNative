@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Linking }        from 'react-native';
 
 import Db                 from '../data/Db';
+import Logger             from '../data/Logger';
 import NavButtons         from './NavButtons';
 import ReadMoreView       from './ReadMoreView';
 import HearMoreView       from './HearMoreView';
@@ -57,7 +58,6 @@ export default class ScanScreen extends Component {
   }
 
   async onScannerRead(e) {
-    console.log(e.data);
     let jsonData = false;
 
     try {
@@ -75,30 +75,36 @@ export default class ScanScreen extends Component {
         // TODO get user ID
         let userId = 6;
 
-        // update user score
-        await Db.addPointsToUser(userId, this.locationData.difficulty).then(() => {
-          ToastAndroid.show('Points added...', ToastAndroid.SHORT);
-        });
-
         let achievements = AchievementManager.checkForScanAchievement(userId, this.locationData.id);
 
         if (achievements.length > 0) {
+          this.refs.popup.open(achievements[0].title);
+        }
 
+        let log        = Logger.getlog(eventType); // TODO make user promises once getLog uses Toms stuff
+        let newLocScan = true;
+        log.forEach((event) => {
+          if (event.locationId === this.locationData.id && event.userId === userId) {
+            newLocScan = true;
+          }
+        });
+
+        if (newLocScan) {
+          // update user score
+          await Db.addPointsToUser(userId, this.locationData.difficulty).then(() => {
+            ToastAndroid.show('Points added...', ToastAndroid.SHORT);
+          });
         }
       }
     }
 
-    this.refs.locationDetails.open()
+    this.refs.locationDetails.open();
   }
 
   onModalClose(e) {
     this.locationData = null;
 
     this.refs.QRScanner.reactivate();
-
-    return (
-      <AchievementPopup />
-    )
   }
 
 
@@ -156,6 +162,11 @@ export default class ScanScreen extends Component {
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
           <Button onPress={this.onSeeMoreClicked} style={styles.btn}>See More</Button>
         </Modal>
+
+        <AchievementPopup
+          ref="popup"
+          onClose={() => { this.onModalClose() }}
+         />
       </View>
     );
   }

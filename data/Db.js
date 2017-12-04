@@ -8,7 +8,7 @@ const users = require('./users.json');
 const locations = require('./locations.json');
 const points = require('./points.json');
 const achievements = require('./achievements.json');
-const userAchievements = require('./user_achievement.json');
+const userAchievements = require('./user_achievements.json');
 
 const dbInitKey = "init";
 const userKey = 'users';
