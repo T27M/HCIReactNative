@@ -5,16 +5,10 @@ import {
 
 const users = require('./users.json');
 const locations = require('./locations.json');
-// const leaderboard       = require('./leaderboard.json');
 const points = require('./points.json');
 const achievements = require('./achievements.json');
 
 const dbInitKey = "init";
-<<<<<<< Updated upstream
-
-function populateDatabase() {
-  console.log("Populate DB");
-=======
 const userKey = 'users';
 const achievementKey = 'achievements';
 const locationKey = 'locations';
@@ -30,39 +24,29 @@ async function populateDatabase() {
   ]).then(() => {
     console.log("Populate DB");
   });
->>>>>>> Stashed changes
 }
 
 export default Db = {
   initDb: function () {
     AsyncStorage.getItem(dbInitKey).then((value) => {
 
-      if(value == null)
-      {
+      if (value == null) {
         populateDatabase();
         AsyncStorage.setItem(dbInitKey, "true");
       }
     }).done();
   },
-<<<<<<< Updated upstream
-=======
   resetDb: async function () {
     return await AsyncStorage.multiRemove(dbKeys).then(() => {
       console.log("Database reset");
     });
   },
->>>>>>> Stashed changes
 
   // ------------- get all --------------------
 
   // Users
-<<<<<<< Updated upstream
-  getUsers: function () {
-    return users;
-=======
   getUsers: async function () {
     return await AsyncStorage.getItem(userKey);
->>>>>>> Stashed changes
   },
   getLocations: async function () {
     return await AsyncStorage.getItem(locationKey);
@@ -73,16 +57,11 @@ export default Db = {
   getPoints: function () {
     return points;
   },
-<<<<<<< Updated upstream
-  getAchievements: function () {
-    return achievements;
-=======
   getAchievements: async function () {
     return await AsyncStorage.getItem(achievementKey);
   },
   getUserAchievements: async function () {
     return userAchievements
->>>>>>> Stashed changes
   },
 
   // ------------- get specific record --------------------
@@ -101,7 +80,7 @@ export default Db = {
       let results = _locatons.filter((record) => {
         return record.id === id
       });
-  
+
       return (results.length === 1) ? results[0] : null;
     });
   },
@@ -172,8 +151,6 @@ export default Db = {
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
-<<<<<<< Updated upstream
-=======
   addUserAchievement(userAchievement) {
     console.log("Adding user achievement " + JSON.stringify(userAchievement));
   },
@@ -202,7 +179,6 @@ export default Db = {
     });
   },
 
->>>>>>> Stashed changes
   // ------------- extra functions --------------------
 
   // POST /user/addPoints ?
@@ -214,19 +190,7 @@ export default Db = {
     if (user !== null && point !== null) {
       user.score += point.points;
 
-      this.setUser(userId, user); 0
-
-<<<<<<< Updated upstream
-      return true;
+      await this.setUser(userId, user);
     }
-
-    return false;
-=======
-        user.score += point.points;
-
-        await this.setUser(userId, user);
-      }
-    });
->>>>>>> Stashed changes
   }
 };

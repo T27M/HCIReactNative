@@ -16,20 +16,20 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import Modal            from 'react-native-modalbox';
-import QRCodeScanner    from 'react-native-qrcode-scanner';
-import Button           from 'react-native-button';
+import Modal from 'react-native-modalbox';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import Button from 'react-native-button';
 
 export default class ScanScreen extends Component {
 
   constructor(props) {
     super(props);
 
-    this.onScannerRead      = this.onScannerRead.bind(this);
-    this.onModalClose       = this.onModalClose.bind(this);
-    this.onReadMoreClicked  = this.onReadMoreClicked.bind(this);
-    this.onHearMoreClicked  = this.onHearMoreClicked.bind(this);
-    this.onSeeMoreClicked   = this.onSeeMoreClicked.bind(this);
+    this.onScannerRead = this.onScannerRead.bind(this);
+    this.onModalClose = this.onModalClose.bind(this);
+    this.onReadMoreClicked = this.onReadMoreClicked.bind(this);
+    this.onHearMoreClicked = this.onHearMoreClicked.bind(this);
+    this.onSeeMoreClicked = this.onSeeMoreClicked.bind(this);
 
     this.state = {
       userId: 6,
@@ -45,14 +45,14 @@ export default class ScanScreen extends Component {
     this.refs.QRScanner._setScanning(!focussed); // call _setScanning(false) to reactivate | _setScanning(true) to deactivate. See https://github.com/moaazsidat/react-native-qrcode-scanner/blob/master/index.js
   }
 
-  onScannerRead(e) {
+  async onScannerRead(e) {
     console.log(e.data);
     let jsonData = false;
 
     try {
       jsonData = JSON.parse(e.data);
     } catch (e) {
-        // do nothing...
+      // do nothing...
     }
 
     if (!jsonData || jsonData.id === undefined) {
@@ -64,7 +64,7 @@ export default class ScanScreen extends Component {
         return;
       }
 
-      this.setState({locationData: location});
+      this.setState({ locationData: location });
 
       // update user score
       await Db.addPointsToUser(this.state.userId, location.difficulty).then(() => {
@@ -82,7 +82,7 @@ export default class ScanScreen extends Component {
   }
 
   onModalClose(e) {
-    this.setState({locationData: null});
+    this.setState({ locationData: null });
 
     this.refs.QRScanner.reactivate();
   }
@@ -99,7 +99,7 @@ export default class ScanScreen extends Component {
     this.props.navigation.navigate(HearMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
-  onSeeMoreClicked(e) {    
+  onSeeMoreClicked(e) {
     this.refs.locationDetails.close();
 
     Linking.openURL('https://hcireactar.herokuapp.com/' + this.state.locationData.id)
@@ -124,20 +124,20 @@ export default class ScanScreen extends Component {
         <QRCodeScanner
           ref={"QRScanner"}
           topContent={ScanScreen.getTopContent()}
-          onRead={(e) => {this.onScannerRead(e)}}
+          onRead={(e) => { this.onScannerRead(e) }}
         />
 
         <Modal
-            ref={"locationDetails"}
-            style={[styles.modal]}
-            position={"bottom"}
-            onClosed={() => {this.onModalClose()}}
+          ref={"locationDetails"}
+          style={[styles.modal]}
+          position={"bottom"}
+          onClosed={() => { this.onModalClose() }}
         >
           <Text style={styles.text}>{(this.state.locationData !== null ? "You found " + this.state.locationData.location + "!" : "Invalid QR code")}</Text>
 
           <Button onPress={this.onReadMoreClicked} style={styles.btn}>Read More</Button>
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
-          <Button onPress={this.onSeeMoreClicked } style={styles.btn}>See More</Button>
+          <Button onPress={this.onSeeMoreClicked} style={styles.btn}>See More</Button>
         </Modal>
       </View>
     );

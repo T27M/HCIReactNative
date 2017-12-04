@@ -121,17 +121,11 @@ export default class Map extends Component {
                 </MapView>
 
                 <NavButtons
-<<<<<<< Updated upstream
-                  navigation={this.props.navigation}
-                  showBack={false}
-                  showBurger={true}
-=======
                     navigation={this.props.navigation}
                     showBack={false}
                     showBurger={true}
                     showAccept={false}
                     showDecline={false}
->>>>>>> Stashed changes
                 />
 
                 <View

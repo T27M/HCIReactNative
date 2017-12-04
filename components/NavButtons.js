@@ -59,8 +59,6 @@ export default class NavButtons extends Component {
       );
     }
 
-<<<<<<< Updated upstream
-=======
     if (this.props.showAccept || this.props.showAccept === undefined) {
       viewContents.push(
         <TouchableOpacity
@@ -89,7 +87,6 @@ export default class NavButtons extends Component {
       );
     }
 
->>>>>>> Stashed changes
     return (
       <View style={styles.wrapper}>
         {viewContents}
