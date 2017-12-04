@@ -102,6 +102,8 @@ export default class ScanScreen extends Component {
           navigation={this.props.navigation}
           showBack={false}
           showBurger={true}
+          showAccept={false}
+          showDecline={false}
         />
 
         <QRCodeScanner

@@ -27,7 +27,8 @@ export default class TakeImage extends Component
   setData = (camData) => {
     console.log(camData);
     this.setState({data: camData.path});
-    this.setState({renderCamera: false})
+    this.setState({renderCamera: false});
+    this.sendData(camData);
   }
 
   takePicture()
@@ -63,16 +64,20 @@ export default class TakeImage extends Component
             navigation={this.props.navigation}
             showBack={true}
             showBurger={false}
+            showAccept={false}
+            showDecline={false}
           />
         </View>
       ) ||
       (!renderCamera &&
-        <View>
+        <View style={styles.container}>
           <Image style={styles.camPreview} source={{uri: this.state.data}} />
           <NavButtons
           navigation={this.props.navigation}
-          showBack={true}
+          showBack={false}
           showBurger={false}
+          showAccept={true}
+          showDecline={true}
           />
         </View>
       )

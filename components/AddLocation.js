@@ -77,6 +77,8 @@ export default class AddLocation extends Component {
           navigation={this.props.navigation}
           showBack={true}
           showBurger={false}
+          showAccept={false}
+          showDecline={false}
         />
 
         <View style={styles.view}>
