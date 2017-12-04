@@ -32,6 +32,8 @@ export default class AccountSettingsView extends Component {
   }
 
   async componentWillMount() {
+    ToastAndroid.show('Loading...', ToastAndroid.SHORT);
+
     await Db.getUser(this.state.user_id).then((value) => {
       this.setState({ username: value.username });
     });

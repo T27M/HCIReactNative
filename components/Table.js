@@ -47,8 +47,6 @@ export default class TableView extends Component {
         });
       }
       
-      console.log(leaderboardData);
-
       this.setState({ data: leaderboardData });
     }).catch((e) => {
       console.log(e);

@@ -61,7 +61,7 @@ export default Db = {
 
       let _users = JSON.parse(value);
 
-      let results = users.filter((record) => {
+      let results = _users.filter((record) => {
         return record.id === id
       });
 
@@ -136,8 +136,6 @@ export default Db = {
         }
       }
 
-      console.log(_users);
-
       await AsyncStorage.setItem(userKey, JSON.stringify(_users)).then(() => {
         console.log("Users updated");
       });
@@ -157,21 +155,18 @@ export default Db = {
   },
 
   // ------------- extra functions --------------------
-
-  // POST /user/addPoints ?
-  // my guess is that this would just be a API call and the logic below would be re-implemented on the server
-  addPointsToUser: function (userId, difficulty) {
-    let user = this.getUser(userId);
+  addPointsToUser: async function (userId, difficulty) {
     let point = this.getPoint(difficulty);
 
-    if (user !== null && point !== null) {
-      user.score += point.points;
+    await this.getUser(userId).then(async (user) => {
+      if (user !== null && point !== null) {
+        
+        console.log(user);
 
-      this.setUser(userId, user); 0
+        user.score += point.points;
 
-      return true;
-    }
-
-    return false;
+        this.setUser(userId, user);
+      }
+    });
   }
 };
