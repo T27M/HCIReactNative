@@ -6,6 +6,8 @@ import Camera from 'react-native-camera';
 import NavButtons from './NavButtons';
 import TakeImage from './TakeImage';
 
+import Db from '../data/Db';
+
 export default class AddLocation extends Component {
   static NAV_NAME = "AddLocation";
 
@@ -60,6 +62,7 @@ export default class AddLocation extends Component {
 
   onFormSubmit(e) {
     console.log(this.state);
+    Db.addLocation(this.state);
   }
 
   updateName(e) {
