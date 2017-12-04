@@ -34,7 +34,7 @@ export default class BurgerMenu extends Component {
     this.onInputChange                = this.onInputChange.bind(this);
 
     this.state = {
-      devCode: true
+      devCode: false
     }
   }
 
