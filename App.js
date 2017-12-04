@@ -84,7 +84,7 @@ class App extends Component {
 
         <View>
           <TableView
-            ref={(n) => { this.ScanScreen = n }}
+            ref={(n) => { this.TableView = n }}
           />
         </View>
 

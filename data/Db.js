@@ -132,9 +132,11 @@ export default Db = {
       for (let key in users[id - 1]) {
         if (users[id - 1].hasOwnProperty(key) && user.hasOwnProperty(key)) {
           console.log("Key " + key + " updated to " + user[key]);
-          users[id - 1][key] = user[key];
+          _users[id - 1][key] = user[key];
         }
       }
+
+      console.log(_users);
 
       await AsyncStorage.setItem(userKey, JSON.stringify(_users)).then(() => {
         console.log("Users updated");

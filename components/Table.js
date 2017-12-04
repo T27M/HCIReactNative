@@ -35,8 +35,6 @@ export default class TableView extends Component {
       return;
     }
 
-    console.log("Has focus");
-
     await Db.getUsers().then((value) => {
 
       users = JSON.parse(value);
@@ -48,6 +46,8 @@ export default class TableView extends Component {
           highScore: users[i].score
         });
       }
+      
+      console.log(leaderboardData);
 
       this.setState({ data: leaderboardData });
     }).catch((e) => {
