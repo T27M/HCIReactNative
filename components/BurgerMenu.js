@@ -14,6 +14,7 @@ import FAQsView                 from './FAQsView';
 import AccountSettingsView      from './AccountSettingsView';
 import AchievementsView         from './AchievementsView';
 import TermsAndConditionsView   from './TermsAndConditionsView';
+import Db                       from '../data/Db'
 
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
@@ -48,6 +49,14 @@ export default class BurgerMenu extends Component {
     this.props.navigation.navigate(TermsAndConditionsView.NAV_NAME);
   }
 
+  async onInitDbClicked(e) {
+    await Db.initDb();
+  }
+
+  async onResetDbClicked(e) {
+    await Db.resetDb();
+  }
+
   render() {
     return (
       <View style={styles.wrapper}>
@@ -63,6 +72,8 @@ export default class BurgerMenu extends Component {
           <Button onPress={this.onAchievementsClicked}        style={styles.btn}>Achievements</Button>
           <Button onPress={this.onAccountSettingsClicked}     style={styles.btn}>Account Settings</Button>
           <Button onPress={this.onTermsAndConditionsClicked}  style={styles.btn}>Terms and Conditions</Button>
+          <Button onPress={this.onInitDbClicked}  style={styles.btn}>Init Db</Button>          
+          <Button onPress={this.onResetDbClicked}  style={styles.btn}>Reset Db</Button>
         </View>
       </View>
     );

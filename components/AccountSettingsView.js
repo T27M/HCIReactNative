@@ -24,20 +24,23 @@ export default class AccountSettingsView extends Component {
     this.changeUsername = this.changeUsername.bind(this);
     this.resetAccount   = this.resetAccount.bind(this);
 
-    // TODO get current user
-    let userId = 6;
-
-    this.user = Db.getUser(userId);
-
     this.state = {
-      username: this.user.username
+      user_id: 6,
+      username: ""
     };
   }
 
-  changeUsername(username) {
-    Db.setUser(this.user.id, {
-      username: username
+  async componentWillMount() {
+     await Db.getUser(this.state.user_id).then((value) => {     
+      console.log(value);
+      this.setState({username: value.username});
     });
+  }
+
+  async changeUsername() {
+    console.log(this.state.username);
+
+    await Db.setUser(this.state.user_id, username);
   }
 
   resetAccount() {
@@ -77,12 +80,19 @@ export default class AccountSettingsView extends Component {
           <View style={infoStyles.contentView}>
             <FormLabel labelStyle={formStyles.formLabel}>Name</FormLabel>
             <FormInput labelStyle={formStyles.formInput} containerStyle={formStyles.formInput}
-              onChangeText={this.changeUsername}
+              onChangeText={(text) => this.setState({username: text})}
               defaultValue={this.state.username}
             />
 
             <Divider style={formStyles.divider} />
 
+            <Button
+              raised
+              style={localStyles.reset}
+              title={"Save Username"}
+              onPress={this.changeUsername}
+            />
+          
             <Button
               raised
               style={localStyles.reset}
@@ -98,6 +108,10 @@ export default class AccountSettingsView extends Component {
 
 const localStyles = StyleSheet.create({
   reset: {
-    width: 100
+    width: 100,
+    margin: 10,
+    backgroundColor: "#3B5998",
+    color: "white",
+    padding: 10
   }
 });

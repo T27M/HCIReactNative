@@ -5,55 +5,64 @@ import {
 
 const users = require('./users.json');
 const locations = require('./locations.json');
-// const leaderboard       = require('./leaderboard.json');
 const points = require('./points.json');
 const achievements = require('./achievements.json');
 
 const dbInitKey = "init";
 
-function populateDatabase() {
-  console.log("Populate DB");
+async function populateDatabase() {
+  await AsyncStorage.multiSet([
+    ['users', JSON.stringify(users)],
+    ['achievements', JSON.stringify(achievements)],
+    [dbInitKey, '1']
+  ]).then(() => {
+    console.log("Populate DB");
+  });
 }
 
 export default Db = {
-  initDb: function () {
-    AsyncStorage.getItem(dbInitKey).then((value) => {
-
-      if(value == null)
-      {
+  initDb: async function () {
+    await AsyncStorage.getItem(dbInitKey).then((value) => {
+      if (value == null) {
         populateDatabase();
-        AsyncStorage.setItem(dbInitKey, "true");
       }
     }).done();
+  },
+  resetDb: async function () {
+    await AsyncStorage.multiRemove([dbInitKey, 'users', 'achievements']).then(() => {
+      console.log("Reset DB");
+    });
   },
 
   // ------------- get all --------------------
 
   // Users
-  getUsers: function () {
-    return users;
+  getUsers: async function () {
+    return await AsyncStorage.getItem('users');
   },
   getLocations: function () {
     return locations;
   },
-  // getLeaderboard: function() {
-  //   return leaderboard;
-  // },
   getPoints: function () {
     return points;
   },
-  getAchievements: function () {
-    return achievements;
+  getAchievements: async function () {
+    return await AsyncStorage.getItem('achievements');
   },
 
   // ------------- get specific record --------------------
 
-  getUser: function (id) {
-    let results = users.filter((record) => {
-      return record.id === id
-    });
+  getUser: async function (id) {
+    return await AsyncStorage.getItem('users').then((value) => {
 
-    return (results.length === 1) ? results[0] : null;
+      let _users = JSON.parse(value);
+
+      let results = users.filter((record) => {
+        return record.id === id
+      });
+
+      return (results.length === 1) ? results[0] : null;
+    });
   },
   getLocation: function (id) {
     let results = locations.filter((record) => {
@@ -62,13 +71,6 @@ export default Db = {
 
     return (results.length === 1) ? results[0] : null;
   },
-  // getLeaderboardEntry: function(rank) {
-  //   let results = leaderboard.sort((a, b) => {
-  //     return b.score - a.score;
-  //   });
-  //
-  //   return (results.length > rank - 1) ? results[rank] : null;
-  // },
   getMarker: function (title) {
     let results = markers.filter((record) => {
       return record.title === title
@@ -104,17 +106,26 @@ export default Db = {
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
     console.log("Editing achievement " + id + " to: " + JSON.stringify(record));
   },
-  setUser: function (id, user) {
-    let record = this.getUser(id);
+  setUser: async function (id, username) {
+    console.log(username);
+    await AsyncStorage.getItem('users').then(async (value) => {
+      let _users = JSON.parse(value);
 
-    for (let key in user) {
-      if (user.hasOwnProperty(key) && record.hasOwnProperty(key)) {
-        record[key] = user[key];
-      }
-    }
+      users[id - 1].username = username;
 
-    // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing User " + id + " to: " + JSON.stringify(record));
+      await AsyncStorage.setItem('users', JSON.stringify(_users)).then(() => {
+        console.log("Users updated");
+      });
+    });
+
+    // for (let key in user) {
+    //   if (user.hasOwnProperty(key) && record.hasOwnProperty(key)) {
+    //     record[key] = user[key];
+    //   }
+    // }
+
+    // // TODO figure out how to do this without having to recommit/gitignore the JSON files.
+    // console.log("Editing User " + id + " to: " + JSON.stringify(record));
   },
   setLocation: function (id, location) {
     let record = this.getLocation(id);

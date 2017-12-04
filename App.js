@@ -41,7 +41,6 @@ class App extends Component {
   }
 
   async requestCameraPermission() {
-    console.log("Called")
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
