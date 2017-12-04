@@ -7,8 +7,9 @@ import {
   View,
 } from 'react-native';
 
-import Button                   from 'react-native-button';
 
+import AddLocation              from './AddLocation';
+import Button                   from 'react-native-button';
 import NavButtons               from './NavButtons';
 import FAQsView                 from './FAQsView';
 import AccountSettingsView      from './AccountSettingsView';
@@ -33,7 +34,7 @@ export default class BurgerMenu extends Component {
   }
 
   onNewLocationsClicked(e) {
-    console.log("Add New Location Clicked");
+    this.props.navigation.navigate(AddLocation.NAV_NAME);
   }
 
   onAchievementsClicked(e) {
@@ -55,6 +56,8 @@ export default class BurgerMenu extends Component {
           navigation={this.props.navigation}
           showBack={true}
           showBurger={false}
+          showAccept={false}
+          showDecline={false}
         />
 
         <View style={styles.buttonWrapper}>

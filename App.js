@@ -14,8 +14,11 @@ import Map from './components/Map'
 import ScanScreen from './components/QRCodeScanner'
 import { PermissionsAndroid } from 'react-native';
 
-import { StackNavigator, } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 
+
+import AddLocation              from './components/AddLocation';
+import TakeImage                from './components/TakeImage';
 import ReadMoreView             from './components/ReadMoreView';
 import HearMoreView             from './components/HearMoreView';
 import BurgerMenu               from "./components/BurgerMenu";
@@ -114,7 +117,13 @@ const Navigator = StackNavigator(
       screen: HearMoreView,
     },
     [BurgerMenu.NAV_NAME]: {
-      screen: BurgerMenu,
+      screen: BurgerMenu
+    },
+    [AddLocation.NAV_NAME]: {
+      screen: AddLocation,
+    },
+    [TakeImage.NAV_NAME]: {
+      screen: TakeImage,
     },
     [FAQsView.NAV_NAME]: {
       screen: FAQsView,

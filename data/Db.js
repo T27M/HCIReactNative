@@ -114,6 +114,23 @@ export default Db = {
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
+  addLocation: function(data) {
+    let newLocation = {
+      //Increment the id from the latest one in the storage
+      "id": 'INCREMENT ME',
+      "location": data.locationName,
+      "lat": data.region.latitude,
+      "long": data.region.longitude,
+      "description": data.locationData,
+      "img": data.cameraData.path,
+      "type": 1,
+      "difficulty": 1
+    }
+    //Add this new json object to the async storage
+
+    console.log("This is adding the new thing \n" + JSON.stringify(newLocation));
+  },
+
   // ------------- extra functions --------------------
 
   // POST /user/addPoints ?
