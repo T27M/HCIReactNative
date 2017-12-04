@@ -1,19 +1,24 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { FormLabel, FormInput, Divider } from 'react-native-elements';
 
 import {
   StyleSheet,
   View,
+  ScrollView,
+  ToastAndroid
 } from 'react-native';
 
-import Button                   from 'react-native-button';
 
+import AddLocation              from './AddLocation';
+import Button                   from 'react-native-button';
 import NavButtons               from './NavButtons';
 import FAQsView                 from './FAQsView';
 import AccountSettingsView      from './AccountSettingsView';
 import AchievementsView         from './AchievementsView';
 import TermsAndConditionsView   from './TermsAndConditionsView';
+import Db                       from '../data/Db'
 
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
@@ -26,6 +31,11 @@ export default class BurgerMenu extends Component {
     this.onAchievementsClicked        = this.onAchievementsClicked.bind(this);
     this.onAccountSettingsClicked     = this.onAccountSettingsClicked.bind(this);
     this.onTermsAndConditionsClicked  = this.onTermsAndConditionsClicked.bind(this);
+    this.onInputChange                = this.onInputChange.bind(this);
+
+    this.state = {
+      devCode: false
+    }
   }
 
   onFAQClicked(e) {
@@ -33,7 +43,7 @@ export default class BurgerMenu extends Component {
   }
 
   onNewLocationsClicked(e) {
-    console.log("Add New Location Clicked");
+    this.props.navigation.navigate(AddLocation.NAV_NAME);
   }
 
   onAchievementsClicked(e) {
@@ -48,23 +58,54 @@ export default class BurgerMenu extends Component {
     this.props.navigation.navigate(TermsAndConditionsView.NAV_NAME);
   }
 
+  async onInitDbClicked(e) {
+    await Db.initDb().then(() => {
+      ToastAndroid.show("Database populated", ToastAndroid.SHORT);
+    });
+  }
+
+  async onResetDbClicked(e) {
+    await Db.resetDb().then(() => {
+      ToastAndroid.show("Database reset", ToastAndroid.SHORT);
+    });
+  }
+
+  onInputChange(e) {
+    if(e == "hci-dev-code") {
+      this.setState({devCode: true});
+    } else {
+      this.setState({devCode: false});
+    }
+  }
+
   render() {
     return (
-      <View style={styles.wrapper}>
+      <ScrollView style={styles.wrapper}>
         <NavButtons
           navigation={this.props.navigation}
           showBack={true}
           showBurger={false}
+          showAccept={false}
+          showDecline={false}
         />
 
         <View style={styles.buttonWrapper}>
           <Button onPress={this.onFAQClicked}                 style={styles.btn}>FAQs</Button>
           <Button onPress={this.onNewLocationsClicked}        style={styles.btn}>Add a new location</Button>
           <Button onPress={this.onAchievementsClicked}        style={styles.btn}>Achievements</Button>
-          <Button onPress={this.onAccountSettingsClicked}     style={styles.btn}>Account Settings</Button>
           <Button onPress={this.onTermsAndConditionsClicked}  style={styles.btn}>Terms and Conditions</Button>
+
+          {this.state.devCode && <Button onPress={this.onAccountSettingsClicked} style={styles.btn}>Account Settings</Button>}
+          {this.state.devCode && <Button onPress={this.onInitDbClicked}  style={styles.btn}>Init Db</Button>}     
+          {this.state.devCode && <Button onPress={this.onResetDbClicked}  style={styles.btn}>Reset Db</Button>}
+
+          <FormInput
+              onChangeText={this.onInputChange}
+              defaultValue=""
+              secureTextEntry={true}
+          />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

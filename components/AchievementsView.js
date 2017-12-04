@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import Accordion from '@ercpereda/react-native-accordion';
 
-const completeImg   = require('../img/achievement_done.png');
+const completeImg = require('../img/achievement_done.png');
 const incompleteImg = require('../img/achievement.png');
 
 export default class AchievementsView extends Component {
@@ -26,27 +26,35 @@ export default class AchievementsView extends Component {
   constructor(props) {
     super(props);
 
-    this.renderAchievement  = this.renderAchievement.bind(this);
-    this.getAchievementData = this.getAchievementData.bind(this);
+    this.renderAchievement = this.renderAchievement.bind(this);
+
+    this.state = {
+      data: []
+    }
   }
 
-  getAchievementData() {
-    let achievements = Db.getAchievements();
+  async componentWillMount() {
+    await Db.getAchievements().then((value) => {
 
-    // TODO get user id
-    let userId = 3;
+      let achievements = JSON.parse(value);
 
-    achievements.forEach((el, i) => {
-      el.key = el.id;     // FlatList requires each item to have a key
-      el.achieved = AchievementManager.hasUserAchievedAchievement(userId, el.id);
+      // TODO get user id
+      let userId = 3;
+
+      achievements.forEach((el, i) => {
+        el.key = el.id;     // FlatList requires each item to have a key
+        el.achieved = AchievementManager.hasUserAchievedAchievement(userId, el.id);
+      });
+      
+      this.setState({ data: achievements });
+    }).catch((e) => {
+        console.log(e);
     });
-
-    return achievements;
   }
 
   // renders individual Q and A
   renderAchievement(row) {
-    let header = ({isOpen}) => (
+    let header = ({ isOpen }) => (
       <View style={accordionStyles.AccordionHeader}>
         <Text style={accordionStyles.AccordionHeaderText}>
           {(isOpen ? "- " : "+ ") + row.item.title}
@@ -98,7 +106,7 @@ export default class AchievementsView extends Component {
 
           <View style={infoStyles.contentView}>
             <FlatList
-              data={this.getAchievementData()}
+              data={this.state.data}
               renderItem={this.renderAchievement}
             />
           </View>

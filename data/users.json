@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "username": "Tom",
+        "username": "Tom D",
         "score": 40
     },
     {
@@ -16,12 +16,17 @@
     },
     {
         "id": 4,
-        "username": "Tom",
+        "username": "Tom M",
         "score": 10
     },
     {
         "id": 5,
         "username": "Rachael",
         "score": 80
+    },
+    {
+        "id": 6,
+        "username": "user",
+        "score": 0
     }
 ]

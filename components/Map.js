@@ -104,6 +104,8 @@ export default class Map extends Component {
                   navigation={this.props.navigation}
                   showBack={false}
                   showBurger={true}
+                  showAccept={false}
+                  showDecline={false}
                 />
 
                 <View
