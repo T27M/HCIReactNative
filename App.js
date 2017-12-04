@@ -34,14 +34,9 @@ class App extends Component {
     this.onIndexChanged = this.onIndexChanged.bind(this);
   }
 
-<<<<<<< Updated upstream
-  async componentWillMount()
-  {
-=======
   async componentWillMount() {
     // If data broken
     //await Db.resetDb()
->>>>>>> Stashed changes
     await Db.initDb();
     
     await this.requestCameraPermission();
@@ -78,11 +73,8 @@ class App extends Component {
   }
 
   onIndexChanged(index) {
-<<<<<<< Updated upstream
-=======
     this.TableView.onFocus(index == 0);
     this.Map.onFocus(index == 1);
->>>>>>> Stashed changes
     this.ScanScreen.onFocus(index == 2); // notify ScanScreen so that it can enable scanning
   }
 
