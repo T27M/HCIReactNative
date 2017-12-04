@@ -106,26 +106,21 @@ export default Db = {
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
     console.log("Editing achievement " + id + " to: " + JSON.stringify(record));
   },
-  setUser: async function (id, username) {
-    console.log(username);
+  setUser: async function (id, user) {
     await AsyncStorage.getItem('users').then(async (value) => {
       let _users = JSON.parse(value);
 
-      users[id - 1].username = username;
+      for (let key in users[id - 1]) {
+        if (users[id - 1].hasOwnProperty(key) && user.hasOwnProperty(key)) {
+          console.log("Key " + key + " updated to " + user[key]);
+          users[id - 1][key] = user[key];
+        }
+      }
 
       await AsyncStorage.setItem('users', JSON.stringify(_users)).then(() => {
         console.log("Users updated");
       });
     });
-
-    // for (let key in user) {
-    //   if (user.hasOwnProperty(key) && record.hasOwnProperty(key)) {
-    //     record[key] = user[key];
-    //   }
-    // }
-
-    // // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    // console.log("Editing User " + id + " to: " + JSON.stringify(record));
   },
   setLocation: function (id, location) {
     let record = this.getLocation(id);

@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react';
 import { FormLabel, FormInput, Button, Divider } from 'react-native-elements';
-import NavButtons     from './NavButtons';
-import infoStyles     from '../styles/info_page';
-import formStyles     from '../styles/form';
-import Db             from '../data/Db';
+import NavButtons from './NavButtons';
+import infoStyles from '../styles/info_page';
+import formStyles from '../styles/form';
+import Db from '../data/Db';
 
 import {
   View,
@@ -22,7 +22,7 @@ export default class AccountSettingsView extends Component {
     super(props);
 
     this.changeUsername = this.changeUsername.bind(this);
-    this.resetAccount   = this.resetAccount.bind(this);
+    this.resetAccount = this.resetAccount.bind(this);
 
     this.state = {
       user_id: 6,
@@ -31,16 +31,13 @@ export default class AccountSettingsView extends Component {
   }
 
   async componentWillMount() {
-     await Db.getUser(this.state.user_id).then((value) => {     
-      console.log(value);
-      this.setState({username: value.username});
+    await Db.getUser(this.state.user_id).then((value) => {
+      this.setState({ username: value.username });
     });
   }
 
   async changeUsername() {
-    console.log(this.state.username);
-
-    await Db.setUser(this.state.user_id, username);
+    await Db.setUser(this.state.user_id, { username : this.state.username });
   }
 
   resetAccount() {
@@ -72,15 +69,15 @@ export default class AccountSettingsView extends Component {
             <Text style={infoStyles.title}>Account Settings</Text>
 
             <Image
-                style={infoStyles.icon}
-                source={require('../img/settings_icon.png')}
+              style={infoStyles.icon}
+              source={require('../img/settings_icon.png')}
             />
           </View>
 
           <View style={infoStyles.contentView}>
             <FormLabel labelStyle={formStyles.formLabel}>Name</FormLabel>
             <FormInput labelStyle={formStyles.formInput} containerStyle={formStyles.formInput}
-              onChangeText={(text) => this.setState({username: text})}
+              onChangeText={(text) => this.setState({ username: text })}
               defaultValue={this.state.username}
             />
 
@@ -92,7 +89,7 @@ export default class AccountSettingsView extends Component {
               title={"Save Username"}
               onPress={this.changeUsername}
             />
-          
+
             <Button
               raised
               style={localStyles.reset}
