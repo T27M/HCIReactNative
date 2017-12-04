@@ -26,6 +26,7 @@ import FAQsView                 from './components/FAQsView';
 import AccountSettingsView      from './components/AccountSettingsView';
 import AchievementsView         from './components/AchievementsView';
 import TermsAndConditionsView   from './components/TermsAndConditionsView';
+import Db from './data/Db';
 
 class App extends Component {
   static NAV_NAME = "Index";
@@ -36,20 +37,19 @@ class App extends Component {
     this.onIndexChanged = this.onIndexChanged.bind(this);
   }
 
-  async componentWillMount()
-  {
+  async componentWillMount() {
+    await Db.initDb();
     await this.requestCameraPermission();
   }
 
   async requestCameraPermission() {
-    console.log("Called")
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
           'title': 'Cool Photo App Camera Permission',
           'message': 'Cool Photo App needs access to your camera ' +
-                     'so you can take awesome pictures.'
+            'so you can take awesome pictures.'
         }
       )
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -72,6 +72,7 @@ class App extends Component {
   }
 
   onIndexChanged(index) {
+    this.TableView.onFocus(index == 0);
     this.ScanScreen.onFocus(index == 2); // notify ScanScreen so that it can enable scanning
   }
 
@@ -85,7 +86,9 @@ class App extends Component {
         onIndexChanged={this.onIndexChanged}>
 
         <View>
-          <TableView />
+          <TableView
+            ref={(n) => { this.TableView = n }}
+          />
         </View>
 
         <Map
@@ -96,7 +99,7 @@ class App extends Component {
         <View style={styles.container}>
 
           <ScanScreen
-            ref={(n) => {this.ScanScreen = n}}
+            ref={(n) => { this.ScanScreen = n }}
             navigation={this.props.navigation}
           />
         </View>

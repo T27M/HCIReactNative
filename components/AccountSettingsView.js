@@ -2,17 +2,18 @@
 
 import React, { Component } from 'react';
 import { FormLabel, FormInput, Button, Divider } from 'react-native-elements';
-import NavButtons     from './NavButtons';
-import infoStyles     from '../styles/info_page';
-import formStyles     from '../styles/form';
-import Db             from '../data/Db';
+import NavButtons from './NavButtons';
+import infoStyles from '../styles/info_page';
+import formStyles from '../styles/form';
+import Db from '../data/Db';
 
 import {
   View,
   Text,
   Image,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  ToastAndroid
 } from 'react-native';
 
 export default class AccountSettingsView extends Component {
@@ -22,36 +23,34 @@ export default class AccountSettingsView extends Component {
     super(props);
 
     this.changeUsername = this.changeUsername.bind(this);
-    this.resetAccount   = this.resetAccount.bind(this);
-
-    // TODO get current user
-    let userId = 3;
-
-    this.user = Db.getUser(userId);
+    this.resetAccount = this.resetAccount.bind(this);
 
     this.state = {
-      username: this.user.username
+      user_id: 6,
+      username: ""
     };
   }
 
-  changeUsername(username) {
-    Db.setUser(this.user.id, {
-      username: username
+  async componentWillMount() {
+    ToastAndroid.show('Loading...', ToastAndroid.SHORT);
+
+    await Db.getUser(this.state.user_id).then((value) => {
+      this.setState({ username: value.username });
     });
   }
 
-  resetAccount() {
-    // reset score
-    Db.setUser(this.user.id, {
-      score: 0
+  async changeUsername() {
+    await Db.setUser(this.state.user_id, { username : this.state.username }).then(() => {
+      ToastAndroid.show('Username updated.', ToastAndroid.SHORT);
     });
+  }
 
-    // reset achievements
-    let achievements = Db.getAchievements();
-    achievements.forEach((el) => {
-      Db.setAchievement(el.id, {
-        achieved: false
-      });
+  async resetAccount() {
+
+    await Db.setUser(this.state.user_id, { score: 0 });
+
+    await Db.resetAchievements().then(() => {
+      ToastAndroid.show('Account reset.', ToastAndroid.SHORT);
     });
   }
 
@@ -69,19 +68,26 @@ export default class AccountSettingsView extends Component {
             <Text style={infoStyles.title}>Account Settings</Text>
 
             <Image
-                style={infoStyles.icon}
-                source={require('../img/settings_icon.png')}
+              style={infoStyles.icon}
+              source={require('../img/settings_icon.png')}
             />
           </View>
 
           <View style={infoStyles.contentView}>
             <FormLabel labelStyle={formStyles.formLabel}>Name</FormLabel>
             <FormInput labelStyle={formStyles.formInput} containerStyle={formStyles.formInput}
-              onChangeText={this.changeUsername}
+              onChangeText={(text) => this.setState({ username: text })}
               defaultValue={this.state.username}
             />
 
             <Divider style={formStyles.divider} />
+
+            <Button
+              raised
+              style={localStyles.reset}
+              title={"Save Username"}
+              onPress={this.changeUsername}
+            />
 
             <Button
               raised
@@ -98,6 +104,10 @@ export default class AccountSettingsView extends Component {
 
 const localStyles = StyleSheet.create({
   reset: {
-    width: 100
+    width: 100,
+    margin: 10,
+    backgroundColor: "#3B5998",
+    color: "white",
+    padding: 10
   }
 });

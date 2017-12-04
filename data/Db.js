@@ -1,75 +1,96 @@
+import React, { Component } from 'react';
+import {
+  AsyncStorage
+} from 'react-native';
+
+const users = require('./users.json');
+const locations = require('./locations.json');
+const points = require('./points.json');
+const achievements = require('./achievements.json');
+
+const dbInitKey = "init";
+const userKey = 'users';
+const achievementKey = 'achievements';
+
+const dbKeys = [dbInitKey, userKey, achievementKey];
+
+async function populateDatabase() {
+  await AsyncStorage.multiSet([
+    [userKey, JSON.stringify(users)],
+    [achievementKey, JSON.stringify(achievements)],
+    [dbInitKey, '1']
+  ]).then(() => {
+    console.log("Populate DB");
+  });
+}
+
 export default Db = {
-  get achievements() {
-    return require('./achievements.json');
+  initDb: async function () {
+    await AsyncStorage.getItem(dbInitKey).then((value) => {
+      if (value == null) {
+        populateDatabase();
+      }
+    }).done();
   },
-  get users() {
-    return require('./users.json');
-  },
-  get points() {
-    return require('./points.json');
-  },
-  get locations() {
-    return require('./locations.json');
+  resetDb: async function () {
+    return await AsyncStorage.multiRemove(dbKeys).then(() => {
+      console.log("Database reset");
+    });
   },
 
   // ------------- get all --------------------
 
   // Users
-  getUsers: function() {
-    return this.users;
+  getUsers: async function () {
+    return await AsyncStorage.getItem('users');
   },
-  getLocations: function() {
-    return this.locations;
+  getLocations: function () {
+    return locations;
   },
-  // getLeaderboard: function() {
-  //   return leaderboard;
-  // },
-  getPoints: function() {
-    return this.points;
+  getPoints: function () {
+    return points;
   },
-  getAchievements: function() {
-    return this.achievements;
+  getAchievements: async function () {
+    return await AsyncStorage.getItem('achievements');
   },
 
   // ------------- get specific record --------------------
 
-  getUser: function(id) {
-    let results = this.users.filter((record) => {
+  getUser: async function (id) {
+    return await AsyncStorage.getItem('users').then((value) => {
+
+      let _users = JSON.parse(value);
+
+      let results = _users.filter((record) => {
+        return record.id === id
+      });
+
+      return (results.length === 1) ? results[0] : null;
+    });
+  },
+  getLocation: function (id) {
+    let results = locations.filter((record) => {
       return record.id === id
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-  getLocation: function(id) {
-    let results = this.locations.filter((record) => {
-      return record.id === id
-    });
-
-    return (results.length === 1) ? results[0] : null;
-  },
-  // getLeaderboardEntry: function(rank) {
-  //   let results = leaderboard.sort((a, b) => {
-  //     return b.score - a.score;
-  //   });
-  //
-  //   return (results.length > rank - 1) ? results[rank] : null;
-  // },
-  getMarker: function(title) {
-    let results = this.markers.filter((record) => {
+  getMarker: function (title) {
+    let results = markers.filter((record) => {
       return record.title === title
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-  getPoint: function(difficulty) {
-    let results = this.points.filter((record) => {
+  getPoint: function (difficulty) {
+    let results = points.filter((record) => {
       return record.difficulty === difficulty
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-  getAchievement: function(id) {
-    let results = this.achievements.filter((record) => {
+  getAchievement: function (id) {
+    let results = achievements.filter((record) => {
       return record.id === id
     });
 
@@ -77,7 +98,22 @@ export default Db = {
   },
   // ------------- set specific records --------------------
 
-  setAchievement: function(id, achievement) {
+  resetAchievements: async function () {
+    // reset achievements
+    await this.getAchievements().then(async (value) => {
+      let _achievements = JSON.parse(value);
+
+      achievements.forEach((el) => {
+        el.achieved = false
+      });
+
+      await AsyncStorage.setItem(achievementKey, JSON.stringify(_achievements)).then(() => {
+        console.log("Achievements reset");
+      });
+    });
+  },
+
+  setAchievement: function (id, achievement) {
     let record = this.getAchievement(id);
 
     for (let key in achievement) {
@@ -89,19 +125,23 @@ export default Db = {
     // TODO figure out how to do this without having to recommit/gitignore the JSON files.
     console.log("Editing achievement " + id + " to: " + JSON.stringify(record));
   },
-  setUser: function(id, user) {
-    let record = this.getUser(id);
+  setUser: async function (id, user) {
+    await this.getUsers().then(async (value) => {
+      let _users = JSON.parse(value);
 
-    for (let key in user) {
-      if (user.hasOwnProperty(key) && record.hasOwnProperty(key)) {
-        record[key] = user[key];
+      for (let key in users[id - 1]) {
+        if (users[id - 1].hasOwnProperty(key) && user.hasOwnProperty(key)) {
+          console.log("Key " + key + " updated to " + user[key]);
+          _users[id - 1][key] = user[key];
+        }
       }
-    }
 
-    // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing User " + id + " to: " + JSON.stringify(record));
+      await AsyncStorage.setItem(userKey, JSON.stringify(_users)).then(() => {
+        console.log("Users updated");
+      });
+    });
   },
-  setLocation: function(id, location) {
+  setLocation: function (id, location) {
     let record = this.getLocation(id);
 
     for (let key in location) {
@@ -132,21 +172,18 @@ export default Db = {
   },
 
   // ------------- extra functions --------------------
-
-  // POST /user/addPoints ?
-  // my guess is that this would just be a API call and the logic below would be re-implemented on the server
-  addPointsToUser: function(userId, difficulty) {
-    let user = this.getUser(userId);
+  addPointsToUser: async function (userId, difficulty) {
     let point = this.getPoint(difficulty);
 
-    if (user !== null && point !== null) {
-      user.score += point.points;
+    await this.getUser(userId).then(async (user) => {
+      if (user !== null && point !== null) {
+        
+        console.log(user);
 
-      this.setUser(userId, user);
+        user.score += point.points;
 
-      return true;
-    }
-
-    return false;
+        this.setUser(userId, user);
+      }
+    });
   }
 };
