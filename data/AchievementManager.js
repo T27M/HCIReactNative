@@ -1,4 +1,4 @@
-import Logger from './logging/Logger';
+import Logger from './Logger';
 import Db     from './Db';
 
 export default class AchievementManager {

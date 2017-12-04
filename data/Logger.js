@@ -1,4 +1,4 @@
-import Db     from '../Db';
+import Db     from './Db';
 
 export default class Logger {
   static SCAN_EVENT_LOG       = "scan_event_log.json";
