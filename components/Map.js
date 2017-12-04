@@ -12,27 +12,47 @@ import NavButtons from './NavButtons';
 import MapView from 'react-native-maps';
 import Db from '../data/Db';
 
-const markers = Db.getLocations();
+const qr_img = require('../img/qrmarker.png');
+const gps_img = require('../img/gps_locate.png');
 
 export default class Map extends Component {
     constructor(props) {
         super(props);
         this.onRegionChange = this.onRegionChange.bind(this);
         this.getPosition = this.getPosition.bind(this);
+        this.onFocus = this.onFocus.bind(this);
 
         this.state = {
             region: this.getInitialState().region,
             error: null,
-            markers:
-                markers.map(marker => ({
-                    title: marker.location,
-                    coordinates: {
-                        latitude: marker.lat,
-                        longitude: marker.long
-                    },
-                    type: marker.type
-                }))
+            markers: []
         };
+    }
+
+    async componentWillMount() {
+        await this.onFocus(true);
+    }
+
+    async onFocus(hasFocus) {
+        if (!hasFocus) {
+            return;
+        }
+
+        await Db.getLocations().then((value) => {
+            let _markers = JSON.parse(value);
+
+            let markers = _markers.map(marker => ({
+                key: Math.random(),
+                title: marker.location,
+                coordinates: {
+                    latitude: marker.lat,
+                    longitude: marker.long
+                },
+                type: marker.type
+            }));
+
+            this.setState({ markers: markers });
+        });
     }
 
     componentDidMount() {
@@ -83,41 +103,49 @@ export default class Map extends Component {
                     showsMyLocationButton={true}
                     showsCompass={true}
                 >
-                {this.state.markers.map(marker => {
-                    if(marker.type === 0) {
-                        return <MapView.Marker key={marker.title}
-                          coordinate={marker.coordinates}
-                          title={marker.title}
-                          image={require('../img/qrmarker.png')}
-                        />
-                    } else {
-                        return <MapView.Marker key={marker.title}
-                          coordinate={marker.coordinates}
-                          title={marker.title}
-                          pinColor='purple'
-                        />
-                    }
-                })}
+                    {this.state.markers.map(marker => {
+                        if (marker.type === 0) {
+                            return <MapView.Marker key={marker.key}
+                                coordinate={marker.coordinates}
+                                title={marker.title}
+                                image={qr_img}
+                            />
+                        } else {
+                            return <MapView.Marker key={marker.key}
+                                coordinate={marker.coordinates}
+                                title={marker.title}
+                                pinColor='purple'
+                            />
+                        }
+                    })}
                 </MapView>
 
                 <NavButtons
+<<<<<<< Updated upstream
                   navigation={this.props.navigation}
                   showBack={false}
                   showBurger={true}
+=======
+                    navigation={this.props.navigation}
+                    showBack={false}
+                    showBurger={true}
+                    showAccept={false}
+                    showDecline={false}
+>>>>>>> Stashed changes
                 />
 
                 <View
-                  style={this.props.styles.LatLongView}
+                    style={this.props.styles.LatLongView}
                 >
-                  <TouchableOpacity onPress={this.getPosition}>
-                      <Image
-                          style={this.props.styles.button}
-                          source={require('../img/gps_locate.png')}
-                      />
-                  </TouchableOpacity>
-                  <Text>Latitude: {this.state.region.latitude}</Text>
-                  <Text>Longitude: {this.state.region.longitude}</Text>
-                  {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
+                    <TouchableOpacity onPress={this.getPosition}>
+                        <Image
+                            style={this.props.styles.button}
+                            source={gps_img}
+                        />
+                    </TouchableOpacity>
+                    <Text>Latitude: {this.state.region.latitude}</Text>
+                    <Text>Longitude: {this.state.region.longitude}</Text>
+                    {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
                 </View>
             </View>
         );

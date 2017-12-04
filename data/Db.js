@@ -10,9 +10,27 @@ const points = require('./points.json');
 const achievements = require('./achievements.json');
 
 const dbInitKey = "init";
+<<<<<<< Updated upstream
 
 function populateDatabase() {
   console.log("Populate DB");
+=======
+const userKey = 'users';
+const achievementKey = 'achievements';
+const locationKey = 'locations';
+
+const dbKeys = [dbInitKey, userKey, achievementKey, locationKey];
+
+async function populateDatabase() {
+  await AsyncStorage.multiSet([
+    [userKey, JSON.stringify(users)],
+    [achievementKey, JSON.stringify(achievements)],
+    [locationKey, JSON.stringify(locations)],
+    [dbInitKey, '1']
+  ]).then(() => {
+    console.log("Populate DB");
+  });
+>>>>>>> Stashed changes
 }
 
 export default Db = {
@@ -26,15 +44,28 @@ export default Db = {
       }
     }).done();
   },
+<<<<<<< Updated upstream
+=======
+  resetDb: async function () {
+    return await AsyncStorage.multiRemove(dbKeys).then(() => {
+      console.log("Database reset");
+    });
+  },
+>>>>>>> Stashed changes
 
   // ------------- get all --------------------
 
   // Users
+<<<<<<< Updated upstream
   getUsers: function () {
     return users;
+=======
+  getUsers: async function () {
+    return await AsyncStorage.getItem(userKey);
+>>>>>>> Stashed changes
   },
-  getLocations: function () {
-    return locations;
+  getLocations: async function () {
+    return await AsyncStorage.getItem(locationKey);
   },
   // getLeaderboard: function() {
   //   return leaderboard;
@@ -42,8 +73,16 @@ export default Db = {
   getPoints: function () {
     return points;
   },
+<<<<<<< Updated upstream
   getAchievements: function () {
     return achievements;
+=======
+  getAchievements: async function () {
+    return await AsyncStorage.getItem(achievementKey);
+  },
+  getUserAchievements: async function () {
+    return userAchievements
+>>>>>>> Stashed changes
   },
 
   // ------------- get specific record --------------------
@@ -55,12 +94,16 @@ export default Db = {
 
     return (results.length === 1) ? results[0] : null;
   },
-  getLocation: function (id) {
-    let results = locations.filter((record) => {
-      return record.id === id
-    });
+  getLocation: async function (id) {
+    return await this.getLocations().then((value) => {
+      let _locatons = JSON.parse(value);
 
-    return (results.length === 1) ? results[0] : null;
+      let results = _locatons.filter((record) => {
+        return record.id === id
+      });
+  
+      return (results.length === 1) ? results[0] : null;
+    });
   },
   // getLeaderboardEntry: function(rank) {
   //   let results = leaderboard.sort((a, b) => {
@@ -129,6 +172,37 @@ export default Db = {
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
+<<<<<<< Updated upstream
+=======
+  addUserAchievement(userAchievement) {
+    console.log("Adding user achievement " + JSON.stringify(userAchievement));
+  },
+
+  addLocation: async function (data) {
+    await this.getLocations().then(async (value) => {
+      let _locatons = JSON.parse(value);
+      let new_id = (_locatons[_locatons.length - 1].id) + 1;
+
+      _locatons.push({
+        "id": new_id,
+        "location": data.locationName,
+        "lat": data.region.latitude,
+        "long": data.region.longitude,
+        "description": data.locationData,
+        "img": data.cameraData.path,
+        "type": 1,
+        "difficulty": 1
+      });
+
+      await AsyncStorage.setItem(locationKey, JSON.stringify(_locatons)).then(() => {
+        console.log("Locations updated");
+      });
+    }).catch((e) => {
+      console.log(e);
+    });
+  },
+
+>>>>>>> Stashed changes
   // ------------- extra functions --------------------
 
   // POST /user/addPoints ?
@@ -142,9 +216,17 @@ export default Db = {
 
       this.setUser(userId, user); 0
 
+<<<<<<< Updated upstream
       return true;
     }
 
     return false;
+=======
+        user.score += point.points;
+
+        await this.setUser(userId, user);
+      }
+    });
+>>>>>>> Stashed changes
   }
 };

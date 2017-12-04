@@ -59,6 +59,37 @@ export default class NavButtons extends Component {
       );
     }
 
+<<<<<<< Updated upstream
+=======
+    if (this.props.showAccept || this.props.showAccept === undefined) {
+      viewContents.push(
+        <TouchableOpacity
+          key={"accpet"}
+          onPress={this.onBackClicked}
+        >
+          <Image
+            style={styles.accept}
+            source={require('../img/tick.png')}
+          />
+        </TouchableOpacity>
+      );
+    }
+
+    if (this.props.showDecline || this.props.showDecline === undefined) {
+      viewContents.push(
+        <TouchableOpacity
+          key={"decline"}
+          onPress={this.onDeclineClicked}
+        >
+          <Image
+            style={styles.decline}
+            source={require('../img/cross.png')}
+          />
+        </TouchableOpacity>
+      );
+    }
+
+>>>>>>> Stashed changes
     return (
       <View style={styles.wrapper}>
         {viewContents}

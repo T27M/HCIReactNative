@@ -3,10 +3,12 @@
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
 
-import Db           from '../data/Db';
-import NavButtons   from './NavButtons';
+import Db from '../data/Db';
+import NavButtons from './NavButtons';
 import ReadMoreView from './ReadMoreView';
 import HearMoreView from './HearMoreView';
+import AchievementManager from '../data/AchievementManager';
+import AchievementPopup from './AchievementPopup';
 
 import {
   View,
@@ -30,19 +32,9 @@ export default class ScanScreen extends Component {
     this.onSeeMoreClicked   = this.onSeeMoreClicked.bind(this);
 
     this.state = {
-        locationData: null
+      userId: 6,
+      locationData: null
     };
-  }
-
-  get locationData() {
-    return this.state.locationData
-  }
-
-  set locationData(location) {
-    this.setState((state) => {
-      state.locationData = location;
-      return state;
-    });
   }
 
   componentDidMount() {
@@ -63,46 +55,54 @@ export default class ScanScreen extends Component {
         // do nothing...
     }
 
-    if (jsonData && jsonData.id !== undefined) {
-      let location = Db.getLocation(jsonData.id);
-
-      if (location !== null) {
-          this.locationData = location;
-
-          // TODO get user ID
-          let userId = 6;
-
-          // update user score
-          Db.addPointsToUser(userId, this.locationData.difficulty);
-      }
+    if (!jsonData || jsonData.id === undefined) {
+      return;
     }
+
+    await Db.getLocation(jsonData.id).then(async (location) => {
+      if (location === null) {
+        return;
+      }
+
+      this.setState({locationData: location});
+
+      // update user score
+      await Db.addPointsToUser(this.state.userId, location.difficulty).then(() => {
+        ToastAndroid.show('Points added...', ToastAndroid.SHORT);
+      });
+
+      // let achievements = AchievementManager.checkForScanAchievement(this.state.userId, location.id);
+
+      // if (achievements.length > 0) {
+
+      // }
+    });
 
     this.refs.locationDetails.open()
   }
 
   onModalClose(e) {
-    this.locationData = null;
+    this.setState({locationData: null});
 
     this.refs.QRScanner.reactivate();
   }
 
-
   onReadMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    this.props.navigation.navigate(ReadMoreView.NAV_NAME, {locationData: this.locationData});
+    this.props.navigation.navigate(ReadMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
   onHearMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    this.props.navigation.navigate(HearMoreView.NAV_NAME, {locationData: this.locationData});
+    this.props.navigation.navigate(HearMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
   onSeeMoreClicked(e) {    
     this.refs.locationDetails.close();
-    
-    Linking.openURL('https://hcireactar.herokuapp.com/' + this.locationData.id)
+
+    Linking.openURL('https://hcireactar.herokuapp.com/' + this.state.locationData.id)
   }
 
   static getTopContent() {
@@ -133,7 +133,7 @@ export default class ScanScreen extends Component {
             position={"bottom"}
             onClosed={() => {this.onModalClose()}}
         >
-          <Text style={styles.text}>{(this.locationData !== null ? "You found " + this.locationData.location + "!" : "Invalid QR code")}</Text>
+          <Text style={styles.text}>{(this.state.locationData !== null ? "You found " + this.state.locationData.location + "!" : "Invalid QR code")}</Text>
 
           <Button onPress={this.onReadMoreClicked} style={styles.btn}>Read More</Button>
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>
