@@ -28,11 +28,6 @@ export default class TableView extends Component {
         highScore: users[i].score
       });
     }
-<<<<<<< Updated upstream
-
-    this.state = {
-        data: leaderboardData
-=======
   }
 
   async componentWillMount() {
@@ -42,25 +37,16 @@ export default class TableView extends Component {
   async onFocus(hasFocus) {
     if (!hasFocus) {
       return;
->>>>>>> Stashed changes
     }
   }
 
   render() {
     return (
-<<<<<<< Updated upstream
-        <Leaderboard
-          data={this.state.data}
-          sortBy='highScore'
-          labelBy='userName'/>
-        )
-=======
       <Leaderboard
         data={this.state.data}
         sortBy='highScore'
         labelBy='userName'
         enableEmptySections={true} />
     )
->>>>>>> Stashed changes
   }
 };
