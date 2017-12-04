@@ -5,7 +5,7 @@ import Camera from 'react-native-camera';
 import NavButtons from './NavButtons';
 
 export default class TakeImage extends Component
-{   
+{
   static NAV_NAME = "TakeImage";
   constructor(props)
   {
@@ -46,11 +46,11 @@ export default class TakeImage extends Component
     let renderCamera = this.state.renderCamera;
 
     let view = null;
-      
-      return ( 
-      (renderCamera && 
-        <View>
-          <Camera 
+
+      return (
+      (renderCamera &&
+        <View style={styles.container}>
+          <Camera
             ref={(cam) => {this.camera = cam;}}
             style={styles.preview}
             aspect={Camera.constants.Aspect.fill}>
@@ -58,7 +58,6 @@ export default class TakeImage extends Component
             <Text style={styles.capture} onPress={this.takePicture.bind(this)}>
             [Take Picture!]
             </Text>
-
           </Camera>
           <NavButtons
             navigation={this.props.navigation}
@@ -67,14 +66,14 @@ export default class TakeImage extends Component
           />
         </View>
       ) ||
-      (!renderCamera && 
-        <View> 
+      (!renderCamera &&
+        <View>
           <Image style={styles.camPreview} source={{uri: this.state.data}} />
           <NavButtons
           navigation={this.props.navigation}
           showBack={true}
           showBurger={false}
-          /> 
+          />
         </View>
       )
     );
@@ -83,6 +82,10 @@ export default class TakeImage extends Component
 
 
 const styles = StyleSheet.create({
+container: {
+  flex: 1,
+  flexDirection: 'row',
+},
 preview: {
  flex: 1,
  justifyContent: 'flex-end',
