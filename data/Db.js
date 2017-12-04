@@ -1,66 +1,94 @@
-const users       = require('./users.json');
-const locations   = require('./locations.json');
-const leaderboard = require('./leaderboard.json');
-const points      = require('./points.json');
-
 export default Db = {
+  get achievements() {
+    return require('./achievements.json');
+  },
+  get users() {
+    return require('./users.json');
+  },
+  get points() {
+    return require('./points.json');
+  },
+  get locations() {
+    return require('./locations.json');
+  },
 
   // ------------- get all --------------------
 
   // Users
   getUsers: function() {
-    return users;
+    return this.users;
   },
   getLocations: function() {
-    return locations;
+    return this.locations;
   },
-  getLeaderboard: function() {
-    return leaderboard;
-  },
+  // getLeaderboard: function() {
+  //   return leaderboard;
+  // },
   getPoints: function() {
-    return points;
+    return this.points;
+  },
+  getAchievements: function() {
+    return this.achievements;
   },
 
   // ------------- get specific record --------------------
 
   getUser: function(id) {
-    let results = users.filter((record) => {
+    let results = this.users.filter((record) => {
       return record.id === id
     });
 
     return (results.length === 1) ? results[0] : null;
   },
   getLocation: function(id) {
-    let results = locations.filter((record) => {
-      return record.title === id
+    let results = this.locations.filter((record) => {
+      return record.id === id
     });
 
     return (results.length === 1) ? results[0] : null;
   },
-  getLeaderboardEntry: function(rank) {
-    let results = leaderboard.sort((a, b) => {
-      return b.score - a.score;
-    });
-
-    return (results.length > rank - 1) ? results[rank] : null;
-  },
+  // getLeaderboardEntry: function(rank) {
+  //   let results = leaderboard.sort((a, b) => {
+  //     return b.score - a.score;
+  //   });
+  //
+  //   return (results.length > rank - 1) ? results[rank] : null;
+  // },
   getMarker: function(title) {
-    let results = markers.filter((record) => {
+    let results = this.markers.filter((record) => {
       return record.title === title
     });
 
     return (results.length === 1) ? results[0] : null;
   },
   getPoint: function(difficulty) {
-    let results = points.filter((record) => {
+    let results = this.points.filter((record) => {
       return record.difficulty === difficulty
     });
 
     return (results.length === 1) ? results[0] : null;
   },
+  getAchievement: function(id) {
+    let results = this.achievements.filter((record) => {
+      return record.id === id
+    });
 
+    return (results.length === 1) ? results[0] : null;
+  },
   // ------------- set specific records --------------------
 
+  setAchievement: function(id, achievement) {
+    let record = this.getAchievement(id);
+
+    for (let key in achievement) {
+      if (achievement.hasOwnProperty(key) && record.hasOwnProperty(key)) {
+        record[key] = achievement[key];
+      }
+    }
+
+    // TODO figure out how to do this without having to recommit/gitignore the JSON files.
+    console.log("Editing achievement " + id + " to: " + JSON.stringify(record));
+  },
   setUser: function(id, user) {
     let record = this.getUser(id);
 
