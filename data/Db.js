@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import {
   AsyncStorage
@@ -7,6 +8,7 @@ const users = require('./users.json');
 const locations = require('./locations.json');
 const points = require('./points.json');
 const achievements = require('./achievements.json');
+const userAchievements = require('./user_achievement.json');
 
 const dbInitKey = "init";
 const userKey = 'users';
@@ -38,6 +40,7 @@ export default Db = {
     });
   },
 
+
   // ------------- get all --------------------
 
   // Users
@@ -53,7 +56,9 @@ export default Db = {
   getAchievements: async function () {
     return await AsyncStorage.getItem('achievements');
   },
-
+  getUserAchievements: async function () {
+    return userAchievements
+  },
   // ------------- get specific record --------------------
 
   getUser: async function (id) {
@@ -154,6 +159,10 @@ export default Db = {
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
+  addUserAchievement(userAchievement) {
+    console.log("Adding user achievement " + JSON.stringify(userAchievement));
+  },
+
   addLocation: function(data) {
     let newLocation = {
       //Increment the id from the latest one in the storage
@@ -177,7 +186,7 @@ export default Db = {
 
     await this.getUser(userId).then(async (user) => {
       if (user !== null && point !== null) {
-        
+
         console.log(user);
 
         user.score += point.points;

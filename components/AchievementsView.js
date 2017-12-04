@@ -1,10 +1,11 @@
 'use strict';
 
-import React, { Component } from 'react';
-import NavButtons from './NavButtons';
-import infoStyles from '../styles/info_page';
-import accordionStyles from '../styles/accordion';
-import Db from '../data/Db';
+import React, { Component }   from 'react';
+import NavButtons             from './NavButtons';
+import infoStyles             from '../styles/info_page';
+import accordionStyles        from '../styles/accordion';
+import Db                     from '../data/Db';
+import AchievementManager     from '../data/AchievementManager';
 
 import {
   View,
@@ -42,8 +43,9 @@ export default class AchievementsView extends Component {
 
       achievements.forEach((el, i) => {
         el.key = el.id;     // FlatList requires each item to have a key
+        el.achieved = AchievementManager.hasUserAchievedAchievement(userId, el.id);
       });
-
+      
       this.setState({ data: achievements });
     }).catch((e) => {
         console.log(e);

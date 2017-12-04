@@ -1,12 +1,14 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
+import { Linking }        from 'react-native';
 
-import Db from '../data/Db';
-import NavButtons from './NavButtons';
-import ReadMoreView from './ReadMoreView';
-import HearMoreView from './HearMoreView';
+import Db                 from '../data/Db';
+import NavButtons         from './NavButtons';
+import ReadMoreView       from './ReadMoreView';
+import HearMoreView       from './HearMoreView';
+import AchievementManager from '../data/AchievementManager';
+import AchievementPopup   from './AchievementPopup';
 
 import {
   View,
@@ -77,6 +79,12 @@ export default class ScanScreen extends Component {
         await Db.addPointsToUser(userId, this.locationData.difficulty).then(() => {
           ToastAndroid.show('Points added...', ToastAndroid.SHORT);
         });
+
+        let achievements = AchievementManager.checkForScanAchievement(userId, this.locationData.id);
+
+        if (achievements.length > 0) {
+
+        }
       }
     }
 
@@ -87,6 +95,10 @@ export default class ScanScreen extends Component {
     this.locationData = null;
 
     this.refs.QRScanner.reactivate();
+
+    return (
+      <AchievementPopup />
+    )
   }
 
 
