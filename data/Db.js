@@ -181,8 +181,8 @@ export default Db = {
         console.log(user);
 
         user.score += point.points;
-
-        this.setUser(userId, user);
+        
+        await this.setUser(userId, user);
       }
     });
   }
