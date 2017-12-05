@@ -184,9 +184,11 @@ export default class HearMoreView extends Component {
     return (
       <View style={styles.wrapper}>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={true}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {true}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <View style={styles.wrapper}>

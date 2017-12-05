@@ -83,7 +83,7 @@ export default class Map extends Component {
   }
 
   onRegionChange(region) {
-      this.setState({ region });
+    this.setState({ region });
   }
 
   render() {

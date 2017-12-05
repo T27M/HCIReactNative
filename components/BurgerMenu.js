@@ -7,9 +7,9 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  ToastAndroid
+  ToastAndroid,
+  Image
 } from 'react-native';
-
 
 import AddLocation              from './AddLocation';
 import Button                   from 'react-native-button';
@@ -80,7 +80,7 @@ export default class BurgerMenu extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.wrapper}>
+      <ScrollView contentContainerStyle={styles.wrapper}>
         <NavButtons
           navigation={this.props.navigation}
           showBack={true}
@@ -90,6 +90,11 @@ export default class BurgerMenu extends Component {
         />
 
         <View style={styles.buttonWrapper}>
+          <Image
+            style={styles.logo}
+            source={require('../img/logo.png')}
+          />
+
           <Button onPress={this.onFAQClicked}                 style={styles.btn}>FAQs</Button>
           <Button onPress={this.onNewLocationsClicked}        style={styles.btn}>Add a new location</Button>
           <Button onPress={this.onAchievementsClicked}        style={styles.btn}>Achievements</Button>
@@ -99,12 +104,13 @@ export default class BurgerMenu extends Component {
           {this.state.devCode && <Button onPress={this.onInitDbClicked}           style={styles.btn}>Init Db</Button>}
           {this.state.devCode && <Button onPress={this.onResetDbClicked}          style={styles.btn}>Reset Db</Button>}
 
-          <FormInput
-              onChangeText={this.onInputChange}
-              defaultValue=""
-              secureTextEntry={true}
-          />
         </View>
+
+        <FormInput
+          onChangeText={this.onInputChange}
+          defaultValue=""
+          secureTextEntry={true}
+        />
       </ScrollView>
     );
   }
@@ -125,4 +131,8 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 10
   },
+  logo: {
+    width: 200,
+    height: 100
+  }
 });

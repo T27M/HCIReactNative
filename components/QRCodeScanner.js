@@ -34,7 +34,6 @@ export default class ScanScreen extends Component {
     this.onSeeMoreClicked = this.onSeeMoreClicked.bind(this);
 
     this.state = {
-      userId: 6,
       locationData: null
     };
   }
@@ -71,35 +70,36 @@ export default class ScanScreen extends Component {
       return;
     }
 
-    await Db.getLocation(jsonData.id).then(async (location) => {
-      if (location === null) {
-        return;
-      }
+    let location = await Db.getLocation(jsonData.id);
+    let userId   = Db.getCurrentUserId();
 
-      this.setState({ locationData: location });
+    if (location === null) {
+      return;
+    }
 
-      let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
+    this.setState({ locationData: location });
 
-      if (achievements.length > 0) {
-        this.refs.popup.open(achievements[0].title);
-      }
+    let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
 
-      let log        = await Db.getUserAchievementEventLog(); // TODO make user promises once getLog uses Toms stuff
-      log            = log.filter(event => event.event_type === AchievementManager.SCAN_EVENT);
-      let newLocScan = true;
-      log.forEach((event) => {
-        if (event.locationId === this.locationData.id && event.userId === userId) {
-          newLocScan = true;
-        }
-      });
+    if (achievements.length > 0) {
+      this.refs.popup.open(achievements[0].title);
+    }
 
-      if (newLocScan) {
-        // update user score
-        await Db.addPointsToUser(this.state.userId, location.difficulty).then(() => {
-          ToastAndroid.show('Points added...', ToastAndroid.SHORT);
-        });
+    let log        = await Db.getUserAchievementEventLog(); // TODO make user promises once getLog uses Toms stuff
+    log            = log.filter(event => event.event_type === AchievementManager.SCAN_EVENT);
+    let newLocScan = true;
+    log.forEach((event) => {
+      if (event.locationId === this.locationData.id && event.userId === userId) {
+        newLocScan = true;
       }
     });
+
+    if (newLocScan) {
+      // update user score
+      await Db.addPointsToUser(userId, location.difficulty).then(() => {
+        ToastAndroid.show('Points added...', ToastAndroid.SHORT);
+      });
+    }
 
     this.refs.locationDetails.open();
   }
@@ -139,11 +139,11 @@ export default class ScanScreen extends Component {
       <View style={styles.wrapper}>
 
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={false}
-          showBurger={true}
-          showAccept={false}
-          showDecline={false}
+          navigation  = {this.props.navigation}
+          showBack    = {false}
+          showBurger  = {true}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <QRCodeScanner

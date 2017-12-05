@@ -63,9 +63,11 @@ export default class FAQsView extends Component {
     return (
       <ScrollView contentContainerStyle={infoStyles.scrollWrapper}>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={false}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {false}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <View style={infoStyles.wrapper}>

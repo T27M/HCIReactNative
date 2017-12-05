@@ -26,7 +26,7 @@ export default class AccountSettingsView extends Component {
     this.resetAccount = this.resetAccount.bind(this);
 
     this.state = {
-      user_id: 6,
+      user_id: Db.getCurrentUserId(),
       username: ""
     };
   }
@@ -58,9 +58,11 @@ export default class AccountSettingsView extends Component {
     return (
       <ScrollView contentContainerStyle={infoStyles.scrollWrapper}>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={false}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {false}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <View style={infoStyles.wrapper}>

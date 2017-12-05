@@ -36,7 +36,6 @@ export default class AchievementsView extends Component {
   async componentWillMount() {
     let achievements = await Db.getAchievements();
 
-    // TODO get user id
     let userId = Db.getCurrentUserId();
 
     for (let key in achievements) {
@@ -86,9 +85,11 @@ export default class AchievementsView extends Component {
     return (
       <ScrollView contentContainerStyle={infoStyles.scrollWrapper}>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={false}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {false}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <View style={infoStyles.wrapper}>

@@ -73,11 +73,11 @@ export default class TakeImage extends Component
         <View style={styles.container}>
           <Image style={styles.camPreview} source={{uri: this.state.data}} />
           <NavButtons
-          navigation={this.props.navigation}
-          showBack={false}
-          showBurger={false}
-          showAccept={true}
-          showDecline={true}
+            navigation={this.props.navigation}
+            showBack={false}
+            showBurger={false}
+            showAccept={true}
+            showDecline={true}
           />
         </View>
       )

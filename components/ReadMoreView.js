@@ -38,9 +38,11 @@ export default class ReadMoreView extends Component {
     return (
       <ScrollView contentContainerStyle={styles.scrollWrapper}>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={true}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {true}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <View style={styles.wrapper}>

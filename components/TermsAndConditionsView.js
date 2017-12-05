@@ -24,11 +24,12 @@ export default class TermsAndConditionsView extends Component {
     return (
       <ScrollView contentContainerStyle={styles.scrollWrapper}>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={false}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {false}
+          showAccept  = {false}
+          showDecline = {false}
         />
-
         <View style={styles.wrapper}>
           <View style={styles.titleView}>
             <Text style={styles.title}>T&Cs</Text>
