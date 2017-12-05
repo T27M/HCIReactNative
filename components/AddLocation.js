@@ -37,17 +37,23 @@ export default class AddLocation extends Component {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.setState({
-          region: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          },
-          error: null,
-        });
+        if (this.mounted) {
+          this.setState({
+            region: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            },
+            error: null,
+          });
+        }
       },
-      (error) => this.setState({ error: error.message }),
+      (error) => {
+        if (this.mounted) {
+          this.setState({ error: error.message })
+        }
+      },
       { timeout: 20000, maximumAge: 1000 },
     );
   }
@@ -58,6 +64,11 @@ export default class AddLocation extends Component {
 
   componentDidMount(){
     Logger.logEvent(Logger.FOCUS_EVENT, { component: "AddLocation" });
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   onImagePress(e) {
@@ -90,8 +101,6 @@ export default class AddLocation extends Component {
   }
 
   updateName(e) {
-
-
     this.setState({locationName : e });
   }
 

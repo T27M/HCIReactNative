@@ -54,7 +54,8 @@ export default class ScanScreen extends Component {
   }
 
   onFocus(focussed) {
-    this.refs.QRScanner._setScanning(!focussed); // call _setScanning(false) to reactivate | _setScanning(true) to deactivate. See https://github.com/moaazsidat/react-native-qrcode-scanner/blob/master/index.js
+    //  this.refs.QRScanner._setScanning(!focussed); // call _setScanning(false) to reactivate | _setScanning(true) to deactivate. See https://github.com/moaazsidat/react-native-qrcode-scanner/blob/master/index.js
+    this.setState({ focussed: focussed });   // using this instead of _setScanning as it allows for the camera in AddLocation to load
 
     if (focussed)
       Logger.logEvent(Logger.FOCUS_EVENT, { component: "QRCodeScanner" });
@@ -156,12 +157,12 @@ export default class ScanScreen extends Component {
           showAccept  = {false}
           showDecline = {false}
         />
-
-        <QRCodeScanner
-          ref={"QRScanner"}
-          topContent={ScanScreen.getTopContent()}
-          onRead={(e) => { this.onScannerRead(e) }}
-        />
+        {this.state.focussed &&
+                <QRCodeScanner
+                  ref={"QRScanner"}
+                  topContent={ScanScreen.getTopContent()}
+                  onRead={(e) => { this.onScannerRead(e) }}
+                />}
 
         <Modal
           ref={"locationDetails"}
