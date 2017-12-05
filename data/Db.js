@@ -213,6 +213,14 @@ export default Db = {
     await AsyncStorage.getItem(logKey).then((value) =>{
       let _log = JSON.parse(value);
 
+      let _console_out = {
+        "event-type": eventType,
+        "created": data.created,
+        "other-field": "something" 
+      };
+      console.log(_console_out);
+
+      // This doesn't work with variable?
       _log.push({
         "event-type": eventType,
         "created": data.created,

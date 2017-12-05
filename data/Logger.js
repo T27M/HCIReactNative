@@ -20,7 +20,7 @@ export default class Logger {
       console.log(e)
     });
   }
-  
+
   async getlog() {
     await Db.getlog().then((value) => {
       let _log = JSON.parse(value);
