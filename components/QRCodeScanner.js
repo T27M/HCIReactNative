@@ -75,13 +75,13 @@ export default class ScanScreen extends Component {
         // TODO get user ID
         let userId = 6;
 
-        let achievements = AchievementManager.checkForScanAchievement(userId, this.locationData.id);
-
+        let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
+        console.log("Return val ", achievements);
         if (achievements.length > 0) {
           this.refs.popup.open(achievements[0].title);
         }
 
-        let log        = Logger.getlog(eventType); // TODO make user promises once getLog uses Toms stuff
+        let log        = await Logger.getlog(Logger.SCAN_EVENT_LOG); // TODO make user promises once getLog uses Toms stuff
         let newLocScan = true;
         log.forEach((event) => {
           if (event.locationId === this.locationData.id && event.userId === userId) {

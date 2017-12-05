@@ -13,22 +13,24 @@ const userAchievements = require('./user_achievements.json');
 const dbInitKey = "init";
 const userKey = 'users';
 const achievementKey = 'achievements';
+const userAchievementsKey = 'userAchievements';
 
-const dbKeys = [dbInitKey, userKey, achievementKey];
+const dbKeys = [dbInitKey, userKey, achievementKey, userAchievementsKey];
 
 async function populateDatabase() {
   await AsyncStorage.multiSet([
     [userKey, JSON.stringify(users)],
     [achievementKey, JSON.stringify(achievements)],
+    [userAchievementsKey, JSON.stringify(userAchievements)],
     [dbInitKey, '1']
-  ]).then(() => {
+  ]).then(async () => {
     console.log("Populate DB");
   });
 }
 
 export default Db = {
   initDb: async function () {
-    await AsyncStorage.getItem(dbInitKey).then((value) => {
+    await AsyncStorage.getItem(dbInitKey).then(async (value) => {
       if (value == null) {
         populateDatabase();
       }
@@ -54,10 +56,10 @@ export default Db = {
     return points;
   },
   getAchievements: async function () {
-    return await AsyncStorage.getItem('achievements');
+    return JSON.parse(await AsyncStorage.getItem('achievements'));
   },
   getUserAchievements: async function () {
-    return userAchievements
+    return JSON.parse(await AsyncStorage.getItem(userAchievementsKey));
   },
   // ------------- get specific record --------------------
 
@@ -104,17 +106,8 @@ export default Db = {
   // ------------- set specific records --------------------
 
   resetAchievements: async function () {
-    // reset achievements
-    await this.getAchievements().then(async (value) => {
-      let _achievements = JSON.parse(value);
-
-      achievements.forEach((el) => {
-        el.achieved = false
-      });
-
-      await AsyncStorage.setItem(achievementKey, JSON.stringify(_achievements)).then(() => {
-        console.log("Achievements reset");
-      });
+    await AsyncStorage.setItem(userAchievementsKey, JSON.stringify([])).then(() => {
+      console.log("User Achievements reset");
     });
   },
 
@@ -159,8 +152,23 @@ export default Db = {
     console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
-  addUserAchievement(userAchievement) {
-    console.log("Adding user achievement " + JSON.stringify(userAchievement));
+  async addUserAchievement(userAchievement) {
+    userAchievements = await this.getUserAchievements();
+    let alreadyExists = false;
+    for (let userAchievementTemp in userAchievements) {
+      if (userAchievement.user_id === userAchievementTemp.user_id && userAchievement.achievement_id === userAchievementTemp.achievement_id) {
+        alreadyExists = true;
+      }
+    }
+
+    if (!alreadyExists) {
+      console.log("Adding user achievement " + JSON.stringify(userAchievement));
+
+      userAchievements.push(userAchievement);
+      await AsyncStorage.setItem(userAchievementsKey, JSON.stringify(userAchievements)).then(() => {
+        console.log("Added user achievement");
+      });
+    }
   },
 
   addLocation: function(data) {

@@ -46,7 +46,7 @@ export default class TableView extends Component {
           highScore: users[i].score
         });
       }
-      
+
       this.setState({ data: leaderboardData });
     }).catch((e) => {
       console.log(e);

@@ -28,6 +28,11 @@ import AchievementsView         from './components/AchievementsView';
 import TermsAndConditionsView   from './components/TermsAndConditionsView';
 import Db from './data/Db';
 
+
+
+Db.resetDb()
+Db.initDb()
+
 class App extends Component {
   static NAV_NAME = "Index";
 
