@@ -4,25 +4,27 @@ import {
   AsyncStorage
 } from 'react-native';
 
-const users = require('./users.json');
-const locations = require('./locations.json');
-const points = require('./points.json');
-const achievements = require('./achievements.json');
-const userAchievements = require('./user_achievements.json');
+const users                      = require('./users.json');
+const locations                  = require('./locations.json');
+const points                     = require('./points.json');
+const achievements               = require('./achievements.json');
+const userAchievements           = require('./user_achievements.json');
 
-const dbInitKey = "init";
-const userKey = 'users';
-const achievementKey = 'achievements';
-const userAchievementsKey = 'userAchievements';
+const dbInitKey                  = "init";
+const userKey                    = 'users';
+const locationKey                = 'locations';
+const userAchievementsKey        = 'user_achievements';
+const userAchievementEventLogKey = "user_achievement_event_log";
 
-const dbKeys = [dbInitKey, userKey, achievementKey, userAchievementsKey];
+const dbKeys = [dbInitKey, userKey, locationKey, userAchievementsKey, userAchievementEventLogKey];
 
 async function populateDatabase() {
   await AsyncStorage.multiSet([
-    [userKey, JSON.stringify(users)],
-    [achievementKey, JSON.stringify(achievements)],
-    [userAchievementsKey, JSON.stringify(userAchievements)],
-    [dbInitKey, '1']
+    [userKey,                     JSON.stringify(users)],
+    [userAchievementsKey,         JSON.stringify(userAchievements)],
+    [userAchievementEventLogKey,  JSON.stringify([])],
+    [locationKey,                 JSON.stringify(locations)],
+    [dbInitKey,                   '1']
   ]).then(async () => {
     console.log("Populate DB");
   });
@@ -42,32 +44,32 @@ export default Db = {
     });
   },
 
-
   // ------------- get all --------------------
 
   // Users
   getUsers: async function () {
-    return await AsyncStorage.getItem('users');
+    return JSON.parse(await AsyncStorage.getItem(userKey));
   },
-  getLocations: function () {
-    return locations;
+  getLocations: async function () {
+    return JSON.parse(await AsyncStorage.getItem(locationKey));
   },
   getPoints: function () {
     return points;
   },
-  getAchievements: async function () {
-    return JSON.parse(await AsyncStorage.getItem('achievements'));
+  getAchievements: function () {
+    return achievements;
   },
   getUserAchievements: async function () {
     return JSON.parse(await AsyncStorage.getItem(userAchievementsKey));
   },
+  getUserAchievementEventLog: async function () {
+    return JSON.parse(await AsyncStorage.getItem(userAchievementEventLogKey));
+  },
+
   // ------------- get specific record --------------------
 
   getUser: async function (id) {
-    return await AsyncStorage.getItem('users').then((value) => {
-
-      let _users = JSON.parse(value);
-
+    return await this.getUsers().then((_users) => {
       let results = _users.filter((record) => {
         return record.id === id
       });
@@ -75,12 +77,14 @@ export default Db = {
       return (results.length === 1) ? results[0] : null;
     });
   },
-  getLocation: function (id) {
-    let results = locations.filter((record) => {
-      return record.id === id
-    });
+  getLocation: async function (id) {
+    return await this.getLocations().then((_locatons) => {
+      let results = _locatons.filter((record) => {
+        return record.id === id
+      });
 
-    return (results.length === 1) ? results[0] : null;
+      return (results.length === 1) ? results[0] : null;
+    });
   },
   getMarker: function (title) {
     let results = markers.filter((record) => {
@@ -111,18 +115,6 @@ export default Db = {
     });
   },
 
-  setAchievement: function (id, achievement) {
-    let record = this.getAchievement(id);
-
-    for (let key in achievement) {
-      if (achievement.hasOwnProperty(key) && record.hasOwnProperty(key)) {
-        record[key] = achievement[key];
-      }
-    }
-
-    // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing achievement " + id + " to: " + JSON.stringify(record));
-  },
   setUser: async function (id, user) {
     await this.getUsers().then(async (value) => {
       let _users = JSON.parse(value);
@@ -138,18 +130,6 @@ export default Db = {
         console.log("Users updated");
       });
     });
-  },
-  setLocation: function (id, location) {
-    let record = this.getLocation(id);
-
-    for (let key in location) {
-      if (location.hasOwnProperty(key) && record.hasOwnProperty(key)) {
-        record[key] = location[key];
-      }
-    }
-
-    // TODO figure out how to do this without having to recommit/gitignore the JSON files.
-    console.log("Editing Location " + id + " to: " + JSON.stringify(record));
   },
 
   async addUserAchievement(userAchievement) {
@@ -171,21 +151,28 @@ export default Db = {
     }
   },
 
-  addLocation: function(data) {
-    let newLocation = {
-      //Increment the id from the latest one in the storage
-      "id": 'INCREMENT ME',
-      "location": data.locationName,
-      "lat": data.region.latitude,
-      "long": data.region.longitude,
-      "description": data.locationData,
-      "img": data.cameraData.path,
-      "type": 1,
-      "difficulty": 1
-    }
-    //Add this new json object to the async storage
+  addLocation: async function (data) {
+    await this.getLocations().then(async (value) => {
+      let _locatons = JSON.parse(value);
+      let new_id = (_locatons[_locatons.length - 1].id) + 1;
 
-    console.log("This is adding the new thing \n" + JSON.stringify(newLocation));
+      _locatons.push({
+        "id": new_id,
+        "location": data.locationName,
+        "lat": data.region.latitude,
+        "long": data.region.longitude,
+        "description": data.locationData,
+        "img": data.cameraData.path,
+        "type": 1,
+        "difficulty": 1
+      });
+
+      await AsyncStorage.setItem(locationKey, JSON.stringify(_locatons)).then(() => {
+        console.log("Locations updated");
+      });
+    }).catch((e) => {
+      console.log(e);
+    });
   },
 
   // ------------- extra functions --------------------
@@ -194,13 +181,29 @@ export default Db = {
 
     await this.getUser(userId).then(async (user) => {
       if (user !== null && point !== null) {
-
-        console.log(user);
+        console.log("Adding " + point.points + " points to user " + userId);
 
         user.score += point.points;
 
-        this.setUser(userId, user);
+        await this.setUser(userId, user);
       }
     });
-  }
+  },
+  logUserAchievementEvent: async function(eventType, userId, data) {
+    let log = await this.getUserAchievementEventLog();
+    log     = JSON.parse(log);
+
+    data.event_type   = eventType;
+    data.user_id      = userId;
+    data.created      = Date.now();
+
+    log.push(data);
+
+    await AsyncStorage.setItem(userAchievementEventLogKey, log);
+  },
+
+  getCurrentUserId: function () {
+    // TODO get user id
+    return 6;
+  },
 };

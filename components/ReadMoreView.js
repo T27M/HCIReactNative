@@ -28,8 +28,8 @@ export default class ReadMoreView extends Component {
       banner = (
         <View style={styles.imageView}>
           <Image
-              style={styles.image}
-              source={{uri: this.locationData.media.img[0]}}
+            style={styles.image}
+            source={{uri: this.locationData.media.img[0]}}
           />
         </View>
       );
@@ -48,8 +48,8 @@ export default class ReadMoreView extends Component {
             <Text style={styles.title}>{this.locationData.location}</Text>
 
             <Image
-                style={styles.icon}
-                source={require('../img/read_more_icon.png')}
+              style={styles.icon}
+              source={require('../img/read_more_icon.png')}
             />
           </View>
 
@@ -57,7 +57,7 @@ export default class ReadMoreView extends Component {
 
           <View style={styles.contentView}>
             <Text style={styles.content}>
-                {this.locationData.description}
+              {this.locationData.description}
             </Text>
           </View>
         </View>

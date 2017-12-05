@@ -8,11 +8,10 @@ import {
   ListView,
 } from 'react-native';
 
-import Db from '../data/Db';
-
-import Leaderboard from 'react-native-leaderboard';
-
-const tableHead = ['User ID', 'Username', 'Score'];
+import Db           from '../data/Db';
+import Logger       from '../data/Logger'
+import Leaderboard  from 'react-native-leaderboard';
+import NavButtons   from './NavButtons';
 
 export default class TableView extends Component {
   constructor(props) {
@@ -26,18 +25,17 @@ export default class TableView extends Component {
   }
 
   async componentWillMount() {
-    await this.onFocus();
+    await this.onFocus(true);
   }
 
   async onFocus(hasFocus) {
-
     if (!hasFocus) {
       return;
     }
 
-    await Db.getUsers().then((value) => {
+    await Logger.logEvent("onFocus", "", { component: "Table" });
 
-      users = JSON.parse(value);
+    await Db.getUsers().then((users) => {
       leaderboardData = [];
 
       for (let i = 0; i < users.length; i++) {
@@ -55,10 +53,23 @@ export default class TableView extends Component {
 
   render() {
     return (
-      <Leaderboard
-        data={this.state.data}
-        sortBy='highScore'
-        labelBy='userName' />
+      <View>
+        <NavButtons
+          navigation  = {this.props.navigation}
+          showBack    = {false}
+          showBurger  = {true}
+          showAccept  = {false}
+          showDecline = {false}
+        />
+        <View style={{top: 60}}>
+          <Leaderboard
+            data={this.state.data}
+            sortBy='highScore'
+            labelBy='userName'
+            enableEmptySections={true}
+          />
+        </View>
+      </View>
     )
   }
 };

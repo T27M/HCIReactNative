@@ -6,41 +6,42 @@ import {
   View,
 } from 'react-native';
 
-import Swiper from 'react-native-swiper'
-import randomcolor from 'randomcolor'
-
-import TableView from './components/Table'
-import Map from './components/Map'
-import ScanScreen from './components/QRCodeScanner'
+import Swiper                 from 'react-native-swiper'
+import randomcolor            from 'randomcolor'
+import TableView              from './components/Table'
+import Map                    from './components/Map'
+import ScanScreen             from './components/QRCodeScanner'
 import { PermissionsAndroid } from 'react-native';
-
-import { StackNavigator } from 'react-navigation';
-
-
-import AddLocation              from './components/AddLocation';
-import TakeImage                from './components/TakeImage';
-import ReadMoreView             from './components/ReadMoreView';
-import HearMoreView             from './components/HearMoreView';
-import BurgerMenu               from "./components/BurgerMenu";
-import FAQsView                 from './components/FAQsView';
-import AccountSettingsView      from './components/AccountSettingsView';
-import AchievementsView         from './components/AchievementsView';
-import TermsAndConditionsView   from './components/TermsAndConditionsView';
-import Db from './data/Db';
-
+import { StackNavigator }     from 'react-navigation';
+import AddLocation            from './components/AddLocation';
+import TakeImage              from './components/TakeImage';
+import ReadMoreView           from './components/ReadMoreView';
+import HearMoreView           from './components/HearMoreView';
+import BurgerMenu             from "./components/BurgerMenu";
+import FAQsView               from './components/FAQsView';
+import AccountSettingsView    from './components/AccountSettingsView';
+import AchievementsView       from './components/AchievementsView';
+import TermsAndConditionsView from './components/TermsAndConditionsView';
+import Db                     from './data/Db';
+import Log                    from './data/Logger';
 
 class App extends Component {
   static NAV_NAME = "Index";
 
   constructor(props, context) {
     super(props, context);
-    this.test = 6;
+
     this.onIndexChanged = this.onIndexChanged.bind(this);
   }
 
   async componentWillMount() {
+    // If data broken
+    await Db.resetDb()
     await Db.initDb();
+
     await this.requestCameraPermission();
+
+    this.onIndexChanged(1);
   }
 
   async requestCameraPermission() {
@@ -72,8 +73,10 @@ class App extends Component {
     }
   }
 
+
   onIndexChanged(index) {
     this.TableView.onFocus(index == 0);
+    this.Map.onFocus(index == 1);
     this.ScanScreen.onFocus(index == 2); // notify ScanScreen so that it can enable scanning
   }
 
@@ -89,10 +92,13 @@ class App extends Component {
         <View>
           <TableView
             ref={(n) => { this.TableView = n }}
+            styles={styles}
+            navigation={this.props.navigation}
           />
         </View>
 
         <Map
+          ref={(n) => { this.Map = n }}
           navigation={this.props.navigation}
           styles={styles}
         />

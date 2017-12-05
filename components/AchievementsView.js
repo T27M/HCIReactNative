@@ -34,22 +34,19 @@ export default class AchievementsView extends Component {
   }
 
   async componentWillMount() {
-    await Db.getAchievements().then((value) => {
+    let achievements = await Db.getAchievements();
 
-      let achievements = JSON.parse(value);
+    // TODO get user id
+    let userId = Db.getCurrentUserId();
 
-      // TODO get user id
-      let userId = 3;
+    for (let key in achievements) {
+      let el = achievements[key];
+      el.key = el.id;     // FlatList requires each item to have a key
+      el.achieved = await AchievementManager.hasUserAchievedAchievement(userId, el.id);
+      achievements[key] = el;
+    }
 
-      achievements.forEach((el, i) => {
-        el.key = el.id;     // FlatList requires each item to have a key
-        el.achieved = AchievementManager.hasUserAchievedAchievement(userId, el.id);
-      });
-      
-      this.setState({ data: achievements });
-    }).catch((e) => {
-        console.log(e);
-    });
+    this.setState({ data: achievements });
   }
 
   // renders individual Q and A

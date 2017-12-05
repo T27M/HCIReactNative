@@ -34,6 +34,7 @@ export default class ScanScreen extends Component {
     this.onSeeMoreClicked = this.onSeeMoreClicked.bind(this);
 
     this.state = {
+      userId: 6,
       locationData: null
     };
   }
@@ -66,64 +67,65 @@ export default class ScanScreen extends Component {
       // do nothing...
     }
 
-    if (jsonData && jsonData.id !== undefined) {
-      let location = Db.getLocation(jsonData.id);
-
-      if (location !== null) {
-        this.locationData = location;
-
-        // TODO get user ID
-        let userId = 6;
-
-        let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
-        console.log("Return val ", achievements);
-        if (achievements.length > 0) {
-          this.refs.popup.open(achievements[0].title);
-        }
-
-        let log        = await Logger.getlog(Logger.SCAN_EVENT_LOG); // TODO make user promises once getLog uses Toms stuff
-        let newLocScan = true;
-        log.forEach((event) => {
-          if (event.locationId === this.locationData.id && event.userId === userId) {
-            newLocScan = true;
-          }
-        });
-
-        if (newLocScan) {
-          // update user score
-          await Db.addPointsToUser(userId, this.locationData.difficulty).then(() => {
-            ToastAndroid.show('Points added...', ToastAndroid.SHORT);
-          });
-        }
-      }
+    if (!jsonData || jsonData.id === undefined) {
+      return;
     }
+
+    await Db.getLocation(jsonData.id).then(async (location) => {
+      if (location === null) {
+        return;
+      }
+
+      this.setState({ locationData: location });
+
+      let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
+
+      if (achievements.length > 0) {
+        this.refs.popup.open(achievements[0].title);
+      }
+
+      let log        = await Db.getUserAchievementEventLog(); // TODO make user promises once getLog uses Toms stuff
+      log            = log.filter(event => event.event_type === AchievementManager.SCAN_EVENT);
+      let newLocScan = true;
+      log.forEach((event) => {
+        if (event.locationId === this.locationData.id && event.userId === userId) {
+          newLocScan = true;
+        }
+      });
+
+      if (newLocScan) {
+        // update user score
+        await Db.addPointsToUser(this.state.userId, location.difficulty).then(() => {
+          ToastAndroid.show('Points added...', ToastAndroid.SHORT);
+        });
+      }
+    });
 
     this.refs.locationDetails.open();
   }
 
   onModalClose(e) {
-    this.locationData = null;
+    this.setState({ locationData: null });
 
     this.refs.QRScanner.reactivate();
   }
 
-
   onReadMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    this.props.navigation.navigate(ReadMoreView.NAV_NAME, { locationData: this.locationData });
+    this.props.navigation.navigate(ReadMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
   onHearMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    this.props.navigation.navigate(HearMoreView.NAV_NAME, { locationData: this.locationData });
+    this.props.navigation.navigate(HearMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
   onSeeMoreClicked(e) {
     this.refs.locationDetails.close();
 
-    Linking.openURL('https://hcireactar.herokuapp.com/' + this.locationData.id)
+    Linking.openURL('https://hcireactar.herokuapp.com/' + this.state.locationData.id)
   }
 
   static getTopContent() {
@@ -156,7 +158,7 @@ export default class ScanScreen extends Component {
           position={"bottom"}
           onClosed={() => { this.onModalClose() }}
         >
-          <Text style={styles.text}>{(this.locationData !== null ? "You found " + this.locationData.location + "!" : "Invalid QR code")}</Text>
+          <Text style={styles.text}>{(this.state.locationData !== null ? "You found " + this.state.locationData.location + "!" : "Invalid QR code")}</Text>
 
           <Button onPress={this.onReadMoreClicked} style={styles.btn}>Read More</Button>
           <Button onPress={this.onHearMoreClicked} style={styles.btn}>Hear More</Button>

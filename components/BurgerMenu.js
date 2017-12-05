@@ -95,9 +95,9 @@ export default class BurgerMenu extends Component {
           <Button onPress={this.onAchievementsClicked}        style={styles.btn}>Achievements</Button>
           <Button onPress={this.onTermsAndConditionsClicked}  style={styles.btn}>Terms and Conditions</Button>
 
-          {this.state.devCode && <Button onPress={this.onAccountSettingsClicked} style={styles.btn}>Account Settings</Button>}
-          {this.state.devCode && <Button onPress={this.onInitDbClicked}  style={styles.btn}>Init Db</Button>}     
-          {this.state.devCode && <Button onPress={this.onResetDbClicked}  style={styles.btn}>Reset Db</Button>}
+          {this.state.devCode && <Button onPress={this.onAccountSettingsClicked}  style={styles.btn}>Account Settings</Button>}
+          {this.state.devCode && <Button onPress={this.onInitDbClicked}           style={styles.btn}>Init Db</Button>}
+          {this.state.devCode && <Button onPress={this.onResetDbClicked}          style={styles.btn}>Reset Db</Button>}
 
           <FormInput
               onChangeText={this.onInputChange}

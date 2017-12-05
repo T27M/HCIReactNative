@@ -173,8 +173,8 @@ export default class HearMoreView extends Component {
       banner = (
         <View style={styles.imageView}>
           <Image
-              style={styles.image}
-              source={{uri: this.locationData.media.img[0]}}
+            style={styles.image}
+            source={{uri: this.locationData.media.img[0]}}
           />
         </View>
       );
@@ -194,8 +194,8 @@ export default class HearMoreView extends Component {
             <Text style={styles.title}>{this.locationData.location}</Text>
 
             <Image
-                style={styles.icon}
-                source={require('../img/hear_more_icon.png')}
+              style={styles.icon}
+              source={require('../img/hear_more_icon.png')}
             />
           </View>
 

@@ -1,14 +1,17 @@
-import Db     from './Db';
+import Db from './Db';
+import AchievementManager from './AchievementManager';
 
 import {
   AsyncStorage
 } from 'react-native';
 
 export default class Logger {
-  static SCAN_EVENT_LOG       = "scan_event_log";
-  static READ_MORE_EVENT_LOG  = "read_more_event_log";
-  static HEAR_MORE_EVENT_LOG  = "hear_more_event_log";
-  static SEE_MORE_EVENT_LOG   = "see_more_event_log";
+  static LOG_KEY          = "logs";
+
+  static SCAN_EVENT            = "scan_event";
+  static READ_MORE_EVENT       = "read_more_event";
+  static HEAR_MORE_EVENT       = "hear_more_event";
+  static SEE_MORE_EVENT        = "see_more_event";
 
   constructor() {
     throw new Error("Abstract class.");
@@ -18,21 +21,21 @@ export default class Logger {
     data.user_id = userId;
     data.created = Date.now();
 
-    let log = await Logger.getlog(eventType);
+    let log = await Logger.getlog();
 
     if (log === null)
       log = [];
-      
+
     log.push(data);
 
     console.log("Logging event " + JSON.stringify(data))
 
-    await AsyncStorage.setItem(eventType, JSON.stringify(log)).then(() => {
+    await AsyncStorage.setItem(Logger.LOG_KEY, JSON.stringify(log)).then(() => {
       console.log("Event Logged");
     });
   }
 
-  static async getlog(eventType) {
-    return JSON.parse(await AsyncStorage.getItem(eventType));
+  static async getlog() {
+    return JSON.parse(await AsyncStorage.getItem(Logger.LOG_KEY));
   }
 }

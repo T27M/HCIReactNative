@@ -5,16 +5,29 @@ import {
 } from 'react-native';
 
 export default class AchievementManager {
+  static SCAN_EVENT            = "scan_event";
+  static SCAN_ACHIEVEMENT      = "scan";
+
+  static READ_MORE_EVENT       = "read_more_event";
+  static READ_MORE_ACHIEVEMENT = "read_more";
+
+  static HEAR_MORE_EVENT       = "hear_more_event";
+  static HEAR_MORE_ACHIEVEMENT = "hear_more";
+
+  static SEE_MORE_EVENT        = "see_more_event";
+  static SEE_MORE_ACHIEVEMENT  = "see_more";
+
   constructor() {
     throw new Error("Abstract class.");
   }
 
-  static async logEvent(userId, locationId, eventType) {
+  static async logEvent(userId, locationId, eventType, loggingEventType) {
     let data = {
       locationId: locationId
     };
 
-    await Logger.logEvent(eventType, userId, data);
+    await Db.logUserAchievementEvent(eventType, userId, data);
+    await Logger.logEvent(loggingEventType, userId, data);
   }
 
   static async hasUserAchievedAchievement(userId, achievementId) {
@@ -46,7 +59,10 @@ export default class AchievementManager {
   static async checkForAchievement(userId, eventType, achievementType) {
     let locations             = Db.getLocations();
     let achievements          = await Db.getAchievements();
-    let log                   = await Logger.getlog(eventType);
+    let log                   = await Db.getUserAchievementEventLog();
+
+    log = log.filter(event => event.event_type === eventType);
+
     let achievedAchievements  = [];
 
     for (key in achievements) {
@@ -82,26 +98,26 @@ export default class AchievementManager {
   }
 
   static async checkForScanAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, Logger.SCAN_EVENT_LOG);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.SCAN_EVENT, Logger.SCAN_EVENT);
 
-    return await AchievementManager.checkForAchievement(userId, Logger.SCAN_EVENT_LOG, "scan");
+    return await AchievementManager.checkForAchievement(userId, AchievementManager.SCAN_EVENT, AchievementManager.SCAN_ACHIEVEMENT);
   }
 
   static async checkForReadMoreAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, Logger.READ_MORE_EVENT_LOG);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.READ_MORE_EVENT, Logger.READ_MORE_EVENT);
 
-    return await AchievementManager.checkForAchievement(userId, Logger.SCAN_EVENT_LOG, "read_more");
+    return await AchievementManager.checkForAchievement(userId, AchievementManager.READ_MORE_EVENT, AchievementManager.READ_MORE_ACHIEVEMENT);
   }
 
   static async checkForHearMoreAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, Logger.HEAR_MORE_EVENT_LOG);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.HEAR_MORE_EVENT, Logger.HEAR_MORE_EVENT);
 
-    return await AchievementManager.checkForAchievement(userId, Logger.SCAN_EVENT_LOG, "hear_more");
+    return await AchievementManager.checkForAchievement(userId, AchievementManager.HEAR_MORE_EVENT, AchievementManager.HEAR_MORE_ACHIEVEMENT);
   }
 
   static async checkForSeeMoreAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, Logger.SEE_MORE_EVENT_LOG);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.SEE_MORE_EVENT, Logger.SEE_MORE_EVENT);
 
-    return await AchievementManager.checkForAchievement(userId, Logger.SCAN_EVENT_LOG, "see_more");
+    return await AchievementManager.checkForAchievement(userId, AchievementManager.SEE_MORE_EVENT, AchievementManager.SEE_MORE_ACHIEVEMENT);
   }
 }

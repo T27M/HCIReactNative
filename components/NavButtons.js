@@ -69,7 +69,7 @@ export default class NavButtons extends Component {
     if (this.props.showAccept || this.props.showAccept === undefined) {
       viewContents.push(
         <TouchableOpacity
-          key={"back"}
+          key={"accpet"}
           onPress={this.onBackClicked}
         >
           <Image
@@ -83,7 +83,7 @@ export default class NavButtons extends Component {
     if (this.props.showDecline || this.props.showDecline === undefined) {
       viewContents.push(
         <TouchableOpacity
-          key={"back"}
+          key={"decline"}
           onPress={this.onDeclineClicked}
         >
           <Image

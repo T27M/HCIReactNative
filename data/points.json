@@ -1,14 +1,18 @@
 [
-            {
-                "difficulty": 1,
-                "points": 10
-            },
-			{
-                "difficulty": 2,
-                "points": 25
-            },
-			{
-                "difficulty": 3,
-                "points": 50
-            },
+  {
+    "difficulty": 1,
+    "points": 10
+  },
+  {
+    "difficulty": 2,
+    "points": 25
+  },
+  {
+    "difficulty": 3,
+    "points": 50
+  },
+  {
+    "difficulty": 4,
+    "points": 75
+  }
 ]
