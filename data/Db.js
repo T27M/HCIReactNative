@@ -210,7 +210,7 @@ export default Db = {
     });
   },
   logEvent: async function(eventType, data) {
-    await AsyncStorage.getItem(logKey).then((value) =>{
+    await AsyncStorage.getItem(logKey).then(async (value) =>{
       let _log = JSON.parse(value);
 
       let _console_out = {

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import Db from '../data/Db';
-
+import Logger from '../data/Logger'
 import Leaderboard from 'react-native-leaderboard';
 
 const tableHead = ['User ID', 'Username', 'Score'];
@@ -33,6 +33,8 @@ export default class TableView extends Component {
     if (!hasFocus) {
       return;
     }
+
+    await Logger.logEvent("onFocus", "", { component: "Table" });
 
     await Db.getUsers().then((value) => {
 

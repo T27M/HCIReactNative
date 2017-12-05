@@ -17,16 +17,17 @@ import { PermissionsAndroid } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 
-import AddLocation              from './components/AddLocation';
-import TakeImage                from './components/TakeImage';
-import ReadMoreView             from './components/ReadMoreView';
-import HearMoreView             from './components/HearMoreView';
-import BurgerMenu               from "./components/BurgerMenu";
-import FAQsView                 from './components/FAQsView';
-import AccountSettingsView      from './components/AccountSettingsView';
-import AchievementsView         from './components/AchievementsView';
-import TermsAndConditionsView   from './components/TermsAndConditionsView';
+import AddLocation from './components/AddLocation';
+import TakeImage from './components/TakeImage';
+import ReadMoreView from './components/ReadMoreView';
+import HearMoreView from './components/HearMoreView';
+import BurgerMenu from "./components/BurgerMenu";
+import FAQsView from './components/FAQsView';
+import AccountSettingsView from './components/AccountSettingsView';
+import AchievementsView from './components/AchievementsView';
+import TermsAndConditionsView from './components/TermsAndConditionsView';
 import Db from './data/Db';
+import Log from './data/Logger'
 
 class App extends Component {
   static NAV_NAME = "Index";
@@ -41,7 +42,7 @@ class App extends Component {
     // If data broken
     //await Db.resetDb()
     await Db.initDb();
-    
+
     await this.requestCameraPermission();
   }
 
