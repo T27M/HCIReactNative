@@ -24,31 +24,24 @@ export default class TableView extends Component {
     }
   }
 
-  async componentWillMount() {
-    await this.onFocus(true);
-  }
-
   async onFocus(hasFocus) {
     if (!hasFocus) {
       return;
     }
 
-    await Logger.logEvent("onFocus", "", { component: "Table" });
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "Table" });
 
-    await Db.getUsers().then((users) => {
-      leaderboardData = [];
+    let users = await Db.getUsers();
+    leaderboardData = [];
 
-      for (let i = 0; i < users.length; i++) {
-        leaderboardData.push({
-          userName: users[i].username,
-          highScore: users[i].score
-        });
-      }
+    for (let i = 0; i < users.length; i++) {
+      leaderboardData.push({
+        userName: users[i].username,
+        highScore: users[i].score
+      });
+    }
 
-      this.setState({ data: leaderboardData });
-    }).catch((e) => {
-      console.log(e);
-    });
+    this.setState({ data: leaderboardData });
   }
 
   render() {

@@ -1,9 +1,10 @@
 
 import React, { Component } from 'react';
+import Logger               from '../data/Logger';
+
 import {
   AsyncStorage
 } from 'react-native';
-
 const users                      = require('./users.json');
 const locations                  = require('./locations.json');
 const points                     = require('./points.json');
@@ -116,9 +117,7 @@ export default Db = {
   },
 
   setUser: async function (id, user) {
-    await this.getUsers().then(async (value) => {
-      let _users = JSON.parse(value);
-
+    await this.getUsers().then(async (_users) => {
       for (let key in users[id - 1]) {
         if (users[id - 1].hasOwnProperty(key) && user.hasOwnProperty(key)) {
           console.log("Key " + key + " updated to " + user[key]);
@@ -147,28 +146,31 @@ export default Db = {
       userAchievements.push(userAchievement);
       await AsyncStorage.setItem(userAchievementsKey, JSON.stringify(userAchievements)).then(() => {
         console.log("Added user achievement");
+        Logger.logEvent(Logger.DB_INSERT, { table: "user_achievements", val: userAchievement });
       });
     }
   },
 
   addLocation: async function (data) {
-    await this.getLocations().then(async (value) => {
-      let _locatons = JSON.parse(value);
+    await this.getLocations().then(async (_locatons) => {
       let new_id = (_locatons[_locatons.length - 1].id) + 1;
 
-      _locatons.push({
-        "id": new_id,
-        "location": data.locationName,
-        "lat": data.region.latitude,
-        "long": data.region.longitude,
+      let location = {
+        "id":          new_id,
+        "location":    data.locationName,
+        "lat":         data.region.latitude,
+        "long":        data.region.longitude,
         "description": data.locationData,
-        "img": data.cameraData.path,
-        "type": 1,
-        "difficulty": 1
-      });
+        "img":         data.cameraData.path,
+        "type":        1,
+        "difficulty":  1
+      };
+
+      _locatons.push(location);
 
       await AsyncStorage.setItem(locationKey, JSON.stringify(_locatons)).then(() => {
         console.log("Locations updated");
+        Logger.logEvent(Logger.DB_INSERT, { table: "locations", val: location });
       });
     }).catch((e) => {
       console.log(e);
@@ -181,17 +183,19 @@ export default Db = {
 
     await this.getUser(userId).then(async (user) => {
       if (user !== null && point !== null) {
+        let oldUser = user;
         console.log("Adding " + point.points + " points to user " + userId);
 
         user.score += point.points;
 
         await this.setUser(userId, user);
+
+        Logger.logEvent(Logger.DB_UPDATE, { table: "users", row: userId, oldVal: oldUser, newVal: user }); // logged here and not in setUser as this is the only use of setUser that is exposed to normal users
       }
     });
   },
   logUserAchievementEvent: async function(eventType, userId, data) {
     let log = await this.getUserAchievementEventLog();
-    log     = JSON.parse(log);
 
     data.event_type   = eventType;
     data.user_id      = userId;
@@ -199,7 +203,9 @@ export default Db = {
 
     log.push(data);
 
-    await AsyncStorage.setItem(userAchievementEventLogKey, log);
+    await AsyncStorage.setItem(userAchievementEventLogKey, JSON.stringify(log));
+
+    Logger.logEvent(Logger.DB_INSERT, { table: "user_achievement_events", val: log });
   },
 
   getCurrentUserId: function () {

@@ -6,6 +6,7 @@ import infoStyles             from '../styles/info_page';
 import accordionStyles        from '../styles/accordion';
 import Db                     from '../data/Db';
 import AchievementManager     from '../data/AchievementManager';
+import Logger                 from '../data/Logger';
 
 import {
   View,
@@ -46,6 +47,10 @@ export default class AchievementsView extends Component {
     }
 
     this.setState({ data: achievements });
+  }
+
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "Achievements" });
   }
 
   // renders individual Q and A

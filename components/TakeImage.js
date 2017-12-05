@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
 import { FormLabel, FormInput, Button, Divider } from 'react-native-elements';
-import Camera from 'react-native-camera';
-import NavButtons from './NavButtons';
+import Camera       from 'react-native-camera';
+import NavButtons   from './NavButtons';
+import Logger       from '../data/Logger';
 
 export default class TakeImage extends Component
 {
@@ -20,6 +21,10 @@ export default class TakeImage extends Component
     }
   }
 
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "TakeImage" });
+  }
+
   sendData = (camData) => {
     this.props.navigation.state.params.callback(camData);
   }
@@ -33,6 +38,8 @@ export default class TakeImage extends Component
 
   takePicture()
   {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "TakeImage", button_name: "Take Picture" });
+
     this.camera.capture()
     .then((data) => this.setData(data))
     .catch(err => console.error(err));

@@ -13,9 +13,10 @@ import {
   ScrollView,
 } from 'react-native';
 
-import Sound from 'react-native-sound';
-import * as Progress from 'react-native-progress';
-import RNFetchBlob from 'react-native-fetch-blob';
+import Sound          from 'react-native-sound';
+import * as Progress  from 'react-native-progress';
+import RNFetchBlob    from 'react-native-fetch-blob';
+import Logger         from '../data/Logger';
 
 export default class HearMoreView extends Component {
   static NAV_NAME = "HearMore";
@@ -93,6 +94,8 @@ export default class HearMoreView extends Component {
   // reset progress whenever component loaded
   componentDidMount(){
     this.progress = 0;
+
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "HearMore" });
   }
 
   // handle unmounting of component properly
@@ -105,6 +108,8 @@ export default class HearMoreView extends Component {
 
   // rewind by this.rewindSpeed seconds
   rewindSound() {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "HearMore", button_name: "Rewind" });
+
     if (this.sound.isLoaded()) {
       this.sound.getCurrentTime((seconds) => {
         if (seconds > this.rewindSpeed) {
@@ -120,6 +125,8 @@ export default class HearMoreView extends Component {
 
   // play / pause
   playSound() {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "HearMore", button_name: "Play / Pause" });
+
     if (this.sound.isLoaded()) {
       if (this.playing) {
         this.sound.pause();
@@ -156,6 +163,8 @@ export default class HearMoreView extends Component {
 
   // fast forward by this.fastforwardSpeed seconds
   fastforwardSound() {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "HearMore", button_name: "Fast Forward" });
+
     if (this.sound.isLoaded()) {
       this.sound.getCurrentTime((seconds) => {
         if (seconds < this.sound.getDuration() - this.fastforwardSpeed) {

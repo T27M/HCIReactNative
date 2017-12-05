@@ -27,11 +27,11 @@ export default class ScanScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.onScannerRead = this.onScannerRead.bind(this);
-    this.onModalClose = this.onModalClose.bind(this);
+    this.onScannerRead     = this.onScannerRead.bind(this);
+    this.onModalClose      = this.onModalClose.bind(this);
     this.onReadMoreClicked = this.onReadMoreClicked.bind(this);
     this.onHearMoreClicked = this.onHearMoreClicked.bind(this);
-    this.onSeeMoreClicked = this.onSeeMoreClicked.bind(this);
+    this.onSeeMoreClicked  = this.onSeeMoreClicked.bind(this);
 
     this.state = {
       locationData: null
@@ -55,6 +55,9 @@ export default class ScanScreen extends Component {
 
   onFocus(focussed) {
     this.refs.QRScanner._setScanning(!focussed); // call _setScanning(false) to reactivate | _setScanning(true) to deactivate. See https://github.com/moaazsidat/react-native-qrcode-scanner/blob/master/index.js
+
+    if (focussed)
+      Logger.logEvent(Logger.FOCUS_EVENT, { component: "QRCodeScanner" });
   }
 
   async onScannerRead(e) {
@@ -77,6 +80,8 @@ export default class ScanScreen extends Component {
       return;
     }
 
+    Logger.logEvent(Logger.SCAN_EVENT, { locationId: location.id });
+
     this.setState({ locationData: location });
 
     let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
@@ -85,7 +90,7 @@ export default class ScanScreen extends Component {
       this.refs.popup.open(achievements[0].title);
     }
 
-    let log        = await Db.getUserAchievementEventLog(); // TODO make user promises once getLog uses Toms stuff
+    let log        = await Db.getUserAchievementEventLog();
     log            = log.filter(event => event.event_type === AchievementManager.SCAN_EVENT);
     let newLocScan = true;
     log.forEach((event) => {
@@ -111,18 +116,24 @@ export default class ScanScreen extends Component {
   }
 
   onReadMoreClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "QRCodeScanner", button_name: "Read More" });
+
     this.refs.locationDetails.close();
 
     this.props.navigation.navigate(ReadMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
   onHearMoreClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "QRCodeScanner", button_name: "Hear More" });
+
     this.refs.locationDetails.close();
 
     this.props.navigation.navigate(HearMoreView.NAV_NAME, { locationData: this.state.locationData });
   }
 
   onSeeMoreClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "QRCodeScanner", button_name: "See More" });
+
     this.refs.locationDetails.close();
 
     Linking.openURL('https://hcireactar.herokuapp.com/' + this.state.locationData.id)

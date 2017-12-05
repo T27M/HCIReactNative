@@ -1,7 +1,8 @@
-import { Scene, WebGLRenderer } from 'three';
-import { ARUtils, ARPerspectiveCamera, ARView } from 'three.ar.js';
-import {WebView } from "react-native-webgl"
-import React, { Component } from 'react';
+import { Scene, WebGLRenderer }                   from 'three';
+import { ARUtils, ARPerspectiveCamera, ARView }   from 'three.ar.js';
+import {WebView }                                 from "react-native-webgl"
+import React, { Component }                       from 'react';
+import Logger                                     from '../data/Logger';
 import {
     Text,
     View,
@@ -10,9 +11,13 @@ import {
 
 const Test = require('../html/test.html');
 
-export default class TitleText extends React.Component {
+export default class AR extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "AR" });
   }
 
   async init() {

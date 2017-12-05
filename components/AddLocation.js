@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, ToastAndroid } from 'react-native';
 import { FormLabel, FormInput, Button, Divider } from 'react-native-elements';
 
-import Camera from 'react-native-camera';
+import Camera     from 'react-native-camera';
 import NavButtons from './NavButtons';
-import TakeImage from './TakeImage';
-
-import Db from '../data/Db';
+import TakeImage  from './TakeImage';
+import Logger     from '../data/Logger';
+import Db         from '../data/Db';
 
 export default class AddLocation extends Component {
   static NAV_NAME = "AddLocation";
@@ -56,7 +56,13 @@ export default class AddLocation extends Component {
     this.getPosition();
   }
 
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "AddLocation" });
+  }
+
   onImagePress(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "AddLocation", button_name: "Take Image" });
+
     this.getPosition();
     this.props.navigation.navigate(TakeImage.NAV_NAME, { callback: this.cameraCallback });
   }
@@ -68,6 +74,8 @@ export default class AddLocation extends Component {
   }
 
   async onFormSubmit(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "AddLocation", button_name: "Submit" });
+
     if (this.state.error != null) {
       ToastAndroid.show("Location must be enabled to submit locaton. Turn GPS on and try again.", ToastAndroid.LONG);
       this.getPosition();
@@ -82,6 +90,8 @@ export default class AddLocation extends Component {
   }
 
   updateName(e) {
+
+
     this.setState({locationName : e });
   }
 
@@ -93,11 +103,11 @@ export default class AddLocation extends Component {
     return (
       <View>
         <NavButtons
-          navigation={this.props.navigation}
-          showBack={true}
-          showBurger={false}
-          showAccept={false}
-          showDecline={false}
+          navigation  = {this.props.navigation}
+          showBack    = {true}
+          showBurger  = {false}
+          showAccept  = {false}
+          showDecline = {false}
         />
 
         <View style={styles.view}>

@@ -10,8 +10,9 @@ import {
   Text
 } from 'react-native';
 
-import BurgerMenu from './BurgerMenu';
-import TakeImage from './TakeImage'
+import BurgerMenu   from './BurgerMenu';
+import TakeImage    from './TakeImage'
+import Logger       from '../data/Logger';
 
 export default class NavButtons extends Component {
   constructor(props) {
@@ -20,18 +21,31 @@ export default class NavButtons extends Component {
     this.onBurgerClicked  = this.onBurgerClicked.bind(this);
     this.onBackClicked    = this.onBackClicked.bind(this);
     this.onDeclineClicked = this.onDeclineClicked.bind(this);
+    this.onAcceptClicked  = this.onAcceptClicked.bind(this);
   }
 
   onDeclineClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "NavButtons", button_name: "Decline" });
+
     this.props.navigation.goBack(null);
     this.props.navigation.navigate(TakeImage.NAV_NAME);
   }
 
   onBurgerClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "NavButtons", button_name: "Burger Menu" });
+
     this.props.navigation.navigate(BurgerMenu.NAV_NAME);
   }
 
   onBackClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "NavButtons", button_name: "Back" });
+
+    this.props.navigation.goBack(null);
+  }
+
+  onAcceptClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "NavButtons", button_name: "Accept" });
+
     this.props.navigation.goBack(null);
   }
 
@@ -70,7 +84,7 @@ export default class NavButtons extends Component {
       viewContents.push(
         <TouchableOpacity
           key={"accpet"}
-          onPress={this.onBackClicked}
+          onPress={this.onAcceptClicked}
         >
           <Image
             style={styles.accept}

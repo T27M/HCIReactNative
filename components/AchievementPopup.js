@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Modal                from 'react-native-modalbox';
 import infoStyles           from '../styles/info_page.js';
+import Logger               from '../data/Logger';
 
 import {
   TouchableOpacity,
@@ -24,6 +25,8 @@ export default class AchievementPopup extends Component {
 
   open() {
     this.refs.modal.open();
+
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "AchievementPopup" });
   }
 
   close() {

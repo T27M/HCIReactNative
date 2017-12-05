@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import NavButtons from './NavButtons';
 import styles     from '../styles/info_page.js';
+import Logger     from '../data/Logger';
 
 import {
   View,
@@ -18,6 +19,10 @@ export default class TermsAndConditionsView extends Component {
 
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "T&Cs" });
   }
 
   render() {

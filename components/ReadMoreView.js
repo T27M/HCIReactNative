@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import NavButtons from './NavButtons';
 import styles     from '../styles/info_page.js';
-
+import Logger     from '../data/Logger';
 import {
   View,
   Text,
@@ -20,6 +20,10 @@ export default class ReadMoreView extends Component {
 
   get locationData() {
     return this.props.navigation.state.params.locationData
+  }
+
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "ReadMore" });
   }
 
   render() {

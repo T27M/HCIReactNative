@@ -8,7 +8,8 @@ import {
   View,
   ScrollView,
   ToastAndroid,
-  Image
+  Image,
+  Clipboard
 } from 'react-native';
 
 import AddLocation              from './AddLocation';
@@ -19,6 +20,7 @@ import AccountSettingsView      from './AccountSettingsView';
 import AchievementsView         from './AchievementsView';
 import TermsAndConditionsView   from './TermsAndConditionsView';
 import Db                       from '../data/Db'
+import Logger                   from '../data/Logger';
 
 export default class BurgerMenu extends Component {
   static NAV_NAME = "BurgerMenu";
@@ -38,23 +40,37 @@ export default class BurgerMenu extends Component {
     }
   }
 
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "BurgerMenu" });
+  }
+
   onFAQClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "BurgerMenu", button_name: "FAQs" });
+
     this.props.navigation.navigate(FAQsView.NAV_NAME);
   }
 
   onNewLocationsClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "BurgerMenu", button_name: "Add Location" });
+
     this.props.navigation.navigate(AddLocation.NAV_NAME);
   }
 
   onAchievementsClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "BurgerMenu", button_name: "Achievements" });
+
     this.props.navigation.navigate(AchievementsView.NAV_NAME);
   }
 
   onAccountSettingsClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "BurgerMenu", button_name: "Account Settings" });
+
     this.props.navigation.navigate(AccountSettingsView.NAV_NAME);
   }
 
   onTermsAndConditionsClicked(e) {
+    Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "BurgerMenu", button_name: "T&Cs" });
+
     this.props.navigation.navigate(TermsAndConditionsView.NAV_NAME);
   }
 
@@ -70,8 +86,22 @@ export default class BurgerMenu extends Component {
     });
   }
 
+  async copyAndClearLogs(clear) {
+    let log = JSON.stringify(await Logger.getlog());
+
+    await Clipboard.setString(log);
+    console.log("Log copied to clipboard");
+
+    if (clear) {
+      await Logger.clear();
+      ToastAndroid.show("Logs Copied and Cleared", ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show("Logs Copied", ToastAndroid.SHORT);
+    }
+  }
+
   onInputChange(e) {
-    if(e == "hci-dev-code") {
+    if(e.toLowerCase() == "hcidevcode" || e.toLowerCase() == "hci-dev-code") { // hypens are hard
       this.setState({devCode: true});
     } else {
       this.setState({devCode: false});
@@ -100,10 +130,11 @@ export default class BurgerMenu extends Component {
           <Button onPress={this.onAchievementsClicked}        style={styles.btn}>Achievements</Button>
           <Button onPress={this.onTermsAndConditionsClicked}  style={styles.btn}>Terms and Conditions</Button>
 
-          {this.state.devCode && <Button onPress={this.onAccountSettingsClicked}  style={styles.btn}>Account Settings</Button>}
-          {this.state.devCode && <Button onPress={this.onInitDbClicked}           style={styles.btn}>Init Db</Button>}
-          {this.state.devCode && <Button onPress={this.onResetDbClicked}          style={styles.btn}>Reset Db</Button>}
-
+          {this.state.devCode && <Button onPress={this.onAccountSettingsClicked}        style={styles.btn}>Account Settings</Button>}
+          {this.state.devCode && <Button onPress={this.onInitDbClicked}                 style={styles.btn}>Init Db</Button>}
+          {this.state.devCode && <Button onPress={this.onResetDbClicked}                style={styles.btn}>Reset Db</Button>}
+          {this.state.devCode && <Button onPress={() => this.copyAndClearLogs(false)}   style={styles.btn}>Copy Logs</Button>}
+          {this.state.devCode && <Button onPress={() => this.copyAndClearLogs(true)}    style={styles.btn}>Copy & Clear Logs</Button>}
         </View>
 
         <FormInput
@@ -118,7 +149,7 @@ export default class BurgerMenu extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
+    flexGrow: 1,
   },
   buttonWrapper: {
     flex: 1,

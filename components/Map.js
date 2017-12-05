@@ -8,12 +8,13 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-import NavButtons from './NavButtons';
-import MapView from 'react-native-maps';
-import Db from '../data/Db';
+import NavButtons   from './NavButtons';
+import MapView      from 'react-native-maps';
+import Db           from '../data/Db';
+import Logger       from '../data/Logger';
 
-const qr_img = require('../img/qrmarker.png');
-const gps_img = require('../img/gps_locate.png');
+const qr_img        = require('../img/qrmarker.png');
+const gps_img       = require('../img/gps_locate.png');
 
 export default class Map extends Component {
   constructor(props) {
@@ -34,6 +35,8 @@ export default class Map extends Component {
       return;
     }
 
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "Map" });
+
     await Db.getLocations().then((_markers) => {
       let markers = _markers.map(marker => ({
         key: Math.random(),
@@ -53,7 +56,11 @@ export default class Map extends Component {
     this.getPosition();
   }
 
-  getPosition() {
+  getPosition(buttonClicked) {
+    if (buttonClicked) {
+      Logger.logEvent(Logger.BUTTON_PRESS_EVENT, { component: "Map", button_name: "Get Position" });
+    }
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -125,7 +132,7 @@ export default class Map extends Component {
         <View
           style={this.props.styles.LatLongView}
         >
-          <TouchableOpacity onPress={this.getPosition}>
+          <TouchableOpacity onPress={() => {this.getPosition(true)}}>
             <Image
               style={this.props.styles.button}
               source={gps_img}

@@ -1,4 +1,3 @@
-import Logger from './Logger';
 import Db     from './Db';
 import {
   ToastAndroid
@@ -21,13 +20,12 @@ export default class AchievementManager {
     throw new Error("Abstract class.");
   }
 
-  static async logEvent(userId, locationId, eventType, loggingEventType) {
+  static async logEvent(userId, locationId, eventType) {
     let data = {
       locationId: locationId
     };
 
     await Db.logUserAchievementEvent(eventType, userId, data);
-    await Logger.logEvent(loggingEventType, userId, data);
   }
 
   static async hasUserAchievedAchievement(userId, achievementId) {
@@ -98,25 +96,25 @@ export default class AchievementManager {
   }
 
   static async checkForScanAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, AchievementManager.SCAN_EVENT, Logger.SCAN_EVENT);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.SCAN_EVENT);
 
     return await AchievementManager.checkForAchievement(userId, AchievementManager.SCAN_EVENT, AchievementManager.SCAN_ACHIEVEMENT);
   }
 
   static async checkForReadMoreAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, AchievementManager.READ_MORE_EVENT, Logger.READ_MORE_EVENT);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.READ_MORE_EVENT);
 
     return await AchievementManager.checkForAchievement(userId, AchievementManager.READ_MORE_EVENT, AchievementManager.READ_MORE_ACHIEVEMENT);
   }
 
   static async checkForHearMoreAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, AchievementManager.HEAR_MORE_EVENT, Logger.HEAR_MORE_EVENT);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.HEAR_MORE_EVENT);
 
     return await AchievementManager.checkForAchievement(userId, AchievementManager.HEAR_MORE_EVENT, AchievementManager.HEAR_MORE_ACHIEVEMENT);
   }
 
   static async checkForSeeMoreAchievement(userId, locationId) {
-    await AchievementManager.logEvent(userId, locationId, AchievementManager.SEE_MORE_EVENT, Logger.SEE_MORE_EVENT);
+    await AchievementManager.logEvent(userId, locationId, AchievementManager.SEE_MORE_EVENT);
 
     return await AchievementManager.checkForAchievement(userId, AchievementManager.SEE_MORE_EVENT, AchievementManager.SEE_MORE_ACHIEVEMENT);
   }

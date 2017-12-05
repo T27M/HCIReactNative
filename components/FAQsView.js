@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import NavButtons       from './NavButtons';
 import infoStyles       from '../styles/info_page';
 import accordionStyles  from '../styles/accordion';
+import Logger           from '../data/Logger';
 
 import {
   View,
@@ -29,6 +30,10 @@ export default class FAQsView extends Component {
     super(props);
 
     this.renderFAQ = this.renderFAQ.bind(this);
+  }
+
+  componentDidMount(){
+    Logger.logEvent(Logger.FOCUS_EVENT, { component: "FAQs" });
   }
 
   // renders individual Q and A
