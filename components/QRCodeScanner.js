@@ -38,6 +38,17 @@ export default class ScanScreen extends Component {
     };
   }
 
+  get locationData() {
+    return this.state.locationData
+  }
+
+  set locationData(location) {
+    this.setState((state) => {
+      state.locationData = location;
+      return state;
+    });
+  }
+
   componentDidMount() {
     this.onFocus(false);  // start deactivated as swiper defaults on map
   }
