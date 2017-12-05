@@ -33,7 +33,7 @@ export default class AchievementManager {
 
     let achieved = false;
     userAchievements.forEach((userAchievement) => {
-      if (userAchievement.user_id === userId && userAchievement === achievementId) {
+      if (userAchievement.user_id === userId && userAchievement.achievement_id === achievementId) {
         achieved = true;
       }
     });
