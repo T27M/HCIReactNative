@@ -36,7 +36,7 @@ class App extends Component {
 
   async componentWillMount() {
     // If data broken
-    await Db.resetDb()
+    // await Db.resetDb()
     await Db.initDb();
 
     await this.requestCameraPermission();
