@@ -41,6 +41,7 @@ export default class HearMoreView extends Component {
       })
       .fetch('GET', this.locationData.media.sound, {})
       .then((res) => {
+        console.log("MP3 download complete at " + res.path());
         this.sound = new Sound(res.path(), '', (error) => {
           if (error) {
             console.error("Failed to load MP3");
