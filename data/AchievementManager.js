@@ -87,7 +87,7 @@ export default class AchievementManager {
 
         if (eventLocations.length >= required_loc) {
           AchievementManager.markUserAchievedAchievement(userId, achievement)
-          achievedAchievements.push(achievement.id);
+          achievedAchievements.push(achievement);
         }
       }
     };

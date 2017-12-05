@@ -40,6 +40,7 @@ export default class AchievementPopup extends Component {
         style={[localStyles.wrapper]}
         position={"center"}
         onClose={this.props.onClose}
+        backButtonClose={true}
       >
         <View style={localStyles.imageView}>
           <Image
@@ -51,7 +52,7 @@ export default class AchievementPopup extends Component {
         <Text style={infoStyles.content}>
           Congratulations you just got an achievement!
           {"\n\n"}
-          <Text style={localStyles.bold}>Find the Library Tree</Text>
+          <Text style={localStyles.bold}>{this.props.achievementTitle}</Text>
         </Text>
       </Modal>
     );

@@ -87,10 +87,6 @@ export default class ScanScreen extends Component {
 
     let achievements = await AchievementManager.checkForScanAchievement(userId, this.locationData.id);
 
-    if (achievements.length > 0) {
-      this.refs.popup.open(achievements[0].title);
-    }
-
     let log        = await Db.getUserAchievementEventLog();
     log            = log.filter(event => event.event_type === AchievementManager.SCAN_EVENT);
     let newLocScan = true;
@@ -108,6 +104,12 @@ export default class ScanScreen extends Component {
     }
 
     this.refs.locationDetails.open();
+
+    // open this modal after other one to allow for sensible use of back button
+    if (achievements.length > 0) {
+      this.setState({achievementTitle: achievements[0].title})
+      this.refs.popup.open();
+    }
   }
 
   onModalClose(e) {
@@ -169,6 +171,7 @@ export default class ScanScreen extends Component {
           style={[styles.modal]}
           position={"bottom"}
           onClosed={() => { this.onModalClose() }}
+          backButtonClose={true}
         >
           <Text style={styles.text}>{(this.state.locationData !== null ? "You found " + this.state.locationData.location + "!" : "Invalid QR code")}</Text>
 
@@ -180,6 +183,7 @@ export default class ScanScreen extends Component {
         <AchievementPopup
           ref="popup"
           onClose={() => { this.onModalClose() }}
+          achievementTitle={this.state.achievementTitle}
          />
       </View>
     );
