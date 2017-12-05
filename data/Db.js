@@ -14,14 +14,16 @@ const dbInitKey = "init";
 const userKey = 'users';
 const achievementKey = 'achievements';
 const locationKey = 'locations';
+const logKey = 'log';
 
-const dbKeys = [dbInitKey, userKey, achievementKey, locationKey];
+const dbKeys = [dbInitKey, userKey, achievementKey, locationKey, logKey];
 
 async function populateDatabase() {
   await AsyncStorage.multiSet([
     [userKey, JSON.stringify(users)],
     [achievementKey, JSON.stringify(achievements)],
     [locationKey, JSON.stringify(locations)],
+    [logKey, JSON.stringify({})],
     [dbInitKey, '1']
   ]).then(() => {
     console.log("Populate DB");
@@ -206,5 +208,23 @@ export default Db = {
         await this.setUser(userId, user);
       }
     });
+  },
+  logEvent: async function(eventType, data) {
+    await AsyncStorage.getItem(logKey).then((value) =>{
+      let _log = JSON.parse(value);
+
+      _log.push({
+        "event-type": eventType,
+        "created": data.created,
+        "other-field": "something" 
+      });
+
+      await AsyncStorage.setItem(logKey, _log).then(() => {
+        console.log("Log updated");
+      });
+    });
+  },
+  getLog: async function() {
+    return await AsyncStorage.getItem(logKey);
   }
 };
